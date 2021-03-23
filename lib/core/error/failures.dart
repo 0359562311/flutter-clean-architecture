@@ -5,4 +5,5 @@ part 'failures.freezed.dart';
 @freezed
 abstract class Failure with _$Failure {
   factory Failure.invalidEmail(String message) = InvalidEmail;
+  factory Failure.invalidPassword(String message) = InvalidPassword;
 }
