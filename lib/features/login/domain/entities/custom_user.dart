@@ -1,7 +1,7 @@
 class CustomUser{
   String uid;
-  String name;
-  String phone;
+  String? name;
+  String? phone;
 
-  CustomUser({this.uid, this.name, this.phone});
+  CustomUser({required this.uid, this.name, this.phone});
 }
