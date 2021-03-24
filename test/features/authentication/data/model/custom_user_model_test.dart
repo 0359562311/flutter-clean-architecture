@@ -1,4 +1,4 @@
-import 'package:flutter_app_clean_architecture/features/login/data/model/custom_user_model.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/data/model/custom_user_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main(){
