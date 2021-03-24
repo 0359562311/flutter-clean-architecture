@@ -1,0 +1,3 @@
+class CustomUserModel extends CustomUser{
+
+}
