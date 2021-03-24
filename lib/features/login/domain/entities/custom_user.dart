@@ -3,7 +3,7 @@ class CustomUser{
   String? name;
   String? phone;
 
-  CustomUser({required this.uid, this.name, this.phone});
+   CustomUser({required this.uid, this.name, this.phone});
 
   @override
   bool operator ==(Object other) =>
@@ -14,4 +14,8 @@ class CustomUser{
   @override
   int get hashCode => uid.hashCode ^ name.hashCode ^ phone.hashCode;
 
+  @override
+  String toString() {
+    return 'CustomUser{uid: $uid, name: $name, phone: $phone}';
+  }
 }
