@@ -4,7 +4,7 @@ import 'package:flutter_app_clean_architecture/features/authentication/presentat
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginBloc extends Bloc<LogInEvent,LoginState>{
-  LoginBloc(LoginState initialState, this.repository) : super(LogInInit());
+  LoginBloc(this.repository) : super(LogInInit());
   LoginRepository repository;
 
   @override
