@@ -34,12 +34,18 @@ dependencies:
   freezed_annotation: ^0.14.1
   source_gen: ^1.0.0
 
+  firebase_core: ^1.0.2
+  firebase_auth: ^1.0.1
+  firebase_storage: ^8.0.0
+  json_annotation: ^4.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: ^4.0.0
   build_runner: ^1.12.2
   freezed: ^0.14.1+1
+  json_serializable: ^4.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_app_clean_architecture/core/error/failures.dart';
-import 'package:flutter_app_clean_architecture/features/login/domain/entities/custom_user.dart';
-import 'package:flutter_app_clean_architecture/features/login/domain/repositories/login_repository.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
 import 'package:flutter_app_clean_architecture/features/login/domain/usecases/login_with_email_and_password.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

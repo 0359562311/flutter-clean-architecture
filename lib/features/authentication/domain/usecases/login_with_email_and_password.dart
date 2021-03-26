@@ -3,12 +3,12 @@ import 'package:flutter_app_clean_architecture/core/error/failures.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
 
-class LogInWithEmailAndPassword{
+class LoginWithEmailAndPassword{
   final LoginRepository repository;
 
-  LogInWithEmailAndPassword({required this.repository});
+  LoginWithEmailAndPassword(this.repository);
 
-  Future <Either<Failure,CustomUser>> execute({required String email, required String password}){
+  Future<Either<Failure, CustomUser>> call({required String email, required String password}) {
     return repository.loginWithAccountAndPassword(email, password);
   }
 }
