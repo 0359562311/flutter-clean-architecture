@@ -1,0 +1,398 @@
+class Login extends StatefulWidget {
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final db = FirebaseFirestore.instance;
+  final passwordCondition = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
+  final emailRegex = RegExp(r'^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$');
+  bool showPassword = false;
+  String username = '';
+  String password =  '';
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final AuthService _auth = AuthService();
+  bool _loading = false;
+  List todos = List();
+  String input= '';
+  createTodo() {
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .collection('chat_group').doc(input);
+
+    Map<String , String > todos = {"todoTitle": input};
+    documentReference.set(todos).whenComplete(() => {
+      print('created')
+    });
+  }
+  void _onLoading() {
+    setState(() {
+      _loading = true;
+      new Future.delayed(new Duration(seconds: 10), _login);
+    });
+  }
+
+  Future _login() async{
+    setState((){
+      _loading = false;
+    });
+  }
+
+  @override
+
+  Widget build(BuildContext context) {
+    final bodyProgress = Scaffold(
+      body: Container(
+        child: new Stack(
+          children: <Widget>[
+            new Container(
+              alignment: AlignmentDirectional.center,
+              decoration: new BoxDecoration(
+                color: Consts.appbarColor,
+              ),
+              child: new Container(
+                decoration: new BoxDecoration(
+                    color: Colors.blue[200],
+                    borderRadius: new BorderRadius.circular(10.0)
+                ),
+                width: 300.0,
+                height: 200.0,
+                alignment: AlignmentDirectional.center,
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new Center(
+                      child: new SizedBox(
+                        height: 50.0,
+                        width: 50.0,
+                        child: new CircularProgressIndicator(
+                          value: null,
+                          strokeWidth: 7.0,
+                        ),
+                      ),
+                    ),
+                    new Container(
+                      margin: const EdgeInsets.only(top: 25.0),
+                      child: new Center(
+                        child: new Text(
+                          "Đang đăng nhập",
+                          style: new TextStyle(
+                              color: Colors.white
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    return _loading? bodyProgress: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Đăng nhập"),
+          backgroundColor: Consts.appbarColor,
+          elevation: 0,
+        ),
+        body: Custombackground(
+          singleChildScrollView: true,
+          content: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                /// logo
+                Padding(
+                  padding: const EdgeInsets.only(top: 30,bottom: 15),
+                  child: Container(
+                    height: 200,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.lightBlueAccent[200],
+                            blurRadius: 20,
+                            offset: Offset(0,0)
+                        )
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Image(
+                        image: AssetImage("images/logo_color.png"),
+                      ),
+                    ),
+                  ),
+                ),
+                /// app name
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Text("ĐỘI NGŨ GIA SƯ 4.0",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20
+                    ),
+                  ),
+                ),
+                /// email
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: TextFormField(
+                    validator: (val) => !emailRegex.hasMatch(val)? "Email không hợp lệ":null,
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(left: 20),
+                      labelText: "Email",
+                      alignLabelWithHint: true,
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          borderSide:BorderSide(
+                              width: 2,
+                              color: Colors.white
+                          )
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          borderSide:BorderSide(
+                              width: 2,
+                              color: Colors.lightBlue[800]
+                          )
+                      ),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          borderSide:BorderSide(
+                              width: 2,
+                              color: Colors.redAccent
+                          )
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          borderSide:BorderSide(
+                              width: 2,
+                              color: Colors.lightBlue[800]
+                          )
+                      ),
+                      labelStyle: TextStyle(
+                          color: Colors.white
+                      ),
+                    ),
+                    onChanged: (String s){
+                      username = s;
+                    },
+                  ),
+                ),
+                SizedBox(height: 15),
+                /// password
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: TextFormField(
+                    // validator: (val) => !passwordCondition.hasMatch(val)?"Mật khẩu không hợp lệ":null,
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
+                    decoration: InputDecoration(
+                      suffixIcon: showPassword?IconButton(
+                        onPressed: (){
+                          setState(() {
+                            showPassword = false;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.remove_red_eye,color: Colors.white,
+                        ),
+                      ):IconButton(
+                        onPressed: (){
+                          setState(() {
+                            showPassword = true;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.visibility_off,color: Colors.white,
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.only(left: 20),
+                      labelText: "Mật khẩu",
+                      alignLabelWithHint: true,
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          borderSide:BorderSide(
+                              width: 2,
+                              color: Colors.white
+                          )
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          borderSide:BorderSide(
+                              width: 2,
+                              color: Colors.lightBlue[800]
+                          )
+                      ),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          borderSide:BorderSide(
+                              width: 2,
+                              color: Colors.redAccent
+                          )
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          borderSide:BorderSide(
+                              width: 2,
+                              color: Colors.lightBlue[800]
+                          )
+                      ),
+                      labelStyle: TextStyle(
+                          color: Colors.white
+                      ),
+                    ),
+                    obscureText: showPassword?false:true,
+                    onChanged: (String s){
+                      password = s;
+                    },
+                  ),
+                ),
+                /// quen mat khau (forgot password)
+                Padding(
+                  padding: EdgeInsets.only(right: 45),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: FlatButton(
+                      child: Text("Quên mật khẩu?",
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          decoration: TextDecoration.underline,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: (){
+                        print("pressed Quen mat khau");
+                        Navigator.pushNamed(context, Consts.routeforgot_password);
+                      },
+                    ),
+                  ),
+                ),
+                /// Đăng nhập
+                Container(
+                  height: 40,
+                  width: 180,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Consts.buttonColor1,
+                            Consts.buttonColor2,
+                          ]
+                      )
+                  ),
+                  child: FlatButton(
+                    child: Text("Đăng nhập",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 16
+                      ),
+                    ),
+                    onPressed: () async {
+                      if(_formKey.currentState.validate()){
+                        _onLoading();
+                        CustomUser result = await _auth.signInWithMailAndPass(username, password);
+                        if(result!=null){
+                          await DatabaseService(uid:result.uid).getUserData();
+                          if(AuthService.userSignedIn.role == 'student')
+                            Navigator.pushNamed(context, Consts.routeWelcome);
+                          else
+                            Navigator.pushNamed(context, Consts.resultOfTests);
+                        } else{
+                          if(loginError.contains('user-not-found')){
+                            userNotFound(context);
+                          }
+                          if(loginError.contains('wrong-password')){
+                            wrongPassword(context);
+                          }
+                        }
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(height: 20),
+                /// Đăng ký
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Text(
+                            "____________",
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                decorationThickness: 3,
+                                decorationColor: Colors.white,
+                                fontSize: 12
+                            ),
+                          ),
+                        ),
+                        FlatButton(
+                          child: Text(
+                            "Đăng ký",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16
+                            ),
+                          ),
+                          onPressed: (){
+                            Navigator.pushNamed(context, Consts.routeregister);
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Text(
+                            "____________",
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                decorationThickness: 3,
+                                decorationColor: Colors.white,
+                                fontSize: 12
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // TextField(
+                //   onChanged: (val){
+                //     input=val;
+                //   },
+                // ),
+                // Center(
+                //   child: RaisedButton(
+                //     child: Center(
+                //       child: Text('test'),
+                //     ),
+                //     onPressed: (){
+                //       db.collection('chat_group').doc(input).set({'gname':input});
+                //       // CloudService().sendToGroup("HOW TO DOOoooooooO", 'ABCXYZ123',"10:30");
+                //     }
+                //   ),
+                // )
+              ],
+            ),
+          ),
+        )
+    );
+  }
+}

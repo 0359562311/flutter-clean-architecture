@@ -16,14 +16,14 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$FailureTearOff {
   const _$FailureTearOff();
 
-  InvalidEmail invalidEmail(String message) {
-    return InvalidEmail(
+  WrongCredentials wrongCredentials(String message) {
+    return WrongCredentials(
       message,
     );
   }
 
-  InvalidPassword invalidPassword(String message) {
-    return InvalidPassword(
+  NetWorkDisconnected networkDisconnected(String message) {
+    return NetWorkDisconnected(
       message,
     );
   }
@@ -38,27 +38,27 @@ mixin _$Failure {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) invalidEmail,
-    required TResult Function(String message) invalidPassword,
+    required TResult Function(String message) wrongCredentials,
+    required TResult Function(String message) networkDisconnected,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? invalidEmail,
-    TResult Function(String message)? invalidPassword,
+    TResult Function(String message)? wrongCredentials,
+    TResult Function(String message)? networkDisconnected,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(InvalidEmail value) invalidEmail,
-    required TResult Function(InvalidPassword value) invalidPassword,
+    required TResult Function(WrongCredentials value) wrongCredentials,
+    required TResult Function(NetWorkDisconnected value) networkDisconnected,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(InvalidEmail value)? invalidEmail,
-    TResult Function(InvalidPassword value)? invalidPassword,
+    TResult Function(WrongCredentials value)? wrongCredentials,
+    TResult Function(NetWorkDisconnected value)? networkDisconnected,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -96,29 +96,30 @@ class _$FailureCopyWithImpl<$Res> implements $FailureCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class $InvalidEmailCopyWith<$Res> implements $FailureCopyWith<$Res> {
-  factory $InvalidEmailCopyWith(
-          InvalidEmail value, $Res Function(InvalidEmail) then) =
-      _$InvalidEmailCopyWithImpl<$Res>;
+abstract class $WrongCredentialsCopyWith<$Res>
+    implements $FailureCopyWith<$Res> {
+  factory $WrongCredentialsCopyWith(
+          WrongCredentials value, $Res Function(WrongCredentials) then) =
+      _$WrongCredentialsCopyWithImpl<$Res>;
   @override
   $Res call({String message});
 }
 
 /// @nodoc
-class _$InvalidEmailCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
-    implements $InvalidEmailCopyWith<$Res> {
-  _$InvalidEmailCopyWithImpl(
-      InvalidEmail _value, $Res Function(InvalidEmail) _then)
-      : super(_value, (v) => _then(v as InvalidEmail));
+class _$WrongCredentialsCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
+    implements $WrongCredentialsCopyWith<$Res> {
+  _$WrongCredentialsCopyWithImpl(
+      WrongCredentials _value, $Res Function(WrongCredentials) _then)
+      : super(_value, (v) => _then(v as WrongCredentials));
 
   @override
-  InvalidEmail get _value => super._value as InvalidEmail;
+  WrongCredentials get _value => super._value as WrongCredentials;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(InvalidEmail(
+    return _then(WrongCredentials(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -128,21 +129,21 @@ class _$InvalidEmailCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
 }
 
 /// @nodoc
-class _$InvalidEmail implements InvalidEmail {
-  _$InvalidEmail(this.message);
+class _$WrongCredentials implements WrongCredentials {
+  _$WrongCredentials(this.message);
 
   @override
   final String message;
 
   @override
   String toString() {
-    return 'Failure.invalidEmail(message: $message)';
+    return 'Failure.wrongCredentials(message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is InvalidEmail &&
+        (other is WrongCredentials &&
             (identical(other.message, message) ||
                 const DeepCollectionEquality().equals(other.message, message)));
   }
@@ -153,27 +154,27 @@ class _$InvalidEmail implements InvalidEmail {
 
   @JsonKey(ignore: true)
   @override
-  $InvalidEmailCopyWith<InvalidEmail> get copyWith =>
-      _$InvalidEmailCopyWithImpl<InvalidEmail>(this, _$identity);
+  $WrongCredentialsCopyWith<WrongCredentials> get copyWith =>
+      _$WrongCredentialsCopyWithImpl<WrongCredentials>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) invalidEmail,
-    required TResult Function(String message) invalidPassword,
+    required TResult Function(String message) wrongCredentials,
+    required TResult Function(String message) networkDisconnected,
   }) {
-    return invalidEmail(message);
+    return wrongCredentials(message);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? invalidEmail,
-    TResult Function(String message)? invalidPassword,
+    TResult Function(String message)? wrongCredentials,
+    TResult Function(String message)? networkDisconnected,
     required TResult orElse(),
   }) {
-    if (invalidEmail != null) {
-      return invalidEmail(message);
+    if (wrongCredentials != null) {
+      return wrongCredentials(message);
     }
     return orElse();
   }
@@ -181,62 +182,63 @@ class _$InvalidEmail implements InvalidEmail {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(InvalidEmail value) invalidEmail,
-    required TResult Function(InvalidPassword value) invalidPassword,
+    required TResult Function(WrongCredentials value) wrongCredentials,
+    required TResult Function(NetWorkDisconnected value) networkDisconnected,
   }) {
-    return invalidEmail(this);
+    return wrongCredentials(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(InvalidEmail value)? invalidEmail,
-    TResult Function(InvalidPassword value)? invalidPassword,
+    TResult Function(WrongCredentials value)? wrongCredentials,
+    TResult Function(NetWorkDisconnected value)? networkDisconnected,
     required TResult orElse(),
   }) {
-    if (invalidEmail != null) {
-      return invalidEmail(this);
+    if (wrongCredentials != null) {
+      return wrongCredentials(this);
     }
     return orElse();
   }
 }
 
-abstract class InvalidEmail implements Failure {
-  factory InvalidEmail(String message) = _$InvalidEmail;
+abstract class WrongCredentials implements Failure {
+  factory WrongCredentials(String message) = _$WrongCredentials;
 
   @override
   String get message => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  $InvalidEmailCopyWith<InvalidEmail> get copyWith =>
+  $WrongCredentialsCopyWith<WrongCredentials> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $InvalidPasswordCopyWith<$Res>
+abstract class $NetWorkDisconnectedCopyWith<$Res>
     implements $FailureCopyWith<$Res> {
-  factory $InvalidPasswordCopyWith(
-          InvalidPassword value, $Res Function(InvalidPassword) then) =
-      _$InvalidPasswordCopyWithImpl<$Res>;
+  factory $NetWorkDisconnectedCopyWith(
+          NetWorkDisconnected value, $Res Function(NetWorkDisconnected) then) =
+      _$NetWorkDisconnectedCopyWithImpl<$Res>;
   @override
   $Res call({String message});
 }
 
 /// @nodoc
-class _$InvalidPasswordCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
-    implements $InvalidPasswordCopyWith<$Res> {
-  _$InvalidPasswordCopyWithImpl(
-      InvalidPassword _value, $Res Function(InvalidPassword) _then)
-      : super(_value, (v) => _then(v as InvalidPassword));
+class _$NetWorkDisconnectedCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res>
+    implements $NetWorkDisconnectedCopyWith<$Res> {
+  _$NetWorkDisconnectedCopyWithImpl(
+      NetWorkDisconnected _value, $Res Function(NetWorkDisconnected) _then)
+      : super(_value, (v) => _then(v as NetWorkDisconnected));
 
   @override
-  InvalidPassword get _value => super._value as InvalidPassword;
+  NetWorkDisconnected get _value => super._value as NetWorkDisconnected;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(InvalidPassword(
+    return _then(NetWorkDisconnected(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -246,21 +248,21 @@ class _$InvalidPasswordCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
 }
 
 /// @nodoc
-class _$InvalidPassword implements InvalidPassword {
-  _$InvalidPassword(this.message);
+class _$NetWorkDisconnected implements NetWorkDisconnected {
+  _$NetWorkDisconnected(this.message);
 
   @override
   final String message;
 
   @override
   String toString() {
-    return 'Failure.invalidPassword(message: $message)';
+    return 'Failure.networkDisconnected(message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is InvalidPassword &&
+        (other is NetWorkDisconnected &&
             (identical(other.message, message) ||
                 const DeepCollectionEquality().equals(other.message, message)));
   }
@@ -271,27 +273,27 @@ class _$InvalidPassword implements InvalidPassword {
 
   @JsonKey(ignore: true)
   @override
-  $InvalidPasswordCopyWith<InvalidPassword> get copyWith =>
-      _$InvalidPasswordCopyWithImpl<InvalidPassword>(this, _$identity);
+  $NetWorkDisconnectedCopyWith<NetWorkDisconnected> get copyWith =>
+      _$NetWorkDisconnectedCopyWithImpl<NetWorkDisconnected>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) invalidEmail,
-    required TResult Function(String message) invalidPassword,
+    required TResult Function(String message) wrongCredentials,
+    required TResult Function(String message) networkDisconnected,
   }) {
-    return invalidPassword(message);
+    return networkDisconnected(message);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? invalidEmail,
-    TResult Function(String message)? invalidPassword,
+    TResult Function(String message)? wrongCredentials,
+    TResult Function(String message)? networkDisconnected,
     required TResult orElse(),
   }) {
-    if (invalidPassword != null) {
-      return invalidPassword(message);
+    if (networkDisconnected != null) {
+      return networkDisconnected(message);
     }
     return orElse();
   }
@@ -299,33 +301,33 @@ class _$InvalidPassword implements InvalidPassword {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(InvalidEmail value) invalidEmail,
-    required TResult Function(InvalidPassword value) invalidPassword,
+    required TResult Function(WrongCredentials value) wrongCredentials,
+    required TResult Function(NetWorkDisconnected value) networkDisconnected,
   }) {
-    return invalidPassword(this);
+    return networkDisconnected(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(InvalidEmail value)? invalidEmail,
-    TResult Function(InvalidPassword value)? invalidPassword,
+    TResult Function(WrongCredentials value)? wrongCredentials,
+    TResult Function(NetWorkDisconnected value)? networkDisconnected,
     required TResult orElse(),
   }) {
-    if (invalidPassword != null) {
-      return invalidPassword(this);
+    if (networkDisconnected != null) {
+      return networkDisconnected(this);
     }
     return orElse();
   }
 }
 
-abstract class InvalidPassword implements Failure {
-  factory InvalidPassword(String message) = _$InvalidPassword;
+abstract class NetWorkDisconnected implements Failure {
+  factory NetWorkDisconnected(String message) = _$NetWorkDisconnected;
 
   @override
   String get message => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  $InvalidPasswordCopyWith<InvalidPassword> get copyWith =>
+  $NetWorkDisconnectedCopyWith<NetWorkDisconnected> get copyWith =>
       throw _privateConstructorUsedError;
 }

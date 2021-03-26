@@ -32,6 +32,7 @@ dependencies:
   flutter_bloc: ^7.0.0
   freezed_annotation: ^0.14.1
 
+  connectivity: ^3.0.3
   firebase_core: ^1.0.2
   firebase_auth: ^1.0.1
   firebase_storage: ^8.0.0
@@ -57,8 +58,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -6,15 +6,7 @@ import 'package:flutter_app_clean_architecture/features/authentication/domain/us
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-class MockLoginRepository extends Mock with LoginRepository{
-  // @override
-  // Future<Either<Failure,CustomUser>> loginWithAccountAndPassword(
-  //     String email,String password) async {
-  //   if(email == "anhtanhangxom@gmail.com" && password == "password" )
-  //     return right(CustomUser(uid: "this is test uid"));
-  //   return left(Failure.invalidPassword("wrong password"));
-  // }
-}
+class MockLoginRepository extends Mock with LoginRepository{}
 
 void main(){
   MockLoginRepository mockLoginRepository = MockLoginRepository();
@@ -29,13 +21,13 @@ void main(){
 
   group('login', (){
     test('should succeed', (){
-      when(mockLoginRepository.loginWithAccountAndPassword(email, password)).
+      when(mockLoginRepository.loginWithEmailAndPassword(email, password)).
       thenAnswer((_) async => right(CustomUser(uid: "test uid")));
     });
 
     test('should fail',(){
-      when(mockLoginRepository.loginWithAccountAndPassword(email, "")).
-      thenAnswer((realInvocation) async => left(Failure.invalidPassword("Wrong password")));
+      when(mockLoginRepository.loginWithEmailAndPassword(email, "")).
+      thenAnswer((realInvocation) async => left(Failure.wrongCredentials("Wrong password")));
     });
   });
 
@@ -43,6 +35,6 @@ void main(){
     var res = await usecase(email: email, password: password);
     expect(res, null);
     // verify(mockLoginRepository.loginWithAccountAndPassword(email, password)).called(1);
-    verify(mockLoginRepository.loginWithAccountAndPassword(email, password));//same with above
+    verify(mockLoginRepository.loginWithEmailAndPassword(email, password));//same with above
   });
 }

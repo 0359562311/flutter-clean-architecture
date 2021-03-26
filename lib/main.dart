@@ -1,11 +1,34 @@
+import 'package:connectivity/connectivity.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  var subscription;
+  void initState(){
+    super.initState();
+    subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      // Got a new connectivity status!
+      NetworkInfo.instance.isConnecting = result != ConnectivityResult.none;
+    });
+  }
+
+  void dispose(){
+    super.dispose();
+    subscription.cancel();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
