@@ -33,7 +33,7 @@ class LoginRepositoryImpl extends LoginRepository{
       } on WrongCredentialsException {
         return left(Failure.wrongCredentials("Invalid email or wrong password combination."));
       } on FirebaseAuthException catch (ex){
-        return left(Failure.serverSendsError(ex.code));
+        return left(Failure.serverSendsError(ex.message!));
       }
     } else {
       return left(Failure.networkDisconnected("Please turn on network connection."));
