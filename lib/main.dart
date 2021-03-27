@@ -1,12 +1,40 @@
+
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/login_repository_impl.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/data/sources/remote_sources.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_email_and_password.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_facebook.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_google.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_bloc.dart';
+import 'package:get_it/get_it.dart';
+
+import 'features/authentication/presentation/widgets/login.dart';
 
 void main() async {
-  await Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await init();
   runApp(MyApp());
+}
+
+Future<void> init() async {
+  GetIt getIt = GetIt.instance;
+  getIt.registerFactory(() => LoginBloc(
+      loginWithEmailAndPassword: getIt(),
+      loginWithGoogle: getIt(),
+      loginWithFacebook: getIt())
+  );
+
+  getIt.registerLazySingleton<LoginWithEmailAndPassword>(() => LoginWithEmailAndPassword(getIt()));
+  getIt.registerLazySingleton<LoginWithGoogle>(() => LoginWithGoogle(getIt()));
+  getIt.registerLazySingleton<LoginWithFacebook>(() => LoginWithFacebook(getIt()));
+  getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<LoginRemoteDataSource>(() => LoginFirebaseSource(), instanceName: "firebase data source");
+
 }
 
 class MyApp extends StatefulWidget {
@@ -45,7 +73,10 @@ class _MyAppState extends State<MyApp> {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: Login(),
+      routes: {
+        'home': (context) => Container()
+      },
     );
   }
 }
