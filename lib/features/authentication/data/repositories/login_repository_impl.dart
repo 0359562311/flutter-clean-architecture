@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app_clean_architecture/core/error/exceptions.dart' ;
 import 'package:flutter_app_clean_architecture/core/error/failures.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/data/sources/remote_sources.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/data/sources/login_remote_sources.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
 

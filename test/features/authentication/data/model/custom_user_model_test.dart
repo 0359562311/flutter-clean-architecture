@@ -1,4 +1,5 @@
 import 'package:flutter_app_clean_architecture/features/authentication/data/model/custom_user_model.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main(){
@@ -8,6 +9,7 @@ void main(){
         'uid':"uid"
       });
       expect(model, CustomUserModel(uid: "uid"));
+      expect(model, isA<CustomUser>());
     });
 
     test("should fail", (){

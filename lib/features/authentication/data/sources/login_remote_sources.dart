@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/model/custom_user_model.dart';
 

@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_app_clean_architecture/core/error/failures.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/model/custom_user_model.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/data/sources/remote_sources.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/data/sources/login_remote_sources.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
