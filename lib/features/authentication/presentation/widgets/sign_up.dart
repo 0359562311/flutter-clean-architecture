@@ -156,24 +156,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 color: Colors.lightBlue[800]!
                             )
                         ),
-                        suffixIcon: showRPassword?IconButton(
+                        suffixIcon: IconButton(
                           onPressed: (){
                             setState(() {
-                              showRPassword = false;
+                              showRPassword = !showRPassword;
                             });
                           },
                           icon: Icon(
                             Icons.remove_red_eye,color: Colors.white,
-                          ),
-                        ):
-                        IconButton(
-                          onPressed: (){
-                            setState(() {
-                              showRPassword = true;
-                            });
-                          },
-                          icon: Icon(
-                            Icons.visibility_off,color: Colors.white,
                           ),
                         ),
                         contentPadding: EdgeInsets.only(left: 20),
@@ -273,15 +263,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     padding: EdgeInsets.fromLTRB(60, 45, 60, 0),
                     child: ElevatedButton(
                       style: ButtonStyle(
-                        shape:
+                        elevation: MaterialStateProperty.resolveWith<double>((states){
+                          if (states.contains(MaterialState.pressed)
+                              ||  states.contains(MaterialState.disabled)) {
+                            return 0;
+                          }
+                          return 5;
+                        }),
                       ),
                       onPressed: () async {
                         if(_formKey.currentState!.validate()){
 
                         }
                       },
-                      textColor: Colors.white,
-                      padding: EdgeInsets.all(0.0),
                       child: Container(
                         width: 200,
                         decoration: BoxDecoration(
@@ -312,7 +306,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   InputDecoration buildInputDecoration() {
     return InputDecoration(
       contentPadding: EdgeInsets.only(left: 20),
-      labelText: "Họ và tên",
+      labelText: "",
       alignLabelWithHint: true,
       enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(50)),
@@ -325,7 +319,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           borderRadius: BorderRadius.all(Radius.circular(50)),
           borderSide:BorderSide(
               width: 2,
-              color: Colors.lightBlue[800]
+              color: Colors.lightBlue[800]!
           )
       ),
       errorBorder: OutlineInputBorder(
@@ -339,7 +333,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           borderRadius: BorderRadius.all(Radius.circular(50)),
           borderSide:BorderSide(
               width: 2,
-              color: Colors.lightBlue[800]
+              color: Colors.lightBlue[800]!
           )
       ),
       labelStyle: TextStyle(
