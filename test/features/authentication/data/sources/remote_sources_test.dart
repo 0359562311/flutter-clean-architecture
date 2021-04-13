@@ -16,10 +16,10 @@ void main() async {
   final rightPassword = "password";
   final wrongPassword = "";
 
-  test("should succeed", () async {
-    var user = await remoteDataSource.loginWithEmailAndPassword(email, rightPassword);
-    verify(remoteDataSource.loginWithEmailAndPassword(email, rightPassword));
-    expect(user.uid, "uid");
-  });
+  // test("should succeed", () async {
+  //   var user = await remoteDataSource.loginWithEmailAndPassword(email, rightPassword);
+  //   verify(remoteDataSource.loginWithEmailAndPassword(email, rightPassword));
+  //   expect(user.uid, "uid");
+  // });
 
 }

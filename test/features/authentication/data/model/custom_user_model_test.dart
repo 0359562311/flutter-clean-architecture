@@ -25,6 +25,7 @@ void main(){
     test("should succeed", (){
       var map = CustomUserModel(uid: "uid").toJson();
       expect(map, {'uid': 'uid', 'name': null, 'phone': null});
+      // verify
     });
   });
 }

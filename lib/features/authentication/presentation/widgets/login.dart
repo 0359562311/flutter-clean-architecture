@@ -10,6 +10,7 @@ import 'package:flutter_app_clean_architecture/features/authentication/presentat
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_event.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -80,7 +81,7 @@ class _LoginState extends State<Login> {
 
   void initState(){
     super.initState();
-    final _repository = LoginRepositoryImpl(LoginFirebaseSource());
+    final _repository = GetIt.instance.get<LoginRepositoryImpl>();
     _bloc = LoginBloc(
       loginWithEmailAndPassword: LoginWithEmailAndPassword(_repository),
       loginWithFacebook: LoginWithFacebook(_repository),

@@ -8,7 +8,9 @@ abstract class LoginRemoteDataSource{
 }
 
 class LoginFirebaseSource extends LoginRemoteDataSource{
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth;
+
+  LoginFirebaseSource({required FirebaseAuth auth}): _auth = auth;
 
   @override
   Future<CustomUserModel> facebookSignIn() {

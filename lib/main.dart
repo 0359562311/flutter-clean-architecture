@@ -1,5 +1,6 @@
 
 import 'package:connectivity/connectivity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
@@ -33,8 +34,8 @@ Future<void> init() async {
   getIt.registerLazySingleton<LoginWithGoogle>(() => LoginWithGoogle(getIt()));
   getIt.registerLazySingleton<LoginWithFacebook>(() => LoginWithFacebook(getIt()));
   getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt()));
-  getIt.registerLazySingleton<LoginRemoteDataSource>(() => LoginFirebaseSource(), instanceName: "firebase data source");
-
+  getIt.registerLazySingleton<LoginRemoteDataSource>(() => getIt(), instanceName: "firebase data source");
+  getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
 }
 
 class MyApp extends StatefulWidget {
