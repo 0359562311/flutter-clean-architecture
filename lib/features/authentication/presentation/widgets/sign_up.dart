@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/core/custom/custom_background.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_event.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/sign_up_bloc.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/sign_up_event.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/sign_up_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../../consts.dart';
 
@@ -17,6 +23,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late final SignUpBloc _bloc;
+
+  void initState(){
+    super.initState();
+    _bloc = GetIt.instance.get<SignUpBloc>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,221 +96,255 @@ class _RegisterScreenState extends State<RegisterScreen> {
           icon: Icon(Icons.arrow_back, color: Colors.white,),
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          /// Custom_background
-          // Widget được viết ở lib/widgets/custom_background.dart
-          CustomBackground(singleChildScrollView:true, content: Center(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  /// logo
-                  Padding(
-                    padding: EdgeInsets.only(top:40),
-                    child: Container(
-                      height: 120,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(width: 1, color: Colors.white),
-                      ),
-                      child: Center(
-                        child: Image(
-                          height: 75,
-                          image: AssetImage('images/logo_white.png'),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  /// email
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: TextFormField(
-                      controller: emailController,
-                      validator: (val){
-                        return emailRegex.hasMatch(val??"") && val!=null?null:"email không hợp lệ";
-                      },
-                      style: TextStyle(
-                          color: Colors.white
-                      ),
-                      decoration: buildInputDecoration().copyWith(
-                          labelText: "Email"
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  /// password
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: TextFormField(
-                      controller: passwordController,
-                      obscureText: showRPassword?false:true,
-                      validator: (val){
-                        return passwordCondition.hasMatch(val??"")? null:"ít nhất 8 kí tự bao gồm chữ và số";
-                      },
-                      style: TextStyle(
-                          color: Colors.white
-                      ),
-                      decoration: InputDecoration(
-                        errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            borderSide:BorderSide(
-                                width: 2,
-                                color: Colors.redAccent
-                            )
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            borderSide:BorderSide(
-                                width: 2,
-                                color: Colors.lightBlue[800]!
-                            )
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: (){
-                            setState(() {
-                              showRPassword = !showRPassword;
-                            });
-                          },
-                          icon: Icon(
-                            Icons.remove_red_eye,color: Colors.white,
-                          ),
-                        ),
-                        contentPadding: EdgeInsets.only(left: 20),
-                        labelText: "Mật khẩu",
-                        alignLabelWithHint: true,
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            borderSide:BorderSide(
-                                width: 2,
-                                color: Colors.white
-                            )
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            borderSide:BorderSide(
-                                width: 2,
-                                color: Colors.lightBlue[800]!
-                            )
-                        ),
-                        labelStyle: TextStyle(
-                            color: Colors.white
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  /// confirm
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: TextFormField(
-                      obscureText: showConfirmPassword?false:true,
-                      validator: (val){
-                        return passwordController.text==val?null:"mật khẩu không khớp";
-                      },
-                      style: TextStyle(
-                          color: Colors.white
-                      ),
-                      decoration: InputDecoration(
-                        suffixIcon: showConfirmPassword?IconButton(
-                          onPressed: (){
-                            setState(() {
-                              showConfirmPassword = false;
-                            });
-                          },
-                          icon: Icon(
-                            Icons.remove_red_eye,color: Colors.white,
-                          ),
-                        ):
-                        IconButton(
-                          onPressed: (){
-                            setState(() {
-                              showConfirmPassword = true;
-                            });
-                          },
-                          icon: Icon(
-                            Icons.visibility_off,color: Colors.white,
-                          ),
-                        ),
-                        contentPadding: EdgeInsets.only(left: 20),
-                        labelText: "Nhập lại mật khẩu",
-                        alignLabelWithHint: true,
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            borderSide:BorderSide(
-                                width: 2,
-                                color: Colors.white
-                            )
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            borderSide:BorderSide(
-                                width: 2,
-                                color: Colors.lightBlue[800]!
-                            )
-                        ),
-                        errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            borderSide:BorderSide(
-                                width: 2,
-                                color: Colors.redAccent
-                            )
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            borderSide:BorderSide(
-                                width: 2,
-                                color: Colors.lightBlue[800]!
-                            )
-                        ),
-                        labelStyle: TextStyle(
-                            color: Colors.white
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(60, 45, 60, 0),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        elevation: MaterialStateProperty.resolveWith<double>((states){
-                          if (states.contains(MaterialState.pressed)
-                              ||  states.contains(MaterialState.disabled)) {
-                            return 0;
-                          }
-                          return 5;
-                        }),
-                      ),
-                      onPressed: () async {
-                        if(_formKey.currentState!.validate()){
+      body: BlocProvider.value(
+        value: _bloc,
+        child: BlocConsumer<SignUpBloc,SignUpState>(
+          buildWhen: (_,__)=>false,
+          listener: (context,state){
+            if (state is SignUpErrorState){
 
-                        }
-                      },
-                      child: Container(
-                        width: 200,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          gradient: LinearGradient(
-                            colors: <Color>[
-                              Consts.buttonColor1,
-                              Consts.buttonColor2,
-                            ],
+            } else if (state is SignUpSuccessfulState){
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (dialogueContext) => AlertDialog(
+                    content: Text("Sign up successful"),
+                    actions: [
+                      TextButton(
+                          onPressed: (){
+                            Navigator.pushNamedAndRemoveUntil(dialogueContext, 'home', (route) => route.settings.name == 'login');
+                          },
+                          child: Text("Close")
+                      )
+                    ],
+                  )
+              ));
+            }
+          },
+          builder: (context,state){
+            if(state is SignUpLoadingState)
+              return Center(
+                child: SizedBox(
+                  height: 50,
+                  width: 50,
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            return Stack(
+              children: <Widget>[
+                /// Custom_background
+                CustomBackground(singleChildScrollView:true, content: Center(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        /// logo
+                        Padding(
+                          padding: EdgeInsets.only(top:40),
+                          child: Container(
+                            height: 120,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(width: 1, color: Colors.white),
+                            ),
+                            child: Center(
+                              child: Image(
+                                height: 75,
+                                image: AssetImage('images/logo_white.png'),
+                              ),
+                            ),
                           ),
                         ),
-                        padding:EdgeInsets.all(10.0),
-                        child: Center(
-                            child: Text('Đăng ký', style: TextStyle(fontSize: 20))
+                        SizedBox(height: 20),
+                        /// email
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 25),
+                          child: TextFormField(
+                            controller: emailController,
+                            validator: (val){
+                              return emailRegex.hasMatch(val??"") && val!=null?null:"email không hợp lệ";
+                            },
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
+                            decoration: buildInputDecoration().copyWith(
+                                labelText: "Email"
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(height: 20),
+                        /// password
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 25),
+                          child: TextFormField(
+                            controller: passwordController,
+                            obscureText: showRPassword?false:true,
+                            validator: (val){
+                              return passwordCondition.hasMatch(val??"")? null:"ít nhất 8 kí tự bao gồm chữ và số";
+                            },
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
+                            decoration: InputDecoration(
+                              errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  borderSide:BorderSide(
+                                      width: 2,
+                                      color: Colors.redAccent
+                                  )
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  borderSide:BorderSide(
+                                      width: 2,
+                                      color: Colors.lightBlue[800]!
+                                  )
+                              ),
+                              suffixIcon: IconButton(
+                                onPressed: (){
+                                  setState(() {
+                                    showRPassword = !showRPassword;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye,color: Colors.white,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.only(left: 20),
+                              labelText: "Mật khẩu",
+                              alignLabelWithHint: true,
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  borderSide:BorderSide(
+                                      width: 2,
+                                      color: Colors.white
+                                  )
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  borderSide:BorderSide(
+                                      width: 2,
+                                      color: Colors.lightBlue[800]!
+                                  )
+                              ),
+                              labelStyle: TextStyle(
+                                  color: Colors.white
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        /// confirm
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 25),
+                          child: TextFormField(
+                            obscureText: showConfirmPassword?false:true,
+                            validator: (val){
+                              return passwordController.text==val?null:"mật khẩu không khớp";
+                            },
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
+                            decoration: InputDecoration(
+                              suffixIcon: showConfirmPassword?IconButton(
+                                onPressed: (){
+                                  setState(() {
+                                    showConfirmPassword = false;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye,color: Colors.white,
+                                ),
+                              ):
+                              IconButton(
+                                onPressed: (){
+                                  setState(() {
+                                    showConfirmPassword = true;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.visibility_off,color: Colors.white,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.only(left: 20),
+                              labelText: "Nhập lại mật khẩu",
+                              alignLabelWithHint: true,
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  borderSide:BorderSide(
+                                      width: 2,
+                                      color: Colors.white
+                                  )
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  borderSide:BorderSide(
+                                      width: 2,
+                                      color: Colors.lightBlue[800]!
+                                  )
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  borderSide:BorderSide(
+                                      width: 2,
+                                      color: Colors.redAccent
+                                  )
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  borderSide:BorderSide(
+                                      width: 2,
+                                      color: Colors.lightBlue[800]!
+                                  )
+                              ),
+                              labelStyle: TextStyle(
+                                  color: Colors.white
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(60, 45, 60, 0),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              elevation: MaterialStateProperty.resolveWith<double>((states){
+                                if (states.contains(MaterialState.pressed)
+                                    ||  states.contains(MaterialState.disabled)) {
+                                  return 0;
+                                }
+                                return 5;
+                              }),
+                            ),
+                            onPressed: () async {
+                              if(_formKey.currentState!.validate()){
+                                _bloc.add(SignUpEvent.signUp(emailController.text, passwordController.text));
+                              }
+                            },
+                            child: Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                gradient: LinearGradient(
+                                  colors: <Color>[
+                                    Consts.buttonColor1,
+                                    Consts.buttonColor2,
+                                  ],
+                                ),
+                              ),
+                              padding:EdgeInsets.all(10.0),
+                              child: Center(
+                                  child: Text('Đăng ký', style: TextStyle(fontSize: 20))
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),)
-        ],
+                ),)
+              ],
+            );
+          }
+        ),
       ),
     );
   }

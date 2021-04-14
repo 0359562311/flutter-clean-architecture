@@ -134,7 +134,7 @@ class _LoginState extends State<Login> {
               ));
             },
             buildWhen: (previous,current){
-              return false;
+              return !(current is LogInSuccess);
             },
             builder: (context,state){
               if(state is LoadingState)

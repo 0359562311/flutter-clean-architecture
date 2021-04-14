@@ -5,12 +5,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/login_repository_impl.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/sign_up_repository_iml.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/sources/login_remote_sources.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/data/sources/sign_up_remote_source.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/sign_up_repository.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_email_and_password.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_facebook.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_google.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_bloc.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/sign_up_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import 'features/authentication/presentation/widgets/login.dart';
@@ -29,13 +33,17 @@ Future<void> init() async {
       loginWithGoogle: getIt(),
       loginWithFacebook: getIt())
   );
-
   getIt.registerLazySingleton<LoginWithEmailAndPassword>(() => LoginWithEmailAndPassword(getIt()));
   getIt.registerLazySingleton<LoginWithGoogle>(() => LoginWithGoogle(getIt()));
   getIt.registerLazySingleton<LoginWithFacebook>(() => LoginWithFacebook(getIt()));
   getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt()));
   getIt.registerLazySingleton<LoginRemoteDataSource>(() => getIt(), instanceName: "firebase data source");
+
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
+
+  getIt.registerLazySingleton<SignUpBloc>(() => SignUpBloc(getIt()));
+  getIt.registerLazySingleton<SignUpRepository>(() => SignUpRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<SignUpRemoteSource>(() => SignUpFirebaseSource(auth:getIt()));
 }
 
 class MyApp extends StatefulWidget {
@@ -76,7 +84,8 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Login(),
       routes: {
-        'home': (context) => Container()
+        'home': (context) => Container(),
+        'login':(context) => Login()
       },
     );
   }

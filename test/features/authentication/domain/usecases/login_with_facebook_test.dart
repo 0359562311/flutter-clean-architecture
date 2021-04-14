@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_app_clean_architecture/core/error/failures.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_facebook.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,4 +21,10 @@ void main(){
     var expectation = await loginWithFacebook.call();
     expect(expectation,left(Failure.serverSendsError("fail")));
   });
+
+  test("login with facebook successful", () async {
+    when(repository.facebookSignIn()).thenAnswer((realInvocation) => Future.value(right(CustomUser(uid: "uid"))));
+    expect(await repository.facebookSignIn(), right(CustomUser(uid: "uid")));
+  });
+
 }
