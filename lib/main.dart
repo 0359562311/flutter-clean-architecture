@@ -3,6 +3,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/consts.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/login_repository_impl.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/sign_up_repository_iml.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_app_clean_architecture/features/authentication/domain/us
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_google.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/sign_up_bloc.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/presentation/widgets/sign_up.dart';
 import 'package:get_it/get_it.dart';
 
 import 'features/authentication/presentation/widgets/login.dart';
@@ -36,8 +38,8 @@ Future<void> init() async {
   getIt.registerLazySingleton<LoginWithEmailAndPassword>(() => LoginWithEmailAndPassword(getIt()));
   getIt.registerLazySingleton<LoginWithGoogle>(() => LoginWithGoogle(getIt()));
   getIt.registerLazySingleton<LoginWithFacebook>(() => LoginWithFacebook(getIt()));
+  getIt.registerLazySingleton<LoginRemoteDataSource>(() => LoginFirebaseSource(auth: getIt()));
   getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt()));
-  getIt.registerLazySingleton<LoginRemoteDataSource>(() => getIt(), instanceName: "firebase data source");
 
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
 
@@ -82,10 +84,16 @@ class _MyAppState extends State<MyApp> {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Login(),
       routes: {
-        'home': (context) => Container(),
-        'login':(context) => Login()
+        '/':(_) => Login(),
+        '/home': (context) => Container(
+          child: Text(
+            "home",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        '/login':(context) => Login(),
+        Consts.routeregister: (_) => SignUp()
       },
     );
   }
