@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/core/custom/custom_background.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_event.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/sign_up_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/sign_up_event.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/sign_up_state.dart';
@@ -9,16 +8,16 @@ import 'package:get_it/get_it.dart';
 
 import '../../../../consts.dart';
 
-class RegisterScreen extends StatefulWidget {
+class SignUp extends StatefulWidget {
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _SignUpState extends State<SignUp> {
 
   final passwordCondition = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
   final emailRegex = RegExp(r'^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$');
-  bool showRPassword = false;
+  // bool showRPassword = false;
   bool showConfirmPassword = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -33,56 +32,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
 
-    final bodyProgress = Scaffold(
-        body: Container(
-          child: new Stack(
-            children: <Widget>[
-              new Container(
-                alignment: AlignmentDirectional.center,
-                decoration: new BoxDecoration(
-                  color: Colors.white70,
-                ),
-                child: new Container(
-                  decoration: new BoxDecoration(
-                      color: Colors.blue[200],
-                      borderRadius: new BorderRadius.circular(10.0)
-                  ),
-                  width: 300.0,
-                  height: 200.0,
-                  alignment: AlignmentDirectional.center,
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      new Center(
-                        child: new SizedBox(
-                          height: 50.0,
-                          width: 50.0,
-                          child: new CircularProgressIndicator(
-                            value: null,
-                            strokeWidth: 7.0,
-                          ),
-                        ),
-                      ),
-                      new Container(
-                        margin: const EdgeInsets.only(top: 25.0),
-                        child: new Center(
-                          child: new Text(
-                            "Đang đăng kí",
-                            style: new TextStyle(
-                                color: Colors.white
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -99,18 +48,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: BlocProvider.value(
         value: _bloc,
         child: BlocConsumer<SignUpBloc,SignUpState>(
-          buildWhen: (_,__)=>false,
           listener: (context,state){
             if (state is SignUpErrorState){
-
-            } else if (state is SignUpSuccessfulState){
               Navigator.push(context, MaterialPageRoute(
                   builder: (dialogueContext) => AlertDialog(
-                    content: Text("Sign up successful"),
-                    actions: [                        
+                    content: Text(state.message),
+                    actions: [
                       TextButton(
                           onPressed: (){
-                            Navigator.pushNamedAndRemoveUntil(dialogueContext, 'home', (route) => route.settings.name == 'login');
+                            Navigator.pop(dialogueContext);
                           },
                           child: Text("Close")
                       )
@@ -118,6 +64,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   )
               ));
             }
+            else if (state is SignUpSuccessfulState){
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (dialogueContext) => AlertDialog(
+                    content: Text("Sign up successful"),
+                    actions: [                        
+                      TextButton(
+                          onPressed: (){
+                            Navigator.popUntil(context, (route) => route.settings.name == '/');
+                          },
+                          child: Text("Close")
+                      )
+                    ],
+                  )
+              ));
+            }
+          },
+          buildWhen: (_,current){
+            return current is SignUpLoadingState || current is SignUpErrorState;
           },
           builder: (context,state){
             if(state is SignUpLoadingState)
@@ -177,7 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 25),
                           child: TextFormField(
                             controller: passwordController,
-                            obscureText: showRPassword?false:true,
+                            obscureText: showConfirmPassword,
                             validator: (val){
                               return passwordCondition.hasMatch(val??"")? null:"ít nhất 8 kí tự bao gồm chữ và số";
                             },
@@ -202,11 +166,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               suffixIcon: IconButton(
                                 onPressed: (){
                                   setState(() {
-                                    showRPassword = !showRPassword;
+                                    showConfirmPassword = !showConfirmPassword;
                                   });
                                 },
                                 icon: Icon(
-                                  Icons.remove_red_eye,color: Colors.white,
+                                  showConfirmPassword?Icons.remove_red_eye:Icons.visibility_off,color: Colors.white,
                                 ),
                               ),
                               contentPadding: EdgeInsets.only(left: 20),
@@ -237,7 +201,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 25),
                           child: TextFormField(
-                            obscureText: showConfirmPassword?false:true,
+                            obscureText: showConfirmPassword,
                             validator: (val){
                               return passwordController.text==val?null:"mật khẩu không khớp";
                             },
@@ -245,24 +209,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 color: Colors.white
                             ),
                             decoration: InputDecoration(
-                              suffixIcon: showConfirmPassword?IconButton(
+                              suffixIcon: IconButton(
                                 onPressed: (){
                                   setState(() {
-                                    showConfirmPassword = false;
+                                    showConfirmPassword = !showConfirmPassword;
                                   });
                                 },
                                 icon: Icon(
-                                  Icons.remove_red_eye,color: Colors.white,
-                                ),
-                              ):
-                              IconButton(
-                                onPressed: (){
-                                  setState(() {
-                                    showConfirmPassword = true;
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.visibility_off,color: Colors.white,
+                                  showConfirmPassword?Icons.remove_red_eye:Icons.visibility_off,color: Colors.white,
                                 ),
                               ),
                               contentPadding: EdgeInsets.only(left: 20),
@@ -304,17 +258,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.fromLTRB(60, 45, 60, 0),
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              elevation: MaterialStateProperty.resolveWith<double>((states){
-                                if (states.contains(MaterialState.pressed)
-                                    ||  states.contains(MaterialState.disabled)) {
-                                  return 0;
-                                }
-                                return 5;
-                              }),
-                            ),
-                            onPressed: () async {
+                          child: GestureDetector(
+                            onTap: () async {
                               if(_formKey.currentState!.validate()){
                                 _bloc.add(SignUpEvent.signUp(emailController.text, passwordController.text));
                               }
@@ -332,7 +277,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               padding:EdgeInsets.all(10.0),
                               child: Center(
-                                  child: Text('Đăng ký', style: TextStyle(fontSize: 20))
+                                  child: Text('Đăng ký', style: TextStyle(fontSize: 20, color: Colors.white))
                               ),
                             ),
                           ),

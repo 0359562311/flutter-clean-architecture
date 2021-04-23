@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/consts.dart';
 import 'package:flutter_app_clean_architecture/core/custom/custom_background.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/login_repository_impl.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/data/sources/login_remote_sources.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_email_and_password.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_facebook.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_google.dart';
@@ -81,7 +80,7 @@ class _LoginState extends State<Login> {
 
   void initState(){
     super.initState();
-    final _repository = GetIt.instance.get<LoginRepositoryImpl>();
+    final _repository = GetIt.instance<LoginRepository>();
     _bloc = LoginBloc(
       loginWithEmailAndPassword: LoginWithEmailAndPassword(_repository),
       loginWithFacebook: LoginWithFacebook(_repository),
@@ -100,7 +99,7 @@ class _LoginState extends State<Login> {
           centerTitle: true,
           title: Text("Đăng nhập"),
           backgroundColor: Consts.appbarColor,
-          elevation: 0,
+          elevation: 50,
         ),
         body: BlocProvider<LoginBloc>.value(
           value: _bloc,
@@ -137,6 +136,7 @@ class _LoginState extends State<Login> {
               return !(current is LogInSuccess);
             },
             builder: (context,state){
+              print(state);
               if(state is LoadingState)
                 return Center(
                   child: SizedBox(
