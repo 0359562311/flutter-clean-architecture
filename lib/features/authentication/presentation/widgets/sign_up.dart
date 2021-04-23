@@ -107,7 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Navigator.push(context, MaterialPageRoute(
                   builder: (dialogueContext) => AlertDialog(
                     content: Text("Sign up successful"),
-                    actions: [
+                    actions: [                        
                       TextButton(
                           onPressed: (){
                             Navigator.pushNamedAndRemoveUntil(dialogueContext, 'home', (route) => route.settings.name == 'login');
