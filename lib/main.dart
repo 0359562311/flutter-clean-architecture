@@ -3,7 +3,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/consts.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/login_repository_impl.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/sign_up_repository_iml.dart';
@@ -16,10 +16,9 @@ import 'package:flutter_app_clean_architecture/features/authentication/domain/us
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_google.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/sign_up_bloc.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/presentation/widgets/sign_up.dart';
 import 'package:get_it/get_it.dart';
-
 import 'features/authentication/presentation/widgets/login.dart';
+import 'features/home/presentation/dashboard.dart';
 import 'features/home/presentation/home.dart';
 
 void main() async {
@@ -71,6 +70,9 @@ class _MyAppState extends State<MyApp> {
   }
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.black87
+    ));
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -84,12 +86,13 @@ class _MyAppState extends State<MyApp> {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+        // scaffoldBackgroundColor: Colors.grey
       ),
       // home: Login(),
       routes: {
-        '/':(_) => Login(),
+        '/':(_) => DashBoard(),
         '/home': (context) => Home(),
-        'login':(context) => Login()
+        '/login':(context) => Login()
       },
     );
   }

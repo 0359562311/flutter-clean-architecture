@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -12,10 +11,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: CustomScrollView(
+    return Scaffold(
+      body: CustomScrollView(
           slivers: [
             SliverPersistentHeader(
               delegate: SliverHeaderChildDelegateImpl(),
@@ -24,22 +21,22 @@ class _HomeState extends State<Home> {
             SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (_, id) => SizedBox(
-                     height: 50,
-                     child: Text('$id'),
+                      height: 50,
+                      child: Text('$id'),
                   ),
                   childCount: 24
                 )
             ),
           ],
         ),
-      ),
+      backgroundColor: Colors.grey[200]!,
     );
   }
 }
 
 class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
-  final double _maxExtent = 150;
-  final double? _minExtent = 50;
+  final double _maxExtent = 200;
+  final double? _minExtent = 80;
 
   SliverHeaderChildDelegateImpl();
 
@@ -47,27 +44,41 @@ class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     // TODO: implement build
-    return Stack(
-      alignment: AlignmentDirectional.topStart,
-      children: [
-        SizedBox(
-          child: Image.asset("images/background.jpg",fit: BoxFit.cover,),
-          width: screenWidth,
-          height: 125 - shrinkOffset < 0 ? 50: 125 - shrinkOffset,
-        ),
-        Positioned(
-          bottom: 150-shrinkOffset<50?50:150-shrinkOffset,
-          left: 30-shrinkOffset>0?30-shrinkOffset:0,
-          right: 30-shrinkOffset>0?30-shrinkOffset:0,
-          child: Row(
-            children: [
-              Text("data"),
-              Text("data"),
-              Text("data"),
-            ],
+    return SizedBox(
+      width: screenWidth,
+      height: maxExtent - shrinkOffset < 80 ? 80: maxExtent - shrinkOffset,
+      child: Stack(
+        alignment: AlignmentDirectional.topStart,
+        children: [
+          SizedBox(
+            child: Image.network(
+              "https://i.ytimg.com/vi/ByrUgKNV42Q/"
+                  "hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElA"
+                  "ADIQj0AgKJD&rs=AOn4CLDYsrfOS4AIC_0r5eVQqkubM4fhDg",
+              fit: BoxFit.cover,
+            ),
+            width: screenWidth,
+            height: maxExtent - 40 - shrinkOffset < 0 ? 0: maxExtent - 40 - shrinkOffset,
           ),
-        )
-      ],
+          Positioned(
+            bottom: 0,
+            left: shrinkOffset>100?0:(-shrinkOffset+100)/4,
+            right: shrinkOffset>100?0:(-shrinkOffset+100)/4,
+            height: 80,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.all(Radius.circular(
+                      maxExtent - shrinkOffset < 80?0:10
+                  )),
+                  boxShadow: [
+                    BoxShadow(blurRadius: 2,offset: Offset(0,2),color: Colors.grey)
+                  ]
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -81,7 +92,6 @@ class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    // TODO: implement shouldRebuild
     return false;
   }
 }
