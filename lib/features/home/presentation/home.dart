@@ -78,7 +78,7 @@ class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
         children: [
           SizedBox(
             child: Image.asset(
-              "assets/images/yabure.jpg",
+              "assets/images/fake_slink/yabure.jpg",
               fit: BoxFit.cover,
             ),
             width: screenWidth,
@@ -107,7 +107,7 @@ class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
                     padding: EdgeInsets.all(10),
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
-                      child: Image.asset("assets/images/icon_user.png",fit: BoxFit.fill,),
+                      child: Image.asset("assets/images/fake_slink/icon_user.png",fit: BoxFit.fill,),
                     ),
                   ),
                   Expanded(child: Column(
