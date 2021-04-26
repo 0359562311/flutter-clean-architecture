@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -17,6 +18,31 @@ class _HomeState extends State<Home> {
             SliverPersistentHeader(
               delegate: SliverHeaderChildDelegateImpl(),
               pinned: true,
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 16),
+                child: Text("Cac chuc nang:"),
+              ),
+            ),
+            SliverGrid.count(crossAxisCount: 2,
+              childAspectRatio: 2.5,
+              children: List.generate(4, (index){
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 6,vertical: 6),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: Center(child: Text("chuc nang $index")),
+                );
+              }),
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                child: Text("Su kien sap toi"),
+                padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+              ),
             ),
             SliverList(
                 delegate: SliverChildBuilderDelegate(
@@ -51,10 +77,8 @@ class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
         alignment: AlignmentDirectional.topStart,
         children: [
           SizedBox(
-            child: Image.network(
-              "https://i.ytimg.com/vi/ByrUgKNV42Q/"
-                  "hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElA"
-                  "ADIQj0AgKJD&rs=AOn4CLDYsrfOS4AIC_0r5eVQqkubM4fhDg",
+            child: Image.asset(
+              "assets/images/yabure.jpg",
               fit: BoxFit.cover,
             ),
             width: screenWidth,
@@ -74,6 +98,26 @@ class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
                   boxShadow: [
                     BoxShadow(blurRadius: 2,offset: Offset(0,2),color: Colors.grey)
                   ]
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 80,
+                    height: 80,
+                    padding: EdgeInsets.all(10),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Image.asset("assets/images/icon_user.png",fit: BoxFit.fill,),
+                    ),
+                  ),
+                  Expanded(child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text("Nguyen Kiem Tan"),
+                      Text("UID: 1234")
+                    ],
+                  ))
+                ],
               ),
             ),
           )

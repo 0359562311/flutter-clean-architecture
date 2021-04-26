@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/consts.dart';
+import 'package:flutter_app_clean_architecture/constants.dart';
 import 'package:flutter_app_clean_architecture/core/custom/custom_background.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_email_and_password.dart';
@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
           new Container(
             alignment: AlignmentDirectional.center,
             decoration: new BoxDecoration(
-              color: Consts.appbarColor,
+              color: Constants.appbarColor,
             ),
             child: new Container(
               decoration: new BoxDecoration(
@@ -98,7 +98,7 @@ class _LoginState extends State<Login> {
         appBar: AppBar(
           centerTitle: true,
           title: Text("Đăng nhập"),
-          backgroundColor: Consts.appbarColor,
+          backgroundColor: Constants.appbarColor,
           elevation: 50,
         ),
         body: BlocProvider<LoginBloc>.value(
@@ -316,7 +316,7 @@ class _LoginState extends State<Login> {
                             ),
                             onPressed: (){
                               print("pressed Quen mat khau");
-                              Navigator.pushNamed(context, Consts.routeforgot_password);
+                              Navigator.pushNamed(context, Constants.routeforgot_password);
                             },
                           ),
                         ),
@@ -331,8 +331,8 @@ class _LoginState extends State<Login> {
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
                                 colors: [
-                                  Consts.buttonColor1,
-                                  Consts.buttonColor2,
+                                  Constants.buttonColor1,
+                                  Constants.buttonColor2,
                                 ]
                             )
                         ),
@@ -383,7 +383,7 @@ class _LoginState extends State<Login> {
                                   ),
                                 ),
                                 onPressed: (){
-                                  Navigator.pushNamed(context, Consts.routeregister);
+                                  Navigator.pushNamed(context, Constants.routeregister);
                                 },
                               ),
                               Padding(

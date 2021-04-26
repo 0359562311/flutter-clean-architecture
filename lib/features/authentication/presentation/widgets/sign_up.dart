@@ -6,7 +6,7 @@ import 'package:flutter_app_clean_architecture/features/authentication/presentat
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../../../consts.dart';
+import '../../../../constants.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -36,7 +36,7 @@ class _SignUpState extends State<SignUp> {
       appBar: AppBar(
         centerTitle: true,
         title: Text("Đăng ký"),
-        backgroundColor: Consts.appbarColor,
+        backgroundColor: Constants.appbarColor,
         elevation: 0,
         leading: IconButton(
           onPressed: (){
@@ -270,8 +270,8 @@ class _SignUpState extends State<SignUp> {
                                 borderRadius: BorderRadius.circular(30),
                                 gradient: LinearGradient(
                                   colors: <Color>[
-                                    Consts.buttonColor1,
-                                    Consts.buttonColor2,
+                                    Constants.buttonColor1,
+                                    Constants.buttonColor2,
                                   ],
                                 ),
                               ),

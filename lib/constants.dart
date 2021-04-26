@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class Consts{
+abstract class Constants{
 
   static const Color white = Color(0xFFFFFFFF);
 
