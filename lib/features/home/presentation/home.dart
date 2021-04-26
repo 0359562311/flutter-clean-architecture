@@ -67,7 +67,7 @@ class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
             height: 80,
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(
                       maxExtent - shrinkOffset < 80?0:10
                   )),
