@@ -9,6 +9,6 @@ class LoginWithEmailAndPassword{
   LoginWithEmailAndPassword(this.repository);
 
   Future<Either<Failure, CustomUser>> call({required String email, required String password}) {
-    return repository.loginWithAccountAndPassword(email, password);
+    return repository.loginWithEmailAndPassword(email, password);
   }
 }

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "763099651031",
+    "project_id": "ican-clean-architecture",
+    "storage_bucket": "ican-clean-architecture.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763099651031:android:5339536f5818fff6390992",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app_clean_architecture"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "763099651031-felcnu919t1lvc0t2m4q4rk3mlh9nnd0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_app_clean_architecture",
+            "certificate_hash": "31bb14f1e9b340fa27e102e16fbc8bea62739e0a"
+          }
+        },
+        {
+          "client_id": "763099651031-iok0kb3berm38o629uu2ilt49gvn4ocg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPpB4WiMbJ9UqURGQdOlai4088N48-jNs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "763099651031-iok0kb3berm38o629uu2ilt49gvn4ocg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

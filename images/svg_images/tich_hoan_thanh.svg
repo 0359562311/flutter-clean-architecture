@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="412" height="389" viewBox="0 0 412 389">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#8dff8f"/>
+      <stop offset="1" stop-color="#2cdd5f"/>
+    </linearGradient>
+    <clipPath id="clip-Tích_hoàn_thành">
+      <rect width="412" height="389"/>
+    </clipPath>
+  </defs>
+  <g id="Tích_hoàn_thành" data-name="Tích hoàn thành" clip-path="url(#clip-Tích_hoàn_thành)">
+
+    <path id="Icon_material-done" data-name="Icon material-done" d="M81.87,153.714,24.292,96.137,5.1,115.329,81.87,192.1,246.376,27.592,227.183,8.4Z" transform="translate(91.9 80.001)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

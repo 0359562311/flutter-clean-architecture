@@ -1,13 +1,78 @@
-import 'package:flutter/material.dart';
 
-void main() {
+import 'package:connectivity/connectivity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/login_repository_impl.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/sign_up_repository_iml.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/data/sources/login_remote_sources.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/data/sources/sign_up_remote_source.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/sign_up_repository.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_email_and_password.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_facebook.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_google.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_bloc.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/sign_up_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'features/authentication/presentation/widgets/login.dart';
+import 'features/home/presentation/dashboard.dart';
+import 'features/home/presentation/home.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await init();
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+Future<void> init() async {
+  GetIt getIt = GetIt.instance;
+  getIt.registerFactory(() => LoginBloc(
+      loginWithEmailAndPassword: getIt(),
+      loginWithGoogle: getIt(),
+      loginWithFacebook: getIt())
+  );
+  getIt.registerLazySingleton<LoginWithEmailAndPassword>(() => LoginWithEmailAndPassword(getIt()));
+  getIt.registerLazySingleton<LoginWithGoogle>(() => LoginWithGoogle(getIt()));
+  getIt.registerLazySingleton<LoginWithFacebook>(() => LoginWithFacebook(getIt()));
+  getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<LoginRemoteDataSource>(() => getIt(), instanceName: "firebase data source");
+
+  getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
+
+  getIt.registerLazySingleton<SignUpBloc>(() => SignUpBloc(getIt()));
+  getIt.registerLazySingleton<SignUpRepository>(() => SignUpRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<SignUpRemoteSource>(() => SignUpFirebaseSource(auth:getIt()));
+}
+
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
   @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  var subscription;
+  void initState(){
+    super.initState();
+    subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      // Got a new connectivity status!
+      NetworkInfo.instance.isConnecting = result != ConnectivityResult.none;
+    });
+  }
+
+  void dispose(){
+    super.dispose();
+    subscription.cancel();
+  }
+  @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.black87
+    ));
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -21,8 +86,14 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+        // scaffoldBackgroundColor: Colors.grey
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: Login(),
+      routes: {
+        '/':(_) => DashBoard(),
+        '/home': (context) => Home(),
+        '/login':(context) => Login()
+      },
     );
   }
 }

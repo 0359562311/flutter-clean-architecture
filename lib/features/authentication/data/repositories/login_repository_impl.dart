@@ -1,25 +1,43 @@
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_app_clean_architecture/core/error/exceptions.dart' ;
 import 'package:flutter_app_clean_architecture/core/error/failures.dart';
+import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/data/sources/login_remote_sources.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
 
-class LoginRepositoryImp implements LoginRepository{
+/// can decide whether to use remote
+/// or local data source to cache (if network is not connected)
+class LoginRepositoryImpl extends LoginRepository{
+  final LoginRemoteDataSource remoteDataSource;
+
+  LoginRepositoryImpl(this.remoteDataSource);
+
   @override
-  Future<Either<Failure, CustomUser>> facebookSignIn() {
-    // TODO: implement facebookSignIn
-    throw UnimplementedError();
+  Future<Either<Failure, CustomUser>> facebookSignIn() async {
+
+    return left(Failure.wrongCredentials("message"));
   }
 
   @override
-  Future<Either<Failure, CustomUser>> googleSignIn() {
-    // TODO: implement googleSignIn
-    throw UnimplementedError();
+  Future<Either<Failure, CustomUser>> googleSignIn() async {
+    return left(Failure.wrongCredentials("message"));
   }
 
   @override
-  Future<Either<Failure, CustomUser>> loginWithAccountAndPassword(String email, String password) {
-    // TODO: implement loginWithAccountAndPassword
-    throw UnimplementedError();
+  Future<Either<Failure, CustomUser>> loginWithEmailAndPassword(String email, String password) async {
+    if(NetworkInfo.instance.isConnecting){
+      try{
+        return right(await remoteDataSource.loginWithEmailAndPassword(email, password));
+      } on WrongCredentialsException {
+        return left(Failure.wrongCredentials("Invalid email or wrong password combination."));
+      } on FirebaseAuthException catch (ex){
+        return left(Failure.serverSendsError(ex.message!));
+      }
+    } else {
+      return left(Failure.networkDisconnected("Please turn on network connection."));
+    }
   }
 
 }
