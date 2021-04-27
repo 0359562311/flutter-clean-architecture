@@ -16,6 +16,7 @@ import 'package:flutter_app_clean_architecture/features/authentication/domain/us
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_google.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/sign_up_bloc.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/presentation/quang/login_screen.dart';
 import 'package:get_it/get_it.dart';
 import 'features/authentication/presentation/widgets/login.dart';
 import 'features/home/presentation/dashboard.dart';
@@ -79,11 +80,12 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: Login(),
+      initialRoute: "/quang_login",
       routes: {
-        '/':(_) => DashBoard(),
+        '/dashboard':(_) => DashBoard(),
         '/home': (context) => Home(),
-        '/login':(context) => Login()
+        '/login':(context) => Login(),
+        '/quang_login': (_) => LoginQuang()
       },
     );
   }
