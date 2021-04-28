@@ -1,3 +1,4 @@
+import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_email_and_password.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_facebook.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_app_clean_architecture/features/authentication/domain/us
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_event.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class LoginBloc extends Bloc<LogInEvent,LoginState>{
   LoginBloc({required this.loginWithEmailAndPassword,
@@ -24,6 +26,7 @@ class LoginBloc extends Bloc<LogInEvent,LoginState>{
                 yield(LogInError(left.message));
               },
               (right) async*{
+                GetIt.instance<CustomUser>().uid = right.uid;
                 yield(LogInSuccess(right));
               }
           );

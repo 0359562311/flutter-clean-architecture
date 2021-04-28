@@ -1,5 +1,6 @@
 
 import 'package:connectivity/connectivity.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_app_clean_architecture/features/authentication/data/repo
 import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/sign_up_repository_iml.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/sources/login_remote_sources.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/sources/sign_up_remote_source.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/sign_up_repository.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_email_and_password.dart';
@@ -21,7 +23,6 @@ import 'package:get_it/get_it.dart';
 import 'features/authentication/presentation/widgets/login.dart';
 import 'features/home/presentation/dashboard.dart';
 import 'features/home/presentation/home.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -31,6 +32,16 @@ void main() async {
 
 Future<void> init() async {
   GetIt getIt = GetIt.instance;
+  getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
+  var options = BaseOptions
+    (
+    baseUrl: 'http://146.148.61.0:3046',
+    connectTimeout: 5000,
+    receiveTimeout: 3000,
+  );
+  getIt.registerSingleton(Dio(options));
+  getIt.registerSingleton<CustomUser>(CustomUser(uid: "uid"));
+
   getIt.registerFactory(() => LoginBloc(
       loginWithEmailAndPassword: getIt(),
       loginWithGoogle: getIt(),
@@ -39,10 +50,8 @@ Future<void> init() async {
   getIt.registerLazySingleton<LoginWithEmailAndPassword>(() => LoginWithEmailAndPassword(getIt()));
   getIt.registerLazySingleton<LoginWithGoogle>(() => LoginWithGoogle(getIt()));
   getIt.registerLazySingleton<LoginWithFacebook>(() => LoginWithFacebook(getIt()));
-  getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt()));
-  getIt.registerLazySingleton<LoginRemoteDataSource>(() => getIt(), instanceName: "firebase data source");
-
-  getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
+  getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt<LoginRemoteDataSource>()));
+  getIt.registerLazySingleton<LoginRemoteDataSource>(() => LoginAPISource());
 
   getIt.registerLazySingleton<SignUpBloc>(() => SignUpBloc(getIt()));
   getIt.registerLazySingleton<SignUpRepository>(() => SignUpRepositoryImpl(getIt()));
@@ -80,10 +89,9 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: "/quang_login",
+      initialRoute: "/login",
       routes: {
         '/dashboard':(_) => DashBoard(),
-        '/home': (context) => Home(),
         '/login':(context) => Login(),
         '/quang_login': (_) => LoginQuang()
       },
