@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 class CustomBackground extends StatelessWidget{
   /// Widget content.
   final Widget content;
@@ -24,10 +25,11 @@ class CustomBackground extends StatelessWidget{
       children: [
         Container(
           decoration: BoxDecoration(
-              image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage("images/background.jpg")
-              )
+            color: Colors.black
+              // image: DecorationImage(
+              //     fit: BoxFit.cover,
+              //     image: AssetImage("assets/images/ican/background.jpg")
+              // )
           ),
         ),
         singleChildScrollView != null && singleChildScrollView! ?

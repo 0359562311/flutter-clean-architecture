@@ -18,7 +18,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final passwordCondition = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
-  final emailRegex = RegExp(r'^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$');
+  // final emailRegex = RegExp(r'^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$');
   bool showPassword = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -118,19 +118,8 @@ class _LoginState extends State<Login> {
                     ],
                   )
               ));
-              else if (state is LogInSuccess) Navigator.push(context1, MaterialPageRoute(
-                  builder: (dialogueContext) => AlertDialog(
-                    content: Text("Log in successful"),
-                    actions: [
-                      TextButton(
-                          onPressed: (){
-                            Navigator.pushNamedAndRemoveUntil(dialogueContext, 'home', (route) => false);
-                          },
-                          child: Text("Close")
-                      )
-                    ],
-                  )
-              ));
+              else if (state is LogInSuccess)
+                Navigator.pushNamedAndRemoveUntil(context1, '/dashboard', (route) => false);
             },
             buildWhen: (previous,current){
               return !(current is LogInSuccess);
@@ -168,12 +157,12 @@ class _LoginState extends State<Login> {
                               )
                             ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Image(
-                              image: AssetImage("images/logo_color.png"),
-                            ),
-                          ),
+                          // child: Padding(
+                          //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                          //   child: Image(
+                          //     image: AssetImage("images/ican/logo_color.png"),
+                          //   ),
+                          // ),
                         ),
                       ),
                       /// app name
@@ -190,7 +179,7 @@ class _LoginState extends State<Login> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: TextFormField(
-                          validator: (val) => !emailRegex.hasMatch(emailController.text)? "Email không hợp lệ":null,
+                          validator: (val) => emailController.text.isEmpty? "Dien day du thong tin":null,
                           controller: emailController,
                           style: TextStyle(
                               color: Colors.white
