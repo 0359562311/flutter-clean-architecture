@@ -6,6 +6,7 @@ class PlatformInfo{
   static Future init() async{
     final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    deviceId = androidInfo.id;
+    deviceId = androidInfo.androidId;
+    print(deviceId);
   }
 }
