@@ -2,6 +2,7 @@
     package="com.example.flutter_app_clean_architecture">
    <application
         android:label="flutter_app_clean_architecture"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

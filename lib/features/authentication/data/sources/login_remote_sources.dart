@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app_clean_architecture/core/error/exceptions.dart';
+import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/model/custom_user_model.dart';
 import 'package:get_it/get_it.dart';
 
@@ -52,10 +53,10 @@ class LoginAPISource with LoginRemoteDataSource{
   Future<CustomUserModel> loginWithEmailAndPassword(String email, String password) async {
     // TODO: implement loginWithEmailAndPassword
     try {
-      var response = await GetIt.instance<Dio>().request("/auth/login/web/",data: {
+      var response = await GetIt.instance<Dio>().request("/auth/login/mobile/",data: {
           "username": "$email",
           "password": "$password",
-          // "deviceId": "deviceId"
+          "deviceId": PlatformInfo.deviceId
         },
         options: Options(method: 'POST')
       );
@@ -63,7 +64,7 @@ class LoginAPISource with LoginRemoteDataSource{
       return CustomUserModel(uid: response.data['data']['accessToken']);
     } on DioError catch (e) {
       // TODO
-      print(e.response);
+      print(e);
       throw APIException(e.response?.data['message']??"Error message from API");
     }
   }

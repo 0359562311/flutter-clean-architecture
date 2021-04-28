@@ -1,10 +1,12 @@
 
+
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/login_repository_impl.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/sign_up_repository_iml.dart';
@@ -22,11 +24,11 @@ import 'package:flutter_app_clean_architecture/features/authentication/presentat
 import 'package:get_it/get_it.dart';
 import 'features/authentication/presentation/widgets/login.dart';
 import 'features/home/presentation/dashboard.dart';
-import 'features/home/presentation/home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await init();
+  await PlatformInfo.init();
   runApp(MyApp());
 }
 
