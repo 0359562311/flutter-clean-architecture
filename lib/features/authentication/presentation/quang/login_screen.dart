@@ -26,12 +26,12 @@ class _LoginQuangState extends State<LoginQuang> {
               // color: Colors.blue,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage('assets/images/fake_slink/yabure.jpg'),
+                      image: AssetImage('assets/images/fake_slink/header.png'),
                       fit: BoxFit.fill)),
             ),
             //Account
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: TextFormField(
                 obscureText: false,
                 onChanged: (value) {
@@ -86,7 +86,7 @@ class _LoginQuangState extends State<LoginQuang> {
                           },
                           icon: Icon(
                             Icons.remove_red_eye,
-                            color: Colors.lightBlueAccent[200],
+                            color: Colors.blue,
                           ),
                         ),
                   labelText: 'Mật khẩu',
@@ -105,7 +105,7 @@ class _LoginQuangState extends State<LoginQuang> {
                     child: Text(
                       'Quên mật khẩu?',
                       style: TextStyle(
-                        color: Colors.blue[800],
+                        color: Colors.blue,
                         fontStyle: FontStyle.italic,
                         // fontWeight: FontWeight.bold,
                         fontSize: 15
@@ -124,13 +124,14 @@ class _LoginQuangState extends State<LoginQuang> {
                 height: 50,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30),
+                  // ignore: deprecated_member_use
                   child: FlatButton(
                       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                       onPressed: () {},
-                      color: Colors.blueAccent[200],
+                      color: Colors.blue[400],
                       child: Text(
                         'Đăng nhập',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white,fontSize: 18),
                       )),
                 ),
               ),
