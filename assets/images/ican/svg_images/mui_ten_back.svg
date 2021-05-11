@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="412" height="389" viewBox="0 0 412 389">
+  <defs>
+    <clipPath id="clip-Mũi_tên_back">
+      <rect width="412" height="389"/>
+    </clipPath>
+  </defs>
+  <g id="Mũi_tên_back" data-name="Mũi tên back" clip-path="url(#clip-Mũi_tên_back)">
+    <path id="Path_10" data-name="Path 10" d="M143.432,0,117.354,26.079,216.08,124.8H0V162.06H216.08l-98.726,98.726,26.079,26.079L286.865,143.432Z" transform="translate(349.865 337.865) rotate(180)" fill="#fff"/>
+  </g>
+</svg>

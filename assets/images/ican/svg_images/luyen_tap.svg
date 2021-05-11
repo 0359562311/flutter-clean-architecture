@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="412" height="389" viewBox="0 0 412 389">
+  <defs>
+    <clipPath id="clip-Luyện_tập">
+      <rect width="412" height="389"/>
+    </clipPath>
+  </defs>
+  <g id="Luyện_tập" data-name="Luyện tập" clip-path="url(#clip-Luyện_tập)">
+    <path id="ic_school_24px" d="M60.74,155.038v59.74l104.544,57.051,104.544-57.051v-59.74L165.284,212.089ZM165.284,3,1,92.61l164.284,89.61L299.7,108.889v103.2h29.87V92.61Z" transform="translate(41.587 58.069)" fill="#fff"/>
+  </g>
+</svg>
