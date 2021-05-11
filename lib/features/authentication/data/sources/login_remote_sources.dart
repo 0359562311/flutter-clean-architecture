@@ -53,14 +53,12 @@ class LoginAPISource with LoginRemoteDataSource{
   Future<CustomUserModel> loginWithEmailAndPassword(String email, String password) async {
     // TODO: implement loginWithEmailAndPassword
     try {
-      var response = await GetIt.instance<Dio>().request("/auth/login/mobile/",data: {
+      var response = await GetIt.instance<Dio>().post("/auth/login/mobile/",data: {
           "username": "$email",
           "password": "$password",
           "deviceId": PlatformInfo.deviceId
         },
-        options: Options(method: 'POST')
       );
-      print(response);
       return CustomUserModel(uid: response.data['data']['accessToken']);
     } on DioError catch (e) {
       // TODO
