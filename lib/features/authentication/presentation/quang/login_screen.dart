@@ -8,13 +8,19 @@ class LoginQuang extends StatefulWidget {
 
 class _LoginQuangState extends State<LoginQuang> {
   bool showPassword = false;
-  late final accountController;
-  late final passwordController;
+  late final TextEditingController accountController;
+  late final TextEditingController passwordController;
 
   void initState(){
     super.initState();
     accountController = TextEditingController();
     passwordController = TextEditingController();
+  }
+
+  void dispose(){
+    super.dispose();
+    accountController.dispose();
+    passwordController.dispose();
   }
 
   @override
