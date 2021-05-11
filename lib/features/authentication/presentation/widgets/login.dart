@@ -92,7 +92,7 @@ class _LoginState extends State<Login> {
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage(
-                                  'assets/images/fake_slink/header.png'),
+                                  'assets/images/fake_slink/header.jpg'),
                               fit: BoxFit.fill)),
                     ),
                     //Account
