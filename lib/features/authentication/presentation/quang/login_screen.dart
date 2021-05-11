@@ -8,10 +8,17 @@ class LoginQuang extends StatefulWidget {
 
 class _LoginQuangState extends State<LoginQuang> {
   bool showPassword = false;
+  late final accountController;
+  late final passwordController;
+
+  void initState(){
+    super.initState();
+    accountController = TextEditingController();
+    passwordController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
-    String email, password;
     var size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -33,12 +40,8 @@ class _LoginQuangState extends State<LoginQuang> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: TextFormField(
+                controller: accountController,
                 obscureText: false,
-                onChanged: (value) {
-                  setState(() {
-                    email = value;
-                  });
-                },
                 decoration: InputDecoration(
                   prefixIcon: Icon(
                     Icons.person_outline,
@@ -55,11 +58,7 @@ class _LoginQuangState extends State<LoginQuang> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 20),
               child: TextFormField(
-                onChanged: (value) {
-                  setState(() {
-                    password = value;
-                  });
-                },
+                controller: passwordController,
                 decoration: InputDecoration(
                   prefixIcon: Icon(
                     Icons.lock_outlined,
