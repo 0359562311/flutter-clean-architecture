@@ -30,7 +30,7 @@ Future<void> init() async {
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   var options = BaseOptions
     (
-    baseUrl: 'http://146.148.61.0:3046',
+    baseUrl: 'http://20.188.121.133:3000',
     connectTimeout: 5000,
     receiveTimeout: 3000,
   );
@@ -46,7 +46,7 @@ Future<void> init() async {
   getIt.registerLazySingleton<LoginWithGoogle>(() => LoginWithGoogle(getIt()));
   getIt.registerLazySingleton<LoginWithFacebook>(() => LoginWithFacebook(getIt()));
   getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt<LoginRemoteDataSource>()));
-  getIt.registerLazySingleton<LoginRemoteDataSource>(() => LoginFirebaseSource(auth: getIt()));
+  getIt.registerLazySingleton<LoginRemoteDataSource>(() => LoginAPISource());
 }
 
 class MyApp extends StatefulWidget {
