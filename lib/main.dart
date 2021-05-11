@@ -25,40 +25,40 @@ import 'package:get_it/get_it.dart';
 import 'features/authentication/presentation/widgets/login.dart';
 import 'features/home/presentation/dashboard.dart';
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await init();
-  await PlatformInfo.init();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  // await init();
+  // await PlatformInfo.init();
   runApp(MyApp());
 }
 
-Future<void> init() async {
-  GetIt getIt = GetIt.instance;
-  getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
-  var options = BaseOptions
-    (
-    baseUrl: 'http://146.148.61.0:3046',
-    connectTimeout: 5000,
-    receiveTimeout: 3000,
-  );
-  getIt.registerSingleton(Dio(options));
-  getIt.registerSingleton<CustomUser>(CustomUser(uid: "uid"));
-
-  getIt.registerFactory(() => LoginBloc(
-      loginWithEmailAndPassword: getIt(),
-      loginWithGoogle: getIt(),
-      loginWithFacebook: getIt())
-  );
-  getIt.registerLazySingleton<LoginWithEmailAndPassword>(() => LoginWithEmailAndPassword(getIt()));
-  getIt.registerLazySingleton<LoginWithGoogle>(() => LoginWithGoogle(getIt()));
-  getIt.registerLazySingleton<LoginWithFacebook>(() => LoginWithFacebook(getIt()));
-  getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt<LoginRemoteDataSource>()));
-  getIt.registerLazySingleton<LoginRemoteDataSource>(() => LoginAPISource());
-
-  getIt.registerLazySingleton<SignUpBloc>(() => SignUpBloc(getIt()));
-  getIt.registerLazySingleton<SignUpRepository>(() => SignUpRepositoryImpl(getIt()));
-  getIt.registerLazySingleton<SignUpRemoteSource>(() => SignUpFirebaseSource(auth:getIt()));
-}
+// Future<void> init() async {
+//   GetIt getIt = GetIt.instance;
+//   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
+//   var options = BaseOptions
+//     (
+//     baseUrl: 'http://146.148.61.0:3046',
+//     connectTimeout: 5000,
+//     receiveTimeout: 3000,
+//   );
+//   getIt.registerSingleton(Dio(options));
+//   getIt.registerSingleton<CustomUser>(CustomUser(uid: "uid"));
+//
+//   getIt.registerFactory(() => LoginBloc(
+//       loginWithEmailAndPassword: getIt(),
+//       loginWithGoogle: getIt(),
+//       loginWithFacebook: getIt())
+//   );
+//   getIt.registerLazySingleton<LoginWithEmailAndPassword>(() => LoginWithEmailAndPassword(getIt()));
+//   getIt.registerLazySingleton<LoginWithGoogle>(() => LoginWithGoogle(getIt()));
+//   getIt.registerLazySingleton<LoginWithFacebook>(() => LoginWithFacebook(getIt()));
+//   getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt<LoginRemoteDataSource>()));
+//   getIt.registerLazySingleton<LoginRemoteDataSource>(() => LoginAPISource());
+//
+//   getIt.registerLazySingleton<SignUpBloc>(() => SignUpBloc(getIt()));
+//   getIt.registerLazySingleton<SignUpRepository>(() => SignUpRepositoryImpl(getIt()));
+//   getIt.registerLazySingleton<SignUpRemoteSource>(() => SignUpFirebaseSource(auth:getIt()));
+// }
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
@@ -66,37 +66,55 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
-  var subscription;
-  void initState(){
-    super.initState();
-    subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      // Got a new connectivity status!
-      NetworkInfo.instance.isConnecting = result != ConnectivityResult.none;
-    });
-  }
+// class _MyAppState extends State<MyApp> {
+//   var subscription;
+//   void initState(){
+//     super.initState();
+//     subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+//       // Got a new connectivity status!
+//       NetworkInfo.instance.isConnecting = result != ConnectivityResult.none;
+//     });
+//   }
+//
+//   void dispose(){
+//     super.dispose();
+//     subscription.cancel();
+//   }
+//   @override
+//   Widget build(BuildContext context) {
+//     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+//         statusBarColor: Colors.black87
+//     ));
+//     return MaterialApp(
+//       title: 'Flutter Demo',
+//       debugShowCheckedModeBanner: false,
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       initialRoute: "/login",
+//       routes: {
+//         '/dashboard':(_) => DashBoard(),
+//         '/login':(context) => Login(),
+//         '/quang_login': (_) => LoginQuang()
+//       },
+//     );
+//     return MaterialApp(
+//       title: 'Flutter Demo',
+//         debugShowCheckedModeBanner: false,
+//         theme: ThemeData(
+//           primarySwatch: Colors.blue,
+//         ),
+//       home: LoginQuang()
+//     );
+//   }
+// }
 
-  void dispose(){
-    super.dispose();
-    subscription.cancel();
-  }
+class _MyAppState extends State<MyApp>{
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.black87
-    ));
     return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: "/login",
-      routes: {
-        '/dashboard':(_) => DashBoard(),
-        '/login':(context) => Login(),
-        '/quang_login': (_) => LoginQuang()
-      },
+      home: LoginQuang(),
     );
   }
+
 }
