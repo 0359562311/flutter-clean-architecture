@@ -16,7 +16,7 @@ import 'package:flutter_app_clean_architecture/features/authentication/domain/us
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'features/authentication/presentation/widgets/login.dart';
-import 'features/home/presentation/dashboard.dart';
+import 'features/dashboard/dashboard.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
