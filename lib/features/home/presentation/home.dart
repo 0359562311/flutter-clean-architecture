@@ -9,11 +9,25 @@ class Home extends StatefulWidget {
 double screenWidth = 0;
 
 class _HomeState extends State<Home> {
+  Items _items1 = new Items(
+      title: "Quét mã QR", img: 'assets/images/fake_slink/qr.png');
+  Items _items2 =
+      new Items(title: "Thời khóa biểu", img: 'assets/images/fake_slink/schedule2.png');
+  Items _items3 = new Items(
+      title: "Thay đổi thiết bị định danh", img: 'assets/images/fake_slink/phone.png');
+
   @override
   Widget build(BuildContext context) {
+    List<Items> list = [_items1, _items2, _items3];
+
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: CustomScrollView(
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/fake_slink/back_ground.jpg'),
+                fit: BoxFit.fill)),
+        child: CustomScrollView(
           slivers: [
             SliverPersistentHeader(
               delegate: SliverHeaderChildDelegateImpl(),
@@ -21,47 +35,76 @@ class _HomeState extends State<Home> {
             ),
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0,horizontal: 16),
-                child: Text("Cac chuc nang:"),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                child: Text(
+                  "Chức năng:",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
-            SliverGrid.count(crossAxisCount: 2,
-              childAspectRatio: 2.5,
-              children: List.generate(4, (index){
-                return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 6,vertical: 6),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  child: Center(child: Text("chuc nang $index")),
-                );
-              }),
-            ),
+            SliverGrid.count(
+                crossAxisCount: 1,
+                childAspectRatio: 5,
+                children: list.map((data) {
+                  return Container(
+                    padding: EdgeInsets.only(left: 10,right: 10),
+                    height: 1,
+                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Image.asset(data.img),
+                        ),
+                        SizedBox(width: 10,),
+                        Text(
+                          data.title,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.w600
+                          ),
+                        )
+                      ],
+                    )
+                  );
+                }).toList()),
             SliverToBoxAdapter(
               child: Container(
-                child: Text("Su kien sap toi"),
-                padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+                child: Text("Sự kiện sắp tới",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               ),
             ),
             SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  (_, id) => SizedBox(
-                      height: 50,
-                      child: Text('$id'),
-                  ),
-                  childCount: 24
-                )
-            ),
+                    (_, id) => SizedBox(
+                          height: 50,
+                          child: Text('$id'),
+                        ),
+                    childCount: 24)),
           ],
         ),
-      backgroundColor: Colors.grey[200]!,
+      ),
     );
   }
 }
 
 class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
-  final double _maxExtent = 200;
+  final double _maxExtent = 180;
   final double? _minExtent = 80;
 
   SliverHeaderChildDelegateImpl();
@@ -72,49 +115,90 @@ class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
     // TODO: implement build
     return SizedBox(
       width: screenWidth,
-      height: maxExtent - shrinkOffset < 80 ? 80: maxExtent - shrinkOffset,
+      height: maxExtent - shrinkOffset < 80 ? 80 : maxExtent - shrinkOffset,
       child: Stack(
         alignment: AlignmentDirectional.topStart,
         children: [
           SizedBox(
-            child: Image.asset(
-              "assets/images/fake_slink/yabure.jpg",
-              fit: BoxFit.cover,
-            ),
+            // child: Padding(
+            //   padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            //   child: TextFormField(
+            //     obscureText: false,
+            //     decoration: InputDecoration(
+            //       border: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(25.0),
+            //       ),
+            //       enabledBorder: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(25.0),
+            //           borderSide: BorderSide(
+            //             color: Colors.white,
+            //             width: 0.0,
+            //           )),
+            //       prefixIcon: Icon(
+            //         Icons.search,
+            //         color: Colors.white,
+            //         size: 28,
+            //       ),
+            //       hintText: 'Tìm kiếm',
+            //       contentPadding:
+            //           EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+            //       fillColor: Color.fromRGBO(171, 231, 255, 0.7),
+            //       filled: true,
+            //     ),
+            //     // style: TextStyle(fontSize: 18),
+            //   ),
+            // ),
             width: screenWidth,
-            height: maxExtent - 40 - shrinkOffset < 0 ? 0: maxExtent - 40 - shrinkOffset,
+            height: maxExtent - 80 - shrinkOffset < 0
+                ? 0
+                : maxExtent - 80 - shrinkOffset,
           ),
           Positioned(
             bottom: 0,
-            left: shrinkOffset>100?0:(-shrinkOffset+100)/4,
-            right: shrinkOffset>100?0:(-shrinkOffset+100)/4,
+            left: shrinkOffset > 100 ? 0 : (-shrinkOffset + 100) / 4,
+            right: shrinkOffset > 100 ? 0 : (-shrinkOffset + 100) / 4,
             height: 80,
             child: Container(
               decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(
-                      maxExtent - shrinkOffset < 80?0:10
-                  )),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(maxExtent - shrinkOffset < 80 ? 0 : 10)),
                   boxShadow: [
-                    BoxShadow(blurRadius: 2,offset: Offset(0,2),color: Colors.grey)
-                  ]
-              ),
+                    BoxShadow(
+                        blurRadius: 2, offset: Offset(0, 2), color: Colors.grey)
+                  ]),
               child: Row(
                 children: [
                   Container(
                     width: 80,
-                    height: 80,
+                    height: 100,
                     padding: EdgeInsets.all(10),
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
-                      child: Image.asset("assets/images/fake_slink/icon_user.png",fit: BoxFit.fill,),
+                      child: Image.asset(
+                        "assets/images/fake_slink/icon_user.png",
+                        color: Colors.blue,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                  Expanded(child: Column(
+                  Expanded(
+                      child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text("Nguyen Kiem Tan"),
-                      Text("UID: 1234")
+                      Text(
+                        "Lê Minh Quang",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                      Text(
+                        "MSV: B18DCCN481",
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
                     ],
                   ))
                 ],
@@ -138,4 +222,11 @@ class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
     return false;
   }
+}
+
+class Items {
+  late String title;
+  late String img;
+
+  Items({required this.title, required this.img});
 }
