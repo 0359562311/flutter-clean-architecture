@@ -1,5 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
+import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_bloc.dart';
+import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_events.dart';
+import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -16,6 +22,22 @@ class _HomeState extends State<Home> {
   Items _items3 = new Items(
       title: "Thay đổi thiết bị định danh", img: 'assets/images/fake_slink/phone.png');
 
+  late HomeBloc _bloc;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _bloc = GetIt.instance<HomeBloc>()..add(HomeEvent.getUserInfor());
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _bloc.close();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Items> list = [_items1, _items2, _items3];
@@ -27,76 +49,107 @@ class _HomeState extends State<Home> {
             image: DecorationImage(
                 image: AssetImage('assets/images/fake_slink/back_ground.jpg'),
                 fit: BoxFit.fill)),
-        child: CustomScrollView(
-          slivers: [
-            SliverPersistentHeader(
-              delegate: SliverHeaderChildDelegateImpl(),
-              pinned: true,
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-                child: Text(
-                  "Chức năng:",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            SliverGrid.count(
-                crossAxisCount: 1,
-                childAspectRatio: 5,
-                children: list.map((data) {
-                  return Container(
-                    padding: EdgeInsets.only(left: 10,right: 10),
-                    height: 1,
-                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Image.asset(data.img),
-                        ),
-                        SizedBox(width: 10,),
-                        Text(
-                          data.title,
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w600
-                          ),
-                        )
-                      ],
-                    )
-                  );
-                }).toList()),
-            SliverToBoxAdapter(
-              child: Container(
-                child: Text("Sự kiện sắp tới",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
+        child: BlocProvider.value(
+          value: _bloc,
+          child: BlocConsumer<HomeBloc,HomeState>(
+            listener: (context,state){
+              if(state is HomeErrorState) Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (dialogueContext) => AlertDialog(
+                        content: Text(state.message),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(dialogueContext);
+                              },
+                              child: Text("Close"))
+                        ],
+                      )));
+            },
+            builder: (context,state){
+              print(state);
+              if(state is HomeLoading)
+                return Center(child: SizedBox(
+                    child: CircularProgressIndicator(),
+                  height: 50,
+                  width: 50,
+                ),);
+              CustomUser user = GetIt.instance<CustomUser>();
+              print("user in home $user ----------");
+              return CustomScrollView(
+                slivers: [
+                  SliverPersistentHeader(
+                    delegate: SliverHeaderChildDelegateImpl(user),
+                    pinned: true,
                   ),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              ),
-            ),
-            SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (_, id) => SizedBox(
-                          height: 50,
-                          child: Text('$id'),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                      child: Text(
+                        "Chức năng:",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  SliverGrid.count(
+                      crossAxisCount: 1,
+                      childAspectRatio: 5,
+                      children: list.map((data) {
+                        return Container(
+                            padding: EdgeInsets.only(left: 10,right: 10),
+                            height: 1,
+                            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Image.asset(data.img),
+                                ),
+                                SizedBox(width: 10,),
+                                Text(
+                                  data.title,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.w600
+                                  ),
+                                )
+                              ],
+                            )
+                        );
+                      }).toList()),
+                  SliverToBoxAdapter(
+                    child: Container(
+                      child: Text("Sự kiện sắp tới",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
-                    childCount: 24)),
-          ],
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    ),
+                  ),
+                  SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                              (_, id) => SizedBox(
+                            height: 50,
+                            child: Text('$id'),
+                          ),
+                          childCount: 24)),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -106,8 +159,8 @@ class _HomeState extends State<Home> {
 class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
   final double _maxExtent = 180;
   final double? _minExtent = 80;
-
-  SliverHeaderChildDelegateImpl();
+  final CustomUser user;
+  SliverHeaderChildDelegateImpl(this.user);
 
   @override
   Widget build(
@@ -187,14 +240,14 @@ class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        "Lê Minh Quang",
+                        user.name??"user",
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
                       Text(
-                        "MSV: B18DCCN481",
+                        "DeviceId: ${user.deviceId}",
                         style: TextStyle(
                           fontSize: 14,
                         ),

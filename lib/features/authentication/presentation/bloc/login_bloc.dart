@@ -26,7 +26,7 @@ class LoginBloc extends Bloc<LogInEvent,LoginState>{
                 yield(LogInError(left.message));
               },
               (right) async*{
-                GetIt.instance<CustomUser>().uid = right.uid;
+                GetIt.instance.registerSingleton<CustomUser>(right,);
                 yield(LogInSuccess(right));
               }
           );

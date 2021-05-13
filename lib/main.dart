@@ -14,6 +14,11 @@ import 'package:flutter_app_clean_architecture/features/authentication/domain/us
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_facebook.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_google.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_bloc.dart';
+import 'package:flutter_app_clean_architecture/features/home/data/repository/home_repository_impl.dart';
+import 'package:flutter_app_clean_architecture/features/home/data/source/home_remote_source.dart';
+import 'package:flutter_app_clean_architecture/features/home/domain/repository/home_repository.dart';
+import 'package:flutter_app_clean_architecture/features/home/domain/use_cases/get_user_info.dart';
+import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'features/authentication/presentation/widgets/login.dart';
 import 'features/dashboard/dashboard.dart';
@@ -35,7 +40,6 @@ Future<void> init() async {
     receiveTimeout: 3000,
   );
   getIt.registerSingleton(Dio(options));
-  getIt.registerSingleton<CustomUser>(CustomUser(uid: "uid"));
 
   getIt.registerFactory(() => LoginBloc(
       loginWithEmailAndPassword: getIt(),
@@ -47,6 +51,14 @@ Future<void> init() async {
   getIt.registerLazySingleton<LoginWithFacebook>(() => LoginWithFacebook(getIt()));
   getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt<LoginRemoteDataSource>()));
   getIt.registerLazySingleton<LoginRemoteDataSource>(() => LoginAPISource());
+
+  getIt.registerLazySingleton<HomeBloc>(()=>HomeBloc(
+      getUserInformation: getIt()
+    )
+  );
+  getIt.registerLazySingleton<GetUserInformation>(()=>GetUserInformation(repository: getIt()));
+  getIt.registerLazySingleton<HomeRepository>(()=>HomeRepositoryImpl(remoteSource: getIt<HomeRemoteSource>()));
+  getIt.registerLazySingleton<HomeRemoteSource>(() => HomeAPISource());
 }
 
 class MyApp extends StatefulWidget {
