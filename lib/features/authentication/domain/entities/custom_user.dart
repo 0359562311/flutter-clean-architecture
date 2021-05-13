@@ -1,10 +1,10 @@
 class CustomUser{
   String uid;
+  String? role;
   String? name;
-  String? phone;
   String? deviceId;
 
-  CustomUser({required this.uid, this.name, this.phone, this.deviceId});
+  CustomUser({required this.uid, this.name, this.deviceId, this.role});
 
   @override
   bool operator ==(Object other) =>
@@ -12,11 +12,11 @@ class CustomUser{
       other is CustomUser &&
           runtimeType == other.runtimeType &&
           uid == other.uid &&
+          role == other.role &&
           name == other.name &&
-          phone == other.phone &&
           deviceId == other.deviceId;
 
   @override
   int get hashCode =>
-      uid.hashCode ^ name.hashCode ^ phone.hashCode ^ deviceId.hashCode;
+      uid.hashCode ^ role.hashCode ^ name.hashCode ^ deviceId.hashCode;
 }
