@@ -22,6 +22,7 @@ import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/h
 import 'package:get_it/get_it.dart';
 import 'features/authentication/presentation/widgets/login.dart';
 import 'features/dashboard/dashboard.dart';
+import 'features/profile/profile_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -96,6 +97,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/dashboard':(_) => DashBoard(),
         '/login':(context) => Login(),
+        // '/profile':(context) => ProfileScreen(),
       },
     );
   }
