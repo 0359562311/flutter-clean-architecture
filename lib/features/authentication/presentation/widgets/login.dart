@@ -1,10 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/constants.dart';
-import 'package:flutter_app_clean_architecture/core/custom/custom_background.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_email_and_password.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_facebook.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_google.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_event.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_state.dart';
@@ -25,11 +19,7 @@ class _LoginState extends State<Login> {
 
   void initState() {
     super.initState();
-    final _repository = GetIt.instance<LoginRepository>();
-    _bloc = LoginBloc(
-        loginWithEmailAndPassword: LoginWithEmailAndPassword(_repository),
-        loginWithFacebook: LoginWithFacebook(_repository),
-        loginWithGoogle: LoginWithGoogle(_repository));
+    _bloc = GetIt.instance<LoginBloc>();
     accountController = TextEditingController();
     passwordController = TextEditingController();
   }
