@@ -3,11 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app_clean_architecture/core/error/exceptions.dart';
 import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/model/custom_user_model.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/data/model/token_model.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/token.dart';
 import 'package:get_it/get_it.dart';
 
 abstract class LoginRemoteDataSource{
-  Future<CustomUserModel> loginWithEmailAndPassword(String email, String password);
+  Future<TokenModel> loginWithEmailAndPassword(String email, String password);
   Future<CustomUserModel> googleSignIn();
   Future<CustomUserModel> facebookSignIn();
 }
@@ -30,9 +32,9 @@ class LoginFirebaseSource extends LoginRemoteDataSource{
   }
 
   @override
-  Future<CustomUserModel> loginWithEmailAndPassword(String email, String password) async {
+  Future<TokenModel> loginWithEmailAndPassword(String email, String password) async {
     var credential = await _auth.signInWithEmailAndPassword(email: email, password: password);
-    return CustomUserModel(uid: credential.user!.uid);
+    return (Token("token") as TokenModel);
   }
 
 }
@@ -51,9 +53,8 @@ class LoginAPISource with LoginRemoteDataSource{
   }
 
   @override
-  Future<CustomUserModel> loginWithEmailAndPassword(String email, String password) async {
-    // TODO: implement loginWithEmailAndPassword
-    try {
+  Future<TokenModel> loginWithEmailAndPassword(String email, String password) async {
+
       var response = await GetIt.instance<Dio>().post("/auth/login/mobile/",data: {
           "username": "$email",
           "password": "$password",
@@ -61,12 +62,8 @@ class LoginAPISource with LoginRemoteDataSource{
         },
       );
       GetIt.instance<Dio>().options.headers['Authorization'] = 'Bearer ${response.data['data']['accessToken']}';
-      return CustomUserModel(uid: response.data['data']['accessToken']);
-    } on DioError catch (e) {
-      // TODO
-      print(e);
-      throw APIException(e.response?.data['message']??"Error message from API");
-    }
+      return TokenModel.fromResponse(response);
+
   }
 
 }

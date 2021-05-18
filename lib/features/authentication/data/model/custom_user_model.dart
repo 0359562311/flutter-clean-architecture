@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
-import 'package:json_annotation/json_annotation.dart';
 // part 'custom_user_model.g.dart';
 
 class CustomUserModel extends CustomUser{

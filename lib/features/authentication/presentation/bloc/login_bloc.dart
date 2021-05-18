@@ -1,5 +1,4 @@
-import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
+import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/token.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_email_and_password.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_facebook.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_google.dart';
@@ -26,8 +25,8 @@ class LoginBloc extends Bloc<LogInEvent,LoginState>{
                 yield(LogInError(left.message));
               },
               (right) async*{
-                GetIt.instance.registerSingleton<CustomUser>(right,);
-                yield(LogInSuccess(right));
+                GetIt.instance.registerSingleton<Token>(right,);
+                yield(LogInSuccess());
               }
           );
         },
@@ -39,7 +38,7 @@ class LoginBloc extends Bloc<LogInEvent,LoginState>{
                 yield(LogInError(left.message));
               },
                   (right) async*{
-                yield(LogInSuccess(right));
+                yield(LogInSuccess());
               }
           );
         },
@@ -51,7 +50,7 @@ class LoginBloc extends Bloc<LogInEvent,LoginState>{
                 yield(LogInError(left.message));
               },
                   (right) async*{
-                yield(LogInSuccess(right));
+                yield(LogInSuccess());
               }
           );
         },
