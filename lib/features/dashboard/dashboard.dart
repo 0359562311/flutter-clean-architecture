@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/features/profile/profile_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../home/presentation/widgets/home.dart';
@@ -10,7 +11,7 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-  List<Widget> screens = List.generate(3, (index) => Home());
+  List<Widget> screens = [Home(),Home(), ProfileScreen()];
   PersistentTabController tabController = PersistentTabController();
   List<PersistentBottomNavBarItem> itemBottom = [
     PersistentBottomNavBarItem(
