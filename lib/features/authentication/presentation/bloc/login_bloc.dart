@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/token.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_email_and_password.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_facebook.dart';
@@ -25,7 +26,7 @@ class LoginBloc extends Bloc<LogInEvent,LoginState>{
                 yield(LogInError(left.message));
               },
               (right) async*{
-                GetIt.instance.registerSingleton<Token>(right,);
+                GetIt.instance<Dio>().options.headers['Authorization'] = 'Bearer ${right.token}';
                 yield(LogInSuccess());
               }
           );

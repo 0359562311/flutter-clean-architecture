@@ -8,16 +8,16 @@ import 'package:flutter_app_clean_architecture/features/authentication/domain/en
 import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/token.dart';
 import 'package:get_it/get_it.dart';
 
-abstract class LoginRemoteDataSource{
+abstract class LoginRemoteDataSource {
   Future<TokenModel> loginWithEmailAndPassword(String email, String password);
   Future<CustomUserModel> googleSignIn();
   Future<CustomUserModel> facebookSignIn();
 }
 
-class LoginFirebaseSource extends LoginRemoteDataSource{
+class LoginFirebaseSource extends LoginRemoteDataSource {
   final FirebaseAuth _auth;
 
-  LoginFirebaseSource({required FirebaseAuth auth}): _auth = auth;
+  LoginFirebaseSource({required FirebaseAuth auth}) : _auth = auth;
 
   @override
   Future<CustomUserModel> facebookSignIn() {
@@ -32,14 +32,15 @@ class LoginFirebaseSource extends LoginRemoteDataSource{
   }
 
   @override
-  Future<TokenModel> loginWithEmailAndPassword(String email, String password) async {
-    var credential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+  Future<TokenModel> loginWithEmailAndPassword(
+      String email, String password) async {
+    var credential = await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
     return (Token("token") as TokenModel);
   }
-
 }
 
-class LoginAPISource with LoginRemoteDataSource{
+class LoginAPISource with LoginRemoteDataSource {
   @override
   Future<CustomUserModel> facebookSignIn() {
     // TODO: implement facebookSignIn
@@ -53,17 +54,18 @@ class LoginAPISource with LoginRemoteDataSource{
   }
 
   @override
-  Future<TokenModel> loginWithEmailAndPassword(String email, String password) async {
-
-      var response = await GetIt.instance<Dio>().post("/auth/login/mobile/",data: {
-          "username": "$email",
-          "password": "$password",
-          "deviceId": PlatformInfo.deviceId
-        },
-      );
-      GetIt.instance<Dio>().options.headers['Authorization'] = 'Bearer ${response.data['data']['accessToken']}';
-      return TokenModel.fromResponse(response);
-
+  Future<TokenModel> loginWithEmailAndPassword(
+      String email, String password) async {
+    var response = await GetIt.instance<Dio>().post(
+      "/auth/login/mobile/",
+      data: {
+        "username": "$email",
+        "password": "$password",
+        "deviceId": PlatformInfo.deviceId
+      },
+    );
+    // GetIt.instance<Dio>().options.headers['Authorization'] =
+    //     'Bearer ${response.data['data']['accessToken']}';
+    return TokenModel.fromResponse(response);
   }
-
 }
