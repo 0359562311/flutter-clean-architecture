@@ -5,12 +5,12 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../home/presentation/widgets/home.dart';
 
-class DashBoard extends StatefulWidget {
+class MainScreen extends StatefulWidget {
   @override
-  _DashBoardState createState() => _DashBoardState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class _DashBoardState extends State<DashBoard> {
+class _MainScreenState extends State<MainScreen> {
   List<Widget> screens = [Home(),Home(), ProfileScreen()];
   PersistentTabController tabController = PersistentTabController();
   List<PersistentBottomNavBarItem> itemBottom = [

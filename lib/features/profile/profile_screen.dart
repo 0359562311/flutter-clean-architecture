@@ -35,7 +35,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fit: StackFit.expand,
                       children: [
                         CircleAvatar(
-                          backgroundImage: AssetImage('assets/images/fake_slink/yabure.jpg'),
+                          foregroundImage: AssetImage('assets/images/fake_slink/icon_user.png',),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.blue,
                         ),
                         Positioned(
                             right: 1,
@@ -49,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               child: IconButton(
                                 padding: EdgeInsets.all(0),
-                                icon: Icon(Icons.camera, color: Colors.black,size: 35,),
+                                icon: Icon(Icons.camera_alt_rounded, color: Colors.blue,size: 35,),
                                 onPressed: () {  },
                               ),
                             )
@@ -60,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   //account
                   SizedBox(height: 60,),
                   Profile_Menu(size: size, text: 'Tài khoản', icon: Icon(Icons.person_outline,size: 30,color: Colors.blue,)),
-                  Profile_Menu(size: size, text: 'Thông báo', icon: Icon(Icons.notifications_outlined,size: 30,color:  Colors.blue,)),
+                  // Profile_Menu(size: size, text: 'Thông báo', icon: Icon(Icons.notifications_outlined,size: 30,color:  Colors.blue,)),
                   Profile_Menu(size: size, text: 'Trợ giúp', icon: Icon(Icons.contact_support_outlined,size: 30,color: Colors.blue,)),
                   Profile_Menu(size: size, text: 'Đăng xuất', icon: Icon(Icons.exit_to_app_outlined,size: 30,color:  Colors.blue,)),
 
