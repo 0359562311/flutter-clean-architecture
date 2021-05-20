@@ -20,8 +20,10 @@ class _$HomeStateTearOff {
     return HomeInitState();
   }
 
-  HomeComplete getInforCompletely() {
-    return HomeComplete();
+  HomeComplete getInforCompletely(UserInHome userInHome) {
+    return HomeComplete(
+      userInHome,
+    );
   }
 
   HomeErrorState error(String message) {
@@ -43,7 +45,7 @@ mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() getInforCompletely,
+    required TResult Function(UserInHome userInHome) getInforCompletely,
     required TResult Function(String message) error,
     required TResult Function() loading,
   }) =>
@@ -51,7 +53,7 @@ mixin _$HomeState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? getInforCompletely,
+    TResult Function(UserInHome userInHome)? getInforCompletely,
     TResult Function(String message)? error,
     TResult Function()? loading,
     required TResult orElse(),
@@ -130,7 +132,7 @@ class _$HomeInitState implements HomeInitState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() getInforCompletely,
+    required TResult Function(UserInHome userInHome) getInforCompletely,
     required TResult Function(String message) error,
     required TResult Function() loading,
   }) {
@@ -141,7 +143,7 @@ class _$HomeInitState implements HomeInitState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? getInforCompletely,
+    TResult Function(UserInHome userInHome)? getInforCompletely,
     TResult Function(String message)? error,
     TResult Function()? loading,
     required TResult orElse(),
@@ -188,6 +190,7 @@ abstract class $HomeCompleteCopyWith<$Res> {
   factory $HomeCompleteCopyWith(
           HomeComplete value, $Res Function(HomeComplete) then) =
       _$HomeCompleteCopyWithImpl<$Res>;
+  $Res call({UserInHome userInHome});
 }
 
 /// @nodoc
@@ -199,47 +202,72 @@ class _$HomeCompleteCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 
   @override
   HomeComplete get _value => super._value as HomeComplete;
+
+  @override
+  $Res call({
+    Object? userInHome = freezed,
+  }) {
+    return _then(HomeComplete(
+      userInHome == freezed
+          ? _value.userInHome
+          : userInHome // ignore: cast_nullable_to_non_nullable
+              as UserInHome,
+    ));
+  }
 }
 
 /// @nodoc
 class _$HomeComplete implements HomeComplete {
-  _$HomeComplete();
+  _$HomeComplete(this.userInHome);
+
+  @override
+  final UserInHome userInHome;
 
   @override
   String toString() {
-    return 'HomeState.getInforCompletely()';
+    return 'HomeState.getInforCompletely(userInHome: $userInHome)';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is HomeComplete);
+    return identical(this, other) ||
+        (other is HomeComplete &&
+            (identical(other.userInHome, userInHome) ||
+                const DeepCollectionEquality()
+                    .equals(other.userInHome, userInHome)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(userInHome);
+
+  @JsonKey(ignore: true)
+  @override
+  $HomeCompleteCopyWith<HomeComplete> get copyWith =>
+      _$HomeCompleteCopyWithImpl<HomeComplete>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() getInforCompletely,
+    required TResult Function(UserInHome userInHome) getInforCompletely,
     required TResult Function(String message) error,
     required TResult Function() loading,
   }) {
-    return getInforCompletely();
+    return getInforCompletely(userInHome);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? getInforCompletely,
+    TResult Function(UserInHome userInHome)? getInforCompletely,
     TResult Function(String message)? error,
     TResult Function()? loading,
     required TResult orElse(),
   }) {
     if (getInforCompletely != null) {
-      return getInforCompletely();
+      return getInforCompletely(userInHome);
     }
     return orElse();
   }
@@ -272,7 +300,12 @@ class _$HomeComplete implements HomeComplete {
 }
 
 abstract class HomeComplete implements HomeState {
-  factory HomeComplete() = _$HomeComplete;
+  factory HomeComplete(UserInHome userInHome) = _$HomeComplete;
+
+  UserInHome get userInHome => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $HomeCompleteCopyWith<HomeComplete> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -339,7 +372,7 @@ class _$HomeErrorState implements HomeErrorState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() getInforCompletely,
+    required TResult Function(UserInHome userInHome) getInforCompletely,
     required TResult Function(String message) error,
     required TResult Function() loading,
   }) {
@@ -350,7 +383,7 @@ class _$HomeErrorState implements HomeErrorState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? getInforCompletely,
+    TResult Function(UserInHome userInHome)? getInforCompletely,
     TResult Function(String message)? error,
     TResult Function()? loading,
     required TResult orElse(),
@@ -436,7 +469,7 @@ class _$HomeLoading implements HomeLoading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
-    required TResult Function() getInforCompletely,
+    required TResult Function(UserInHome userInHome) getInforCompletely,
     required TResult Function(String message) error,
     required TResult Function() loading,
   }) {
@@ -447,7 +480,7 @@ class _$HomeLoading implements HomeLoading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
-    TResult Function()? getInforCompletely,
+    TResult Function(UserInHome userInHome)? getInforCompletely,
     TResult Function(String message)? error,
     TResult Function()? loading,
     required TResult orElse(),

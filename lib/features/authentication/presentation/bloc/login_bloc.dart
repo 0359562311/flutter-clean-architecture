@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/token.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_email_and_password.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_facebook.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_google.dart';
@@ -26,6 +25,11 @@ class LoginBloc extends Bloc<LogInEvent,LoginState>{
                 yield(LogInError(left.message));
               },
               (right) async*{
+                // GetIt.instance<Dio>().interceptors.add(InterceptorsWrapper(
+                //   onRequest: (option, handler){
+                //     option.headers['Authorization'] = 'Bearer ${right.token}';
+                //   }
+                // ));
                 GetIt.instance<Dio>().options.headers['Authorization'] = 'Bearer ${right.token}';
                 yield(LogInSuccess());
               }
@@ -58,5 +62,4 @@ class LoginBloc extends Bloc<LogInEvent,LoginState>{
       )
     ;
   }
-
 }

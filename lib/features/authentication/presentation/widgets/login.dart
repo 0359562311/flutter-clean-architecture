@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/constants.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_event.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_state.dart';
@@ -58,7 +59,7 @@ class _LoginState extends State<Login> {
                               )));
                 else if (state is LogInSuccess)
                   Navigator.pushNamedAndRemoveUntil(
-                      context1, '/dashboard', (route) => false);
+                      context1, Constants.routeMain, (route) => false);
               },
               buildWhen: (previous, current) {
                 return !(current is LogInSuccess);
