@@ -19,6 +19,10 @@ class _$HomeEventTearOff {
   HomeGetInfoEvent getUserInfor() {
     return HomeGetInfoEvent();
   }
+
+  HomeInitEvent init() {
+    return HomeInitEvent();
+  }
 }
 
 /// @nodoc
@@ -29,22 +33,26 @@ mixin _$HomeEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getUserInfor,
+    required TResult Function() init,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getUserInfor,
+    TResult Function()? init,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(HomeGetInfoEvent value) getUserInfor,
+    required TResult Function(HomeInitEvent value) init,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HomeGetInfoEvent value)? getUserInfor,
+    TResult Function(HomeInitEvent value)? init,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -104,6 +112,7 @@ class _$HomeGetInfoEvent implements HomeGetInfoEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getUserInfor,
+    required TResult Function() init,
   }) {
     return getUserInfor();
   }
@@ -112,6 +121,7 @@ class _$HomeGetInfoEvent implements HomeGetInfoEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getUserInfor,
+    TResult Function()? init,
     required TResult orElse(),
   }) {
     if (getUserInfor != null) {
@@ -124,6 +134,7 @@ class _$HomeGetInfoEvent implements HomeGetInfoEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(HomeGetInfoEvent value) getUserInfor,
+    required TResult Function(HomeInitEvent value) init,
   }) {
     return getUserInfor(this);
   }
@@ -132,6 +143,7 @@ class _$HomeGetInfoEvent implements HomeGetInfoEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HomeGetInfoEvent value)? getUserInfor,
+    TResult Function(HomeInitEvent value)? init,
     required TResult orElse(),
   }) {
     if (getUserInfor != null) {
@@ -143,4 +155,88 @@ class _$HomeGetInfoEvent implements HomeGetInfoEvent {
 
 abstract class HomeGetInfoEvent implements HomeEvent {
   factory HomeGetInfoEvent() = _$HomeGetInfoEvent;
+}
+
+/// @nodoc
+abstract class $HomeInitEventCopyWith<$Res> {
+  factory $HomeInitEventCopyWith(
+          HomeInitEvent value, $Res Function(HomeInitEvent) then) =
+      _$HomeInitEventCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$HomeInitEventCopyWithImpl<$Res> extends _$HomeEventCopyWithImpl<$Res>
+    implements $HomeInitEventCopyWith<$Res> {
+  _$HomeInitEventCopyWithImpl(
+      HomeInitEvent _value, $Res Function(HomeInitEvent) _then)
+      : super(_value, (v) => _then(v as HomeInitEvent));
+
+  @override
+  HomeInitEvent get _value => super._value as HomeInitEvent;
+}
+
+/// @nodoc
+class _$HomeInitEvent implements HomeInitEvent {
+  _$HomeInitEvent();
+
+  @override
+  String toString() {
+    return 'HomeEvent.init()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is HomeInitEvent);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() getUserInfor,
+    required TResult Function() init,
+  }) {
+    return init();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? getUserInfor,
+    TResult Function()? init,
+    required TResult orElse(),
+  }) {
+    if (init != null) {
+      return init();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(HomeGetInfoEvent value) getUserInfor,
+    required TResult Function(HomeInitEvent value) init,
+  }) {
+    return init(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(HomeGetInfoEvent value)? getUserInfor,
+    TResult Function(HomeInitEvent value)? init,
+    required TResult orElse(),
+  }) {
+    if (init != null) {
+      return init(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class HomeInitEvent implements HomeEvent {
+  factory HomeInitEvent() = _$HomeInitEvent;
 }

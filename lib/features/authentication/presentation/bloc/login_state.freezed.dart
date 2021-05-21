@@ -24,10 +24,8 @@ class _$LoginStateTearOff {
     return LoadingState();
   }
 
-  LogInSuccess logInSuccessful(CustomUser user) {
-    return LogInSuccess(
-      user,
-    );
+  LogInSuccess logInSuccessful() {
+    return LogInSuccess();
   }
 
   LogInError getError(String message) {
@@ -46,7 +44,7 @@ mixin _$LoginState {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() loadingState,
-    required TResult Function(CustomUser user) logInSuccessful,
+    required TResult Function() logInSuccessful,
     required TResult Function(String message) getError,
   }) =>
       throw _privateConstructorUsedError;
@@ -54,7 +52,7 @@ mixin _$LoginState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loadingState,
-    TResult Function(CustomUser user)? logInSuccessful,
+    TResult Function()? logInSuccessful,
     TResult Function(String message)? getError,
     required TResult orElse(),
   }) =>
@@ -132,7 +130,7 @@ class _$LogInInit implements LogInInit {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() loadingState,
-    required TResult Function(CustomUser user) logInSuccessful,
+    required TResult Function() logInSuccessful,
     required TResult Function(String message) getError,
   }) {
     return init();
@@ -143,7 +141,7 @@ class _$LogInInit implements LogInInit {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loadingState,
-    TResult Function(CustomUser user)? logInSuccessful,
+    TResult Function()? logInSuccessful,
     TResult Function(String message)? getError,
     required TResult orElse(),
   }) {
@@ -224,7 +222,7 @@ class _$LoadingState implements LoadingState {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() loadingState,
-    required TResult Function(CustomUser user) logInSuccessful,
+    required TResult Function() logInSuccessful,
     required TResult Function(String message) getError,
   }) {
     return loadingState();
@@ -235,7 +233,7 @@ class _$LoadingState implements LoadingState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loadingState,
-    TResult Function(CustomUser user)? logInSuccessful,
+    TResult Function()? logInSuccessful,
     TResult Function(String message)? getError,
     required TResult orElse(),
   }) {
@@ -281,7 +279,6 @@ abstract class $LogInSuccessCopyWith<$Res> {
   factory $LogInSuccessCopyWith(
           LogInSuccess value, $Res Function(LogInSuccess) then) =
       _$LogInSuccessCopyWithImpl<$Res>;
-  $Res call({CustomUser user});
 }
 
 /// @nodoc
@@ -293,58 +290,34 @@ class _$LogInSuccessCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
 
   @override
   LogInSuccess get _value => super._value as LogInSuccess;
-
-  @override
-  $Res call({
-    Object? user = freezed,
-  }) {
-    return _then(LogInSuccess(
-      user == freezed
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as CustomUser,
-    ));
-  }
 }
 
 /// @nodoc
 class _$LogInSuccess implements LogInSuccess {
-  _$LogInSuccess(this.user);
-
-  @override
-  final CustomUser user;
+  _$LogInSuccess();
 
   @override
   String toString() {
-    return 'LoginState.logInSuccessful(user: $user)';
+    return 'LoginState.logInSuccessful()';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is LogInSuccess &&
-            (identical(other.user, user) ||
-                const DeepCollectionEquality().equals(other.user, user)));
+    return identical(this, other) || (other is LogInSuccess);
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(user);
-
-  @JsonKey(ignore: true)
-  @override
-  $LogInSuccessCopyWith<LogInSuccess> get copyWith =>
-      _$LogInSuccessCopyWithImpl<LogInSuccess>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() loadingState,
-    required TResult Function(CustomUser user) logInSuccessful,
+    required TResult Function() logInSuccessful,
     required TResult Function(String message) getError,
   }) {
-    return logInSuccessful(user);
+    return logInSuccessful();
   }
 
   @override
@@ -352,12 +325,12 @@ class _$LogInSuccess implements LogInSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loadingState,
-    TResult Function(CustomUser user)? logInSuccessful,
+    TResult Function()? logInSuccessful,
     TResult Function(String message)? getError,
     required TResult orElse(),
   }) {
     if (logInSuccessful != null) {
-      return logInSuccessful(user);
+      return logInSuccessful();
     }
     return orElse();
   }
@@ -390,12 +363,7 @@ class _$LogInSuccess implements LogInSuccess {
 }
 
 abstract class LogInSuccess implements LoginState {
-  factory LogInSuccess(CustomUser user) = _$LogInSuccess;
-
-  CustomUser get user => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $LogInSuccessCopyWith<LogInSuccess> get copyWith =>
-      throw _privateConstructorUsedError;
+  factory LogInSuccess() = _$LogInSuccess;
 }
 
 /// @nodoc
@@ -462,7 +430,7 @@ class _$LogInError implements LogInError {
   TResult when<TResult extends Object?>({
     required TResult Function() init,
     required TResult Function() loadingState,
-    required TResult Function(CustomUser user) logInSuccessful,
+    required TResult Function() logInSuccessful,
     required TResult Function(String message) getError,
   }) {
     return getError(message);
@@ -473,7 +441,7 @@ class _$LogInError implements LogInError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
     TResult Function()? loadingState,
-    TResult Function(CustomUser user)? logInSuccessful,
+    TResult Function()? logInSuccessful,
     TResult Function(String message)? getError,
     required TResult orElse(),
   }) {

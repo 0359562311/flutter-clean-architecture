@@ -4,26 +4,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_clean_architecture/constants.dart';
 import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/repositories/login_repository_impl.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/data/sources/login_remote_sources.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/repositories/login_repository.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_email_and_password.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_facebook.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/usecases/login_with_google.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_bloc.dart';
-import 'package:flutter_app_clean_architecture/features/home/data/repository/home_repository_impl.dart';
-import 'package:flutter_app_clean_architecture/features/home/data/source/home_remote_source.dart';
-import 'package:flutter_app_clean_architecture/features/home/domain/repository/home_repository.dart';
 import 'package:flutter_app_clean_architecture/features/home/domain/use_cases/get_user_info.dart';
 import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_bloc.dart';
-import 'package:flutter_app_clean_architecture/features/profile/user_infomation_screen.dart';
 import 'package:get_it/get_it.dart';
 import 'features/authentication/presentation/widgets/login.dart';
-import 'features/dashboard/dashboard.dart';
-import 'features/profile/profile_screen.dart';
+import 'features/home/data/repositories/home_repository_impl.dart';
+import 'features/home/data/sources/home_remote_source.dart';
+import 'features/home/domain/repositories/home_repository.dart';
+import 'features/main_screen/main_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -94,11 +92,10 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: "/infor",
+      initialRoute: "/login",
       routes: {
-        '/dashboard':(_) => DashBoard(),
-        '/login':(context) => Login(),
-        '/infor':(context) => UserInformation(),
+        Constants.routeMain:(_) => MainScreen(),
+        Constants.routeLogin:(context) => Login(),
         // '/profile':(context) => ProfileScreen(),
       },
     );

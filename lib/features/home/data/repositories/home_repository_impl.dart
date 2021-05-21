@@ -3,8 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_app_clean_architecture/core/error/failures.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
 import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
-import 'package:flutter_app_clean_architecture/features/home/data/source/home_remote_source.dart';
-import 'package:flutter_app_clean_architecture/features/home/domain/repository/home_repository.dart';
+import 'package:flutter_app_clean_architecture/features/home/data/sources/home_remote_source.dart';
+import 'package:flutter_app_clean_architecture/features/home/domain/entities/user_in_home.dart';
+import 'package:flutter_app_clean_architecture/features/home/domain/repositories/home_repository.dart';
 
 class HomeRepositoryImpl extends HomeRepository{
   final HomeRemoteSource remoteSource;
@@ -12,7 +13,7 @@ class HomeRepositoryImpl extends HomeRepository{
   HomeRepositoryImpl({required this.remoteSource});
 
   @override
-  Future<Either<Failure, CustomUser>> getUserInfor() async {
+  Future<Either<Failure, UserInHome>> getUserInfor() async {
     // TODO: implement getUserInfor
     if(!NetworkInfo.instance.isConnecting)
       return left(Failure.networkDisconnected("No internet connection."));
