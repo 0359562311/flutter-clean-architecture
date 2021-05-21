@@ -19,6 +19,7 @@ import 'package:flutter_app_clean_architecture/features/home/data/source/home_re
 import 'package:flutter_app_clean_architecture/features/home/domain/repository/home_repository.dart';
 import 'package:flutter_app_clean_architecture/features/home/domain/use_cases/get_user_info.dart';
 import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_bloc.dart';
+import 'package:flutter_app_clean_architecture/features/profile/user_infomation_screen.dart';
 import 'package:get_it/get_it.dart';
 import 'features/authentication/presentation/widgets/login.dart';
 import 'features/dashboard/dashboard.dart';
@@ -93,10 +94,11 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: "/login",
+      initialRoute: "/infor",
       routes: {
         '/dashboard':(_) => DashBoard(),
         '/login':(context) => Login(),
+        '/infor':(context) => UserInformation(),
         // '/profile':(context) => ProfileScreen(),
       },
     );
