@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/constants.dart';
-import 'package:flutter_app_clean_architecture/features/profile/presentation/profile_screen.dart';
+import 'package:flutter_app_clean_architecture/features/setting/setting.dart';
 import 'package:flutter_app_clean_architecture/features/profile/presentation/user_infomation_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -13,7 +13,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<Widget> screens = [Home(),Home(), ProfileScreen()];
+  List<Widget> screens = [Home(),Home(), SettingScreen()];
   PersistentTabController tabController = PersistentTabController();
   List<PersistentBottomNavBarItem> itemBottom = [
     PersistentBottomNavBarItem(
@@ -37,8 +37,8 @@ class _MainScreenState extends State<MainScreen> {
       // ),
     ),
     PersistentBottomNavBarItem(
-        icon: Icon(Icons.account_circle_rounded),
-        title: ("Thông tin"),
+        icon: Icon(Icons.settings),
+        title: ("Cài đặt"),
         activeColorPrimary: Colors.blueAccent,
         activeColorSecondary: Colors.red,
         inactiveColorPrimary: Colors.grey,

@@ -4,14 +4,14 @@ import 'package:flutter_app_clean_architecture/constants.dart';
 import 'package:flutter_app_clean_architecture/features/profile/presentation/user_infomation_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class SettingScreen extends StatefulWidget {
+  const SettingScreen({Key? key}) : super(key: key);
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _SettingScreenState createState() => _SettingScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -33,32 +33,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(
                     height: 115,
                     width: 115,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        CircleAvatar(
-                          foregroundImage: AssetImage('assets/images/fake_slink/icon_user.png',),
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.blue,
-                        ),
-                        Positioned(
-                            right: 1,
-                            bottom: -1,
-                            child: Container(
-                              width: 35,
-                              height: 35,
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFF5F6F9),
-                                  borderRadius: BorderRadius.circular(90)
-                              ),
-                              child: IconButton(
-                                padding: EdgeInsets.all(0),
-                                icon: Icon(Icons.camera_alt_rounded, color: Colors.blue,size: 35,),
-                                onPressed: () {  },
-                              ),
-                            )
-                        )
-                      ],
+                    child: CircleAvatar(
+                      foregroundImage: AssetImage('assets/images/fake_slink/icon_user.png',),
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.blue,
                     ),
                   ),
                   //account
