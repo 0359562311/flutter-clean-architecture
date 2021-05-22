@@ -44,9 +44,9 @@ class _UserInformationState extends State<UserInformation> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    buildTextFormField('Họ và Tên', 'Lê Minh Quang', true),
-                    buildTextFormField('Ngày sinh', '07/05/2000', true),
-                    buildTextFormField('Giới tính', 'Nam', true),
+                    buildTextFormField('Họ và Tên', 'Lê Minh Quang', false),
+                    buildTextFormField('Ngày sinh', '07/05/2000', false),
+                    buildTextFormField('Giới tính', 'Nam', false),
                     buildTextFormField('Số điện thoại', '0363215756', edit),
                     buildTextFormField(
                         'Email', 'Leminhquang752000@gmail.com', edit),
@@ -65,8 +65,7 @@ class _UserInformationState extends State<UserInformation> {
                         ),
                         onPressed: () {
                           setState(() {
-                            if(edit) edit = false;
-                            else edit = true;
+                            edit = !edit;
                           });
                         },
                         child:  Text( (edit == false) ? 'Chỉnh sửa' : 'Hoàn tất'),
@@ -82,7 +81,7 @@ class _UserInformationState extends State<UserInformation> {
   }
 }
 
-Widget buildTextFormField(String labelText, String hintText, bool read) {
+Widget buildTextFormField(String labelText, String hintText, bool edit) {
   return Padding(
     padding: const EdgeInsets.only(top: 5.0),
     child: TextFormField(
@@ -93,8 +92,9 @@ Widget buildTextFormField(String labelText, String hintText, bool read) {
         hintText: hintText,
         hintStyle: TextStyle(
             fontSize: 17, color: Colors.black, fontWeight: FontWeight.bold),
+        enabled: edit
       ),
-      readOnly: read,
+      readOnly: !edit,
     ),
   );
 }
