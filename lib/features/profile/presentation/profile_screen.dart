@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/constants.dart';
+import 'package:flutter_app_clean_architecture/features/profile/presentation/user_infomation_screen.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -63,7 +65,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 60,),
                   InkWell(
                       onTap: (){
-                        Navigator.pushNamed(context, Constants.routeUserInfor);
+                        pushNewScreenWithRouteSettings(
+                          context,
+                          settings: RouteSettings(name: Constants.routeUserInfor),
+                          withNavBar: false,
+                          screen: UserInformation(),
+                          pageTransitionAnimation: PageTransitionAnimation.fade,
+                        );
+                        // Navigator.of(context).pushNamed(Constants.routeUserInfor);
                       },
                       child: ProfileMenu(
                           size: size, text: 'Tài khoản', 

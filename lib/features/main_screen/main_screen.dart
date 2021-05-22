@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/constants.dart';
-import 'package:flutter_app_clean_architecture/features/profile/profile_screen.dart';
-import 'package:flutter_app_clean_architecture/features/profile/user_infomation_screen.dart';
+import 'package:flutter_app_clean_architecture/features/profile/presentation/profile_screen.dart';
+import 'package:flutter_app_clean_architecture/features/profile/presentation/user_infomation_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../home/presentation/widgets/home.dart';
@@ -28,13 +28,13 @@ class _MainScreenState extends State<MainScreen> {
       title: ("Thông báo"),
       activeColorPrimary: Colors.teal,
       inactiveColorPrimary: Colors.grey,
-      routeAndNavigatorSettings: RouteAndNavigatorSettings(
-        initialRoute: '/',
-        routes: {
-          '/first': (context) => MainScreen2(),//don't know why these things here.
-          '/second': (context) => MainScreen3(),
-        },
-      ),
+      // routeAndNavigatorSettings: RouteAndNavigatorSettings(
+      //   initialRoute: '/',
+      //   routes: {
+      //     '/first': (context) => MainScreen2(),//don't know why these things here.
+      //     '/second': (context) => MainScreen3(),
+      //   },
+      // ),
     ),
     PersistentBottomNavBarItem(
         icon: Icon(Icons.account_circle_rounded),
@@ -43,10 +43,9 @@ class _MainScreenState extends State<MainScreen> {
         activeColorSecondary: Colors.red,
         inactiveColorPrimary: Colors.grey,
         routeAndNavigatorSettings: RouteAndNavigatorSettings(
-          initialRoute: '/',
+          // initialRoute: '/',
           routes: {
             Constants.routeUserInfor: (context) => UserInformation(),
-            '/second': (context) => MainScreen3(),
           },
         ),
         // onPressed: (context) {
@@ -54,32 +53,6 @@ class _MainScreenState extends State<MainScreen> {
           //     screen: SampleModalScreen(), withNavBar: true);
         // }
     ),
-    // PersistentBottomNavBarItem(
-    //   icon: Icon(Icons.message),
-    //   title: ("Messages"),
-    //   activeColorPrimary: Colors.deepOrange,
-    //   inactiveColorPrimary: Colors.grey,
-    //   routeAndNavigatorSettings: RouteAndNavigatorSettings(
-    //     initialRoute: '/',
-    //     routes: {
-    //       '/first': (context) => MainScreen2(),
-    //       '/second': (context) => MainScreen3(),
-    //     },
-    //   ),
-    // ),
-    // PersistentBottomNavBarItem(
-    //   icon: Icon(Icons.settings),
-    //   title: ("Settings"),
-    //   activeColorPrimary: Colors.indigo,
-    //   inactiveColorPrimary: Colors.grey,
-    //   routeAndNavigatorSettings: RouteAndNavigatorSettings(
-    //     initialRoute: '/',
-    //     routes: {
-    //       '/first': (context) => MainScreen2(),
-    //       '/second': (context) => MainScreen3(),
-    //     },
-    //   ),
-    // ),
   ];
   @override
   Widget build(BuildContext context) {
@@ -102,29 +75,6 @@ class _MainScreenState extends State<MainScreen> {
           duration: Duration(milliseconds: 200),
         ),
         navBarStyle: NavBarStyle.style1,
-      ),
-    );
-  }
-}
-
-
-class MainScreen2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("MainScreen2"),
-      ),
-    );
-  }
-}
-
-class MainScreen3 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("MainScreen2"),
       ),
     );
   }

@@ -16,7 +16,7 @@ import 'package:flutter_app_clean_architecture/features/authentication/domain/us
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/home/domain/use_cases/get_user_info.dart';
 import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_bloc.dart';
-import 'package:flutter_app_clean_architecture/features/profile/user_infomation_screen.dart';
+import 'package:flutter_app_clean_architecture/features/profile/presentation/user_infomation_screen.dart';
 import 'package:get_it/get_it.dart';
 import 'features/authentication/presentation/widgets/login.dart';
 import 'features/home/data/repositories/home_repository_impl.dart';
