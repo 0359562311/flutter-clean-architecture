@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/constants.dart';
+import 'package:flutter_app_clean_architecture/constants.dart';
 import 'package:flutter_app_clean_architecture/features/profile/user_infomation_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -64,10 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 60,),
                   InkWell(
                       onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => UserInformation()),
-                        );
+                        Navigator.pushNamed(context, Constants.routeUserInfor);
                       },
                       child: Profile_Menu(
                           size: size, text: 'Tài khoản', 
