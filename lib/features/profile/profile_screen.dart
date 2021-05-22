@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/constants.dart';
-import 'package:flutter_app_clean_architecture/constants.dart';
-import 'package:flutter_app_clean_architecture/features/profile/user_infomation_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -67,13 +65,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onTap: (){
                         Navigator.pushNamed(context, Constants.routeUserInfor);
                       },
-                      child: Profile_Menu(
+                      child: ProfileMenu(
                           size: size, text: 'Tài khoản', 
                           icon: Icon(Icons.person_outline,size: 30,color: Colors.blue,))
                   ),
                   // Profile_Menu(size: size, text: 'Thông báo', icon: Icon(Icons.notifications_outlined,size: 30,color:  Colors.blue,)),
-                  Profile_Menu(size: size, text: 'Trợ giúp', icon: Icon(Icons.contact_support_outlined,size: 30,color: Colors.blue,)),
-                  Profile_Menu(size: size, text: 'Đăng xuất', icon: Icon(Icons.exit_to_app_outlined,size: 30,color:  Colors.blue,)),
+                  ProfileMenu(size: size, text: 'Trợ giúp', icon: Icon(Icons.contact_support_outlined,size: 30,color: Colors.blue,)),
+                  ProfileMenu(size: size, text: 'Đăng xuất', icon: Icon(Icons.exit_to_app_outlined,size: 30,color:  Colors.blue,)),
                 ],
 
           ),
@@ -83,8 +81,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-class Profile_Menu extends StatelessWidget {
-  const Profile_Menu({
+class ProfileMenu extends StatelessWidget {
+  const ProfileMenu({
     Key? key,
     required this.size,required this.text, required this.icon,
   }) : super(key: key);
