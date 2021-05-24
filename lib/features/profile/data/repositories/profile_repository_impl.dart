@@ -35,7 +35,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
     if (NetworkInfo.instance.isConnecting) {
       try {
         return right(
-            await apiSource.updateUserProfile(profile as ProfileModel));
+            await apiSource.updateUserProfile(ProfileModel.fromProfile(profile)));
       } on DioError catch (e) {
         return left(Failure.serverSendsError(
             e.response?.data['message'] ?? "Loi khi thuc hien yeu cau."));

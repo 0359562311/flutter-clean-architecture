@@ -4,17 +4,15 @@ import 'package:flutter_app_clean_architecture/features/profile/domain/entities/
 class ProfileModel extends Profile {
   ProfileModel._({
     String? name,
-    DateTime? dob,
+    String? dob,
     String? gender,
     String? phoneNumber,
-    String? email,
     String? address,
   }) : super(
           name: name,
           dob: dob,
           gender: gender,
           phoneNumber: phoneNumber,
-          email: email,
           address: address,
         );
 
@@ -23,24 +21,27 @@ class ProfileModel extends Profile {
     print(data);
     if (data == null)
       return ProfileModel._(
-          name: "Nguyen Kiem Tan", dob: DateTime(2000, 12, 3), gender: "Nam");
+          name: "Nguyen Kiem Tan", dob: "03/12/2000", gender: "Nam");
     return ProfileModel._(
       name: data['firstname']??"" + " " + data['lastname']??"",
-      dob: data['dateOfBirth'] ?? DateTime(2000, 12, 3),
-      gender: data['gender'] ?? "Nam",
-      phoneNumber: data['phoneNumber']??"",
-      email: data['email']??"",
-      address: data['address']??""
+      dob: data['dateOfBirth'].toString().substring(0,10),
+      gender: data['gender'],
+      phoneNumber: data['phoneNumber'],
+      address: data['address']
     );
   }
 
+  factory ProfileModel.fromProfile(Profile profile) => ProfileModel._(
+    name: profile.name,
+    dob: profile.dob,
+    gender: profile.gender,
+    phoneNumber: profile.phoneNumber,
+    address: profile.address,
+  );
+
   Map<String,dynamic> toJson(){
     return {
-      'name': name,
-      'dob': dob,
-      'gender': gender,
       'phoneNumber': phoneNumber,
-      'email': email,
       'address': address,
     };
   }

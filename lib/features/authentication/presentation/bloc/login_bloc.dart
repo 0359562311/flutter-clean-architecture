@@ -25,12 +25,12 @@ class LoginBloc extends Bloc<LogInEvent,LoginState>{
                 yield(LogInError(left.message));
               },
               (right) async*{
-                // GetIt.instance<Dio>().interceptors.add(InterceptorsWrapper(
-                //   onRequest: (option, handler){
-                //     option.headers['Authorization'] = 'Bearer ${right.token}';
-                //   }
-                // ));
-                GetIt.instance<Dio>().options.headers['Authorization'] = 'Bearer ${right.token}';
+                GetIt.instance<Dio>().interceptors.add(InterceptorsWrapper(
+                  onRequest: (option, handler){
+                    option.headers['Authorization'] = 'Bearer ${right.token}';
+                    return handler.next(option);
+                  }
+                ));
                 yield LogInSuccess();
               }
           );

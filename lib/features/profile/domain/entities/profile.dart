@@ -1,9 +1,8 @@
 class Profile{
   String? name;
-  DateTime? dob;
+  String? dob;
   String? gender;
   String? phoneNumber;
-  String? email;
   String? address;
 
   Profile(
@@ -11,6 +10,5 @@ class Profile{
         this.dob,
         this.gender,
          this.phoneNumber,
-         this.email,
          this.address});
 }

@@ -1,8 +1,11 @@
+import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_bloc.dart';
+import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_events.dart';
 import 'package:flutter_app_clean_architecture/features/profile/domain/use%20cases/get_user_profile.dart';
 import 'package:flutter_app_clean_architecture/features/profile/domain/use%20cases/update_user_profile.dart';
 import 'package:flutter_app_clean_architecture/features/profile/presentation/bloc/profile_event.dart';
 import 'package:flutter_app_clean_architecture/features/profile/presentation/bloc/profile_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetUserProfile getUserProfile;
@@ -19,6 +22,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
          (l) async* {
         yield ProfileState.error(l.message);
       }, (r) async* {
+        GetIt.instance<HomeBloc>().add(HomeEvent.getUserInfor());
         yield ProfileState.complete(r);
       });
     } else if (event is UpdateProfileEvent) {
