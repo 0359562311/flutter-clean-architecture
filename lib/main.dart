@@ -16,7 +16,13 @@ import 'package:flutter_app_clean_architecture/features/authentication/domain/us
 import 'package:flutter_app_clean_architecture/features/authentication/presentation/bloc/login_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/home/domain/use_cases/get_user_info.dart';
 import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_bloc.dart';
-import 'package:flutter_app_clean_architecture/features/profile/presentation/user_infomation_screen.dart';
+import 'package:flutter_app_clean_architecture/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:flutter_app_clean_architecture/features/profile/data/source/profile_remote_source.dart';
+import 'package:flutter_app_clean_architecture/features/profile/domain/repositories/profile_repository.dart';
+import 'package:flutter_app_clean_architecture/features/profile/domain/use%20cases/update_user_profile.dart';
+import 'package:flutter_app_clean_architecture/features/profile/presentation/bloc/profile_bloc.dart';
+import 'features/profile/domain/use cases/get_user_profile.dart';
+import 'file:///F:/programming/AndroidStudio%20Projects/flutter-clean-architecture/lib/features/profile/presentation/pages/user_infomation_screen.dart';
 import 'package:get_it/get_it.dart';
 import 'features/authentication/presentation/widgets/login.dart';
 import 'features/home/data/repositories/home_repository_impl.dart';
@@ -60,6 +66,12 @@ Future<void> init() async {
   getIt.registerLazySingleton<GetUserInformation>(()=>GetUserInformation(repository: getIt()));
   getIt.registerLazySingleton<HomeRepository>(()=>HomeRepositoryImpl(remoteSource: getIt<HomeRemoteSource>()));
   getIt.registerLazySingleton<HomeRemoteSource>(() => HomeAPISource());
+
+  getIt.registerLazySingleton<ProfileBloc>(() => ProfileBloc(getIt(), getIt()));
+  getIt.registerLazySingleton<GetUserProfile>(() => GetUserProfile(repository: getIt()));
+  getIt.registerLazySingleton<UpdateUserProfile>(() => UpdateUserProfile(repository: getIt()));
+  getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<ProfileAPISource>(() => ProfileAPISource());
 }
 
 class MyApp extends StatefulWidget {

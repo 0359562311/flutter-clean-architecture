@@ -9,7 +9,6 @@ abstract class HomeRemoteSource{
 class HomeAPISource extends HomeRemoteSource{
   @override
   Future<UserInHomeModel> getUserInfo() async {
-    print("get info ne");
     var dio = GetIt.instance<Dio>();
     var userResponse = await dio.get("/user/me/",);
     var profileResponse = await dio.get("/profile/me/",);

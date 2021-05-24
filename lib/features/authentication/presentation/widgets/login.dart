@@ -65,7 +65,6 @@ class _LoginState extends State<Login> {
                 return !(current is LogInSuccess);
               },
               builder: (context, state) {
-                print(state);
                 if (state is LoadingState)
                   return Center(
                       child: SizedBox(
