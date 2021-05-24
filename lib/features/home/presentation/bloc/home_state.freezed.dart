@@ -16,10 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$HomeStateTearOff {
   const _$HomeStateTearOff();
 
-  HomeInitState init() {
-    return HomeInitState();
-  }
-
   HomeComplete getInforCompletely(UserInHome userInHome) {
     return HomeComplete(
       userInHome,
@@ -44,7 +40,6 @@ const $HomeState = _$HomeStateTearOff();
 mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() init,
     required TResult Function(UserInHome userInHome) getInforCompletely,
     required TResult Function(String message) error,
     required TResult Function() loading,
@@ -52,7 +47,6 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? init,
     TResult Function(UserInHome userInHome)? getInforCompletely,
     TResult Function(String message)? error,
     TResult Function()? loading,
@@ -61,7 +55,6 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(HomeInitState value) init,
     required TResult Function(HomeComplete value) getInforCompletely,
     required TResult Function(HomeErrorState value) error,
     required TResult Function(HomeLoading value) loading,
@@ -69,7 +62,6 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(HomeInitState value)? init,
     TResult Function(HomeComplete value)? getInforCompletely,
     TResult Function(HomeErrorState value)? error,
     TResult Function(HomeLoading value)? loading,
@@ -91,98 +83,6 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
   final HomeState _value;
   // ignore: unused_field
   final $Res Function(HomeState) _then;
-}
-
-/// @nodoc
-abstract class $HomeInitStateCopyWith<$Res> {
-  factory $HomeInitStateCopyWith(
-          HomeInitState value, $Res Function(HomeInitState) then) =
-      _$HomeInitStateCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class _$HomeInitStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
-    implements $HomeInitStateCopyWith<$Res> {
-  _$HomeInitStateCopyWithImpl(
-      HomeInitState _value, $Res Function(HomeInitState) _then)
-      : super(_value, (v) => _then(v as HomeInitState));
-
-  @override
-  HomeInitState get _value => super._value as HomeInitState;
-}
-
-/// @nodoc
-class _$HomeInitState implements HomeInitState {
-  _$HomeInitState();
-
-  @override
-  String toString() {
-    return 'HomeState.init()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is HomeInitState);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() init,
-    required TResult Function(UserInHome userInHome) getInforCompletely,
-    required TResult Function(String message) error,
-    required TResult Function() loading,
-  }) {
-    return init();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? init,
-    TResult Function(UserInHome userInHome)? getInforCompletely,
-    TResult Function(String message)? error,
-    TResult Function()? loading,
-    required TResult orElse(),
-  }) {
-    if (init != null) {
-      return init();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(HomeInitState value) init,
-    required TResult Function(HomeComplete value) getInforCompletely,
-    required TResult Function(HomeErrorState value) error,
-    required TResult Function(HomeLoading value) loading,
-  }) {
-    return init(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(HomeInitState value)? init,
-    TResult Function(HomeComplete value)? getInforCompletely,
-    TResult Function(HomeErrorState value)? error,
-    TResult Function(HomeLoading value)? loading,
-    required TResult orElse(),
-  }) {
-    if (init != null) {
-      return init(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class HomeInitState implements HomeState {
-  factory HomeInitState() = _$HomeInitState;
 }
 
 /// @nodoc
@@ -249,7 +149,6 @@ class _$HomeComplete implements HomeComplete {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() init,
     required TResult Function(UserInHome userInHome) getInforCompletely,
     required TResult Function(String message) error,
     required TResult Function() loading,
@@ -260,7 +159,6 @@ class _$HomeComplete implements HomeComplete {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? init,
     TResult Function(UserInHome userInHome)? getInforCompletely,
     TResult Function(String message)? error,
     TResult Function()? loading,
@@ -275,7 +173,6 @@ class _$HomeComplete implements HomeComplete {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(HomeInitState value) init,
     required TResult Function(HomeComplete value) getInforCompletely,
     required TResult Function(HomeErrorState value) error,
     required TResult Function(HomeLoading value) loading,
@@ -286,7 +183,6 @@ class _$HomeComplete implements HomeComplete {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(HomeInitState value)? init,
     TResult Function(HomeComplete value)? getInforCompletely,
     TResult Function(HomeErrorState value)? error,
     TResult Function(HomeLoading value)? loading,
@@ -371,7 +267,6 @@ class _$HomeErrorState implements HomeErrorState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() init,
     required TResult Function(UserInHome userInHome) getInforCompletely,
     required TResult Function(String message) error,
     required TResult Function() loading,
@@ -382,7 +277,6 @@ class _$HomeErrorState implements HomeErrorState {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? init,
     TResult Function(UserInHome userInHome)? getInforCompletely,
     TResult Function(String message)? error,
     TResult Function()? loading,
@@ -397,7 +291,6 @@ class _$HomeErrorState implements HomeErrorState {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(HomeInitState value) init,
     required TResult Function(HomeComplete value) getInforCompletely,
     required TResult Function(HomeErrorState value) error,
     required TResult Function(HomeLoading value) loading,
@@ -408,7 +301,6 @@ class _$HomeErrorState implements HomeErrorState {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(HomeInitState value)? init,
     TResult Function(HomeComplete value)? getInforCompletely,
     TResult Function(HomeErrorState value)? error,
     TResult Function(HomeLoading value)? loading,
@@ -468,7 +360,6 @@ class _$HomeLoading implements HomeLoading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() init,
     required TResult Function(UserInHome userInHome) getInforCompletely,
     required TResult Function(String message) error,
     required TResult Function() loading,
@@ -479,7 +370,6 @@ class _$HomeLoading implements HomeLoading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? init,
     TResult Function(UserInHome userInHome)? getInforCompletely,
     TResult Function(String message)? error,
     TResult Function()? loading,
@@ -494,7 +384,6 @@ class _$HomeLoading implements HomeLoading {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(HomeInitState value) init,
     required TResult Function(HomeComplete value) getInforCompletely,
     required TResult Function(HomeErrorState value) error,
     required TResult Function(HomeLoading value) loading,
@@ -505,7 +394,6 @@ class _$HomeLoading implements HomeLoading {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(HomeInitState value)? init,
     TResult Function(HomeComplete value)? getInforCompletely,
     TResult Function(HomeErrorState value)? error,
     TResult Function(HomeLoading value)? loading,

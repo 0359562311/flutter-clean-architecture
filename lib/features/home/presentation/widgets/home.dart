@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/features/authentication/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/home/domain/entities/user_in_home.dart';
 import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_events.dart';
@@ -69,7 +68,6 @@ class _HomeState extends State<Home> {
           },
           buildWhen: (context,state) => !(state is HomeErrorState),
           builder: (context,state){
-            print(state);
             if(state is HomeLoading)
               return Center(child: SizedBox(
                   child: CircularProgressIndicator(),

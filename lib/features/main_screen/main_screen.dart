@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/constants.dart';
 import 'package:flutter_app_clean_architecture/features/setting/setting.dart';
-import 'package:flutter_app_clean_architecture/features/profile/presentation/user_infomation_screen.dart';
+import 'file:///F:/programming/AndroidStudio%20Projects/flutter-clean-architecture/lib/features/profile/presentation/pages/user_infomation_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../home/presentation/widgets/home.dart';

@@ -31,7 +31,7 @@ class LoginBloc extends Bloc<LogInEvent,LoginState>{
                 //   }
                 // ));
                 GetIt.instance<Dio>().options.headers['Authorization'] = 'Bearer ${right.token}';
-                yield(LogInSuccess());
+                yield LogInSuccess();
               }
           );
         },
