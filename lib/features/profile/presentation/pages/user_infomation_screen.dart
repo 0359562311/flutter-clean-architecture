@@ -90,8 +90,6 @@ class _UserInformationState extends State<UserInformation> {
                     child: CircularProgressIndicator(),
                   ));
                 Profile profile = (state as ProfileCompleteState).profile;
-                phoneNumberController.clear();
-                addressController.clear();
                 return Container(
                     color: Colors.white,
                     height: size.height,
