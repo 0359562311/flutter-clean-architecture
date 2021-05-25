@@ -22,13 +22,13 @@ import 'package:flutter_app_clean_architecture/features/profile/domain/repositor
 import 'package:flutter_app_clean_architecture/features/profile/domain/use%20cases/update_user_profile.dart';
 import 'package:flutter_app_clean_architecture/features/profile/presentation/bloc/profile_bloc.dart';
 import 'features/profile/domain/use cases/get_user_profile.dart';
-import 'file:///F:/programming/AndroidStudio%20Projects/flutter-clean-architecture/lib/features/profile/presentation/pages/user_infomation_screen.dart';
 import 'package:get_it/get_it.dart';
 import 'features/authentication/presentation/widgets/login.dart';
 import 'features/home/data/repositories/home_repository_impl.dart';
 import 'features/home/data/sources/home_remote_source.dart';
 import 'features/home/domain/repositories/home_repository.dart';
 import 'features/main_screen/main_screen.dart';
+import 'features/profile/presentation/pages/user_infomation_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
