@@ -21,6 +21,8 @@ import 'package:flutter_app_clean_architecture/features/profile/data/source/prof
 import 'package:flutter_app_clean_architecture/features/profile/domain/repositories/profile_repository.dart';
 import 'package:flutter_app_clean_architecture/features/profile/domain/use%20cases/update_user_profile.dart';
 import 'package:flutter_app_clean_architecture/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_generator.dart';
+import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_options_page.dart';
 import 'features/profile/domain/use cases/get_user_profile.dart';
 import 'package:get_it/get_it.dart';
 import 'features/authentication/presentation/widgets/login.dart';
@@ -107,6 +109,8 @@ class _MyAppState extends State<MyApp> {
       ),
       initialRoute: "/login",
       routes: {
+        Constants.routeQROptions:(context) => QROptions(),
+         Constants.routeQRGenerator:(context) => QRGenerator(),
         Constants.routeMain:(_) => MainScreen(),
         Constants.routeLogin:(context) => Login(),
         // Constants.routeProfile:(context) => ProfileScreen(),

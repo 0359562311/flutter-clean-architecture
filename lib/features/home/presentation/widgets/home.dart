@@ -16,10 +16,12 @@ double screenWidth = 0;
 
 class _HomeState extends State<Home> {
   Items _items1 = new Items(
-      title: "Quét mã QR", img: 'assets/images/fake_slink/qr.png');
-  Items _items2 =
+      title: "Điểm danh", img: 'assets/images/fake_slink/qrscan.png');
+  Items _items2 = new Items(
+      title: "Tạo mã QR", img: 'assets/images/fake_slink/qr.png');
+  Items _items3 =
       new Items(title: "Thời khóa biểu", img: 'assets/images/fake_slink/schedule2.png');
-  Items _items3 = new Items(
+  Items _items4 = new Items(
       title: "Thay đổi thiết bị định danh", img: 'assets/images/fake_slink/phone.png');
 
   late HomeBloc _bloc;
@@ -40,7 +42,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    List<Items> list = [_items1, _items2, _items3];
+    List<Items> list = [_items1, _items2, _items3, _items4];
 
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -99,7 +101,7 @@ class _HomeState extends State<Home> {
                     childAspectRatio: 5,
                     children: list.map((data) {
                       return Container(
-                          padding: EdgeInsets.only(left: 10,right: 10),
+                          // padding: EdgeInsets.only(left: 10,right: 10),
                           height: 1,
                           margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                           decoration: BoxDecoration(
@@ -110,7 +112,14 @@ class _HomeState extends State<Home> {
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
-                                child: Image.asset(data.img),
+                                child: Container(
+                                  height: 45,
+                                  width: 45,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(data.img),
+                                          fit: BoxFit.contain)),
+                                )
                               ),
                               SizedBox(width: 10,),
                               Text(
