@@ -50,7 +50,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mockito: ^4.0.0
+  mockito: any
   build_runner: ^1.12.2
   freezed: ^0.14.1+1
   json_serializable: ^4.1.0

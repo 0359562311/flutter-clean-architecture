@@ -115,7 +115,6 @@ class _HomeState extends State<Home> {
                                 child: Container(
                                   height: 45,
                                   width: 45,
-
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
                                           image: AssetImage(data.img),
