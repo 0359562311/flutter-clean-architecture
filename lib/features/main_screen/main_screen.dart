@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/constants.dart';
 import 'package:flutter_app_clean_architecture/features/profile/presentation/pages/user_infomation_screen.dart';
+import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_generator.dart';
+import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_options_page.dart';
 import 'package:flutter_app_clean_architecture/features/setting/setting.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -22,19 +24,18 @@ class _MainScreenState extends State<MainScreen> {
       activeColorPrimary: Colors.blue,
       inactiveColorPrimary: Colors.grey,
       inactiveColorSecondary: Colors.purple,
+      // routeAndNavigatorSettings: RouteAndNavigatorSettings(
+      //   routes: {
+      //     Constants.routeQRGenerator: (context) => QRGenerator(),//don't know why these things here.
+      //     Constants.routeQROptions: (context) => QROptions(),
+      //   },
+      // ),
     ),
     PersistentBottomNavBarItem(
       icon: Icon(Icons.notifications),
       title: ("Thông báo"),
       activeColorPrimary: Colors.teal,
       inactiveColorPrimary: Colors.grey,
-      // routeAndNavigatorSettings: RouteAndNavigatorSettings(
-      //   initialRoute: '/',
-      //   routes: {
-      //     '/first': (context) => MainScreen2(),//don't know why these things here.
-      //     '/second': (context) => MainScreen3(),
-      //   },
-      // ),
     ),
     PersistentBottomNavBarItem(
         icon: Icon(Icons.settings),

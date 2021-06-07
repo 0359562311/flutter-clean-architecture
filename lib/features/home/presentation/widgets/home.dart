@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/constants.dart';
 import 'package:flutter_app_clean_architecture/features/home/domain/entities/user_in_home.dart';
 import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_events.dart';
 import 'package:flutter_app_clean_architecture/features/home/presentation/bloc/home_state.dart';
+import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_generator.dart';
+import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_options_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -16,13 +20,37 @@ double screenWidth = 0;
 
 class _HomeState extends State<Home> {
   Items _items1 = new Items(
-      title: "Điểm danh", img: 'assets/images/fake_slink/qrscan.png');
+      title: "Điểm danh", img: 'assets/images/fake_slink/qrscan.png',
+      onPressed: (context){
+        pushNewScreenWithRouteSettings(
+          context,
+          settings: RouteSettings(name: Constants.routeQROptions),
+          withNavBar: false,
+          screen: QROptions(),
+          pageTransitionAnimation: PageTransitionAnimation.fade,
+        );
+      }
+  );
   Items _items2 = new Items(
-      title: "Tạo mã QR", img: 'assets/images/fake_slink/qr.png');
+      title: "Tạo mã QR", img: 'assets/images/fake_slink/qr.png',
+      onPressed: (context){
+        pushNewScreenWithRouteSettings(
+          context,
+          settings: RouteSettings(name: Constants.routeQRGenerator),
+          withNavBar: false,
+          screen: QRGenerator(),
+          pageTransitionAnimation: PageTransitionAnimation.fade,
+        );
+      }
+  );
   Items _items3 =
-      new Items(title: "Thời khóa biểu", img: 'assets/images/fake_slink/schedule2.png');
+      new Items(title: "Thời khóa biểu", img: 'assets/images/fake_slink/schedule2.png',
+          onPressed: (_){}
+      );
   Items _items4 = new Items(
-      title: "Thay đổi thiết bị định danh", img: 'assets/images/fake_slink/phone.png');
+      title: "Thay đổi thiết bị định danh", img: 'assets/images/fake_slink/phone.png',
+    onPressed: (_){}
+  );
 
   late HomeBloc _bloc;
 
@@ -100,38 +128,43 @@ class _HomeState extends State<Home> {
                     crossAxisCount: 1,
                     childAspectRatio: 5,
                     children: list.map((data) {
-                      return Container(
-                          // padding: EdgeInsets.only(left: 10,right: 10),
-                          height: 1,
-                          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Container(
-                                  height: 45,
-                                  width: 45,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(data.img),
-                                          fit: BoxFit.contain)),
-                                )
-                              ),
-                              SizedBox(width: 10,),
-                              Text(
-                                data.title,
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.w600
+                      return GestureDetector(
+                        onTap: (){
+                          data.onPressed(context);
+                        },
+                        child: Container(
+                            // padding: EdgeInsets.only(left: 10,right: 10),
+                            height: 1,
+                            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Container(
+                                    height: 45,
+                                    width: 45,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(data.img),
+                                            fit: BoxFit.contain)),
+                                  )
                                 ),
-                              )
-                            ],
-                          )
+                                SizedBox(width: 10,),
+                                Text(
+                                  data.title,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.w600
+                                  ),
+                                )
+                              ],
+                            )
+                        ),
                       );
                     }).toList()),
                 SliverToBoxAdapter(
@@ -286,6 +319,7 @@ class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
 class Items {
   late String title;
   late String img;
+  late Function(BuildContext) onPressed;
 
-  Items({required this.title, required this.img});
+  Items({required this.title, required this.img, required this.onPressed});
 }
