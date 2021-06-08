@@ -16,12 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$FailureTearOff {
   const _$FailureTearOff();
 
-  WrongCredentials wrongCredentials(String message) {
-    return WrongCredentials(
-      message,
-    );
-  }
-
   NetWorkDisconnected networkDisconnected(String message) {
     return NetWorkDisconnected(
       message,
@@ -44,14 +38,12 @@ mixin _$Failure {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) wrongCredentials,
     required TResult Function(String message) networkDisconnected,
     required TResult Function(String message) serverSendsError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? wrongCredentials,
     TResult Function(String message)? networkDisconnected,
     TResult Function(String message)? serverSendsError,
     required TResult orElse(),
@@ -59,14 +51,12 @@ mixin _$Failure {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(WrongCredentials value) wrongCredentials,
     required TResult Function(NetWorkDisconnected value) networkDisconnected,
     required TResult Function(ServerSendsError value) serverSendsError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(WrongCredentials value)? wrongCredentials,
     TResult Function(NetWorkDisconnected value)? networkDisconnected,
     TResult Function(ServerSendsError value)? serverSendsError,
     required TResult orElse(),
@@ -103,128 +93,6 @@ class _$FailureCopyWithImpl<$Res> implements $FailureCopyWith<$Res> {
               as String,
     ));
   }
-}
-
-/// @nodoc
-abstract class $WrongCredentialsCopyWith<$Res>
-    implements $FailureCopyWith<$Res> {
-  factory $WrongCredentialsCopyWith(
-          WrongCredentials value, $Res Function(WrongCredentials) then) =
-      _$WrongCredentialsCopyWithImpl<$Res>;
-  @override
-  $Res call({String message});
-}
-
-/// @nodoc
-class _$WrongCredentialsCopyWithImpl<$Res> extends _$FailureCopyWithImpl<$Res>
-    implements $WrongCredentialsCopyWith<$Res> {
-  _$WrongCredentialsCopyWithImpl(
-      WrongCredentials _value, $Res Function(WrongCredentials) _then)
-      : super(_value, (v) => _then(v as WrongCredentials));
-
-  @override
-  WrongCredentials get _value => super._value as WrongCredentials;
-
-  @override
-  $Res call({
-    Object? message = freezed,
-  }) {
-    return _then(WrongCredentials(
-      message == freezed
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-class _$WrongCredentials implements WrongCredentials {
-  _$WrongCredentials(this.message);
-
-  @override
-  final String message;
-
-  @override
-  String toString() {
-    return 'Failure.wrongCredentials(message: $message)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is WrongCredentials &&
-            (identical(other.message, message) ||
-                const DeepCollectionEquality().equals(other.message, message)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
-
-  @JsonKey(ignore: true)
-  @override
-  $WrongCredentialsCopyWith<WrongCredentials> get copyWith =>
-      _$WrongCredentialsCopyWithImpl<WrongCredentials>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message) wrongCredentials,
-    required TResult Function(String message) networkDisconnected,
-    required TResult Function(String message) serverSendsError,
-  }) {
-    return wrongCredentials(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? wrongCredentials,
-    TResult Function(String message)? networkDisconnected,
-    TResult Function(String message)? serverSendsError,
-    required TResult orElse(),
-  }) {
-    if (wrongCredentials != null) {
-      return wrongCredentials(message);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(WrongCredentials value) wrongCredentials,
-    required TResult Function(NetWorkDisconnected value) networkDisconnected,
-    required TResult Function(ServerSendsError value) serverSendsError,
-  }) {
-    return wrongCredentials(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(WrongCredentials value)? wrongCredentials,
-    TResult Function(NetWorkDisconnected value)? networkDisconnected,
-    TResult Function(ServerSendsError value)? serverSendsError,
-    required TResult orElse(),
-  }) {
-    if (wrongCredentials != null) {
-      return wrongCredentials(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class WrongCredentials implements Failure {
-  factory WrongCredentials(String message) = _$WrongCredentials;
-
-  @override
-  String get message => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(ignore: true)
-  $WrongCredentialsCopyWith<WrongCredentials> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -293,7 +161,6 @@ class _$NetWorkDisconnected implements NetWorkDisconnected {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) wrongCredentials,
     required TResult Function(String message) networkDisconnected,
     required TResult Function(String message) serverSendsError,
   }) {
@@ -303,7 +170,6 @@ class _$NetWorkDisconnected implements NetWorkDisconnected {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? wrongCredentials,
     TResult Function(String message)? networkDisconnected,
     TResult Function(String message)? serverSendsError,
     required TResult orElse(),
@@ -317,7 +183,6 @@ class _$NetWorkDisconnected implements NetWorkDisconnected {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(WrongCredentials value) wrongCredentials,
     required TResult Function(NetWorkDisconnected value) networkDisconnected,
     required TResult Function(ServerSendsError value) serverSendsError,
   }) {
@@ -327,7 +192,6 @@ class _$NetWorkDisconnected implements NetWorkDisconnected {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(WrongCredentials value)? wrongCredentials,
     TResult Function(NetWorkDisconnected value)? networkDisconnected,
     TResult Function(ServerSendsError value)? serverSendsError,
     required TResult orElse(),
@@ -415,7 +279,6 @@ class _$ServerSendsError implements ServerSendsError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) wrongCredentials,
     required TResult Function(String message) networkDisconnected,
     required TResult Function(String message) serverSendsError,
   }) {
@@ -425,7 +288,6 @@ class _$ServerSendsError implements ServerSendsError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? wrongCredentials,
     TResult Function(String message)? networkDisconnected,
     TResult Function(String message)? serverSendsError,
     required TResult orElse(),
@@ -439,7 +301,6 @@ class _$ServerSendsError implements ServerSendsError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(WrongCredentials value) wrongCredentials,
     required TResult Function(NetWorkDisconnected value) networkDisconnected,
     required TResult Function(ServerSendsError value) serverSendsError,
   }) {
@@ -449,7 +310,6 @@ class _$ServerSendsError implements ServerSendsError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(WrongCredentials value)? wrongCredentials,
     TResult Function(NetWorkDisconnected value)? networkDisconnected,
     TResult Function(ServerSendsError value)? serverSendsError,
     required TResult orElse(),

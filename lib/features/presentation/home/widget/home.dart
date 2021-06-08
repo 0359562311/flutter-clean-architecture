@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/features/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
-import 'package:flutter_app_clean_architecture/features/domain/entities/user_in_home.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/home_events.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/home_state.dart';
@@ -104,7 +104,7 @@ class _HomeState extends State<Home> {
                 height: 50,
                 width: 50,
               ),);
-            UserInHome userInHome = (state as HomeComplete).userInHome;
+            CustomUser userInHome = (state as HomeComplete).customUser;
             return CustomScrollView(
               slivers: [
                 SliverPersistentHeader(
@@ -198,7 +198,7 @@ class _HomeState extends State<Home> {
 class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
   final double _maxExtent = 180;
   final double? _minExtent = 80;
-  final UserInHome userInHome;
+  final CustomUser userInHome;
   SliverHeaderChildDelegateImpl(this.userInHome);
 
   @override
@@ -279,14 +279,14 @@ class SliverHeaderChildDelegateImpl extends SliverPersistentHeaderDelegate {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        userInHome.name??"user",
+                        userInHome.name,
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
                       Text(
-                        "DeviceId: ${userInHome.deviceID??"chua xac dinh"}",
+                        "Vai trò: ${userInHome.role}",
                         style: TextStyle(
                           fontSize: 14,
                         ),

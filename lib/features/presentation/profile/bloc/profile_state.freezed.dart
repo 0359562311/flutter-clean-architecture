@@ -20,9 +20,9 @@ class _$ProfileStateTearOff {
     return ProfileLoadingState();
   }
 
-  ProfileCompleteState complete(Profile profile) {
+  ProfileCompleteState complete(CustomUser user) {
     return ProfileCompleteState(
-      profile,
+      user,
     );
   }
 
@@ -41,14 +41,14 @@ mixin _$ProfileState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(Profile profile) complete,
+    required TResult Function(CustomUser user) complete,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(Profile profile)? complete,
+    TResult Function(CustomUser user)? complete,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -126,7 +126,7 @@ class _$ProfileLoadingState implements ProfileLoadingState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(Profile profile) complete,
+    required TResult Function(CustomUser user) complete,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -136,7 +136,7 @@ class _$ProfileLoadingState implements ProfileLoadingState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(Profile profile)? complete,
+    TResult Function(CustomUser user)? complete,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -180,7 +180,7 @@ abstract class $ProfileCompleteStateCopyWith<$Res> {
   factory $ProfileCompleteStateCopyWith(ProfileCompleteState value,
           $Res Function(ProfileCompleteState) then) =
       _$ProfileCompleteStateCopyWithImpl<$Res>;
-  $Res call({Profile profile});
+  $Res call({CustomUser user});
 }
 
 /// @nodoc
@@ -196,40 +196,40 @@ class _$ProfileCompleteStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? profile = freezed,
+    Object? user = freezed,
   }) {
     return _then(ProfileCompleteState(
-      profile == freezed
-          ? _value.profile
-          : profile // ignore: cast_nullable_to_non_nullable
-              as Profile,
+      user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as CustomUser,
     ));
   }
 }
 
 /// @nodoc
 class _$ProfileCompleteState implements ProfileCompleteState {
-  _$ProfileCompleteState(this.profile);
+  _$ProfileCompleteState(this.user);
 
   @override
-  final Profile profile;
+  final CustomUser user;
 
   @override
   String toString() {
-    return 'ProfileState.complete(profile: $profile)';
+    return 'ProfileState.complete(user: $user)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ProfileCompleteState &&
-            (identical(other.profile, profile) ||
-                const DeepCollectionEquality().equals(other.profile, profile)));
+            (identical(other.user, user) ||
+                const DeepCollectionEquality().equals(other.user, user)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(profile);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(user);
 
   @JsonKey(ignore: true)
   @override
@@ -241,22 +241,22 @@ class _$ProfileCompleteState implements ProfileCompleteState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(Profile profile) complete,
+    required TResult Function(CustomUser user) complete,
     required TResult Function(String message) error,
   }) {
-    return complete(profile);
+    return complete(user);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(Profile profile)? complete,
+    TResult Function(CustomUser user)? complete,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (complete != null) {
-      return complete(profile);
+      return complete(user);
     }
     return orElse();
   }
@@ -287,9 +287,9 @@ class _$ProfileCompleteState implements ProfileCompleteState {
 }
 
 abstract class ProfileCompleteState implements ProfileState {
-  factory ProfileCompleteState(Profile profile) = _$ProfileCompleteState;
+  factory ProfileCompleteState(CustomUser user) = _$ProfileCompleteState;
 
-  Profile get profile => throw _privateConstructorUsedError;
+  CustomUser get user => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ProfileCompleteStateCopyWith<ProfileCompleteState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -360,7 +360,7 @@ class _$ProfileErrorState implements ProfileErrorState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(Profile profile) complete,
+    required TResult Function(CustomUser user) complete,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -370,7 +370,7 @@ class _$ProfileErrorState implements ProfileErrorState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(Profile profile)? complete,
+    TResult Function(CustomUser user)? complete,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

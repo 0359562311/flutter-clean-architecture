@@ -179,7 +179,7 @@ class _LoginState extends State<Login> {
                               padding: EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 20),
                               onPressed: () {
-                                _bloc.add(LogInEvent.logInWithEmailAndPassWord(
+                                _bloc.add(LogInEvent.logInWithUsernameAndPassWord(
                                     accountController.text,
                                     passwordController.text));
                               },
