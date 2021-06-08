@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/features/profile/presentation/pages/user_infomation_screen.dart';
+import 'package:flutter_app_clean_architecture/features/presentation/profile/widget/user_infomation_screen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QRGenerator extends StatefulWidget {
