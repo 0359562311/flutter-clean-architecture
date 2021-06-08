@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/constants.dart';
+import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_generator.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -77,7 +77,7 @@ class _QROptionsState extends State<QROptions> {
                       onPressed: () {
                         pushNewScreenWithRouteSettings(
                           context,
-                          settings: RouteSettings(name: Constants.routeQRGenerator),
+                          settings: RouteSettings(name: AppRoutes.routeQRGenerator),
                           withNavBar: false,
                           screen: QRGenerator(),
                           pageTransitionAnimation: PageTransitionAnimation.fade,

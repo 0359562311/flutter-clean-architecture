@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/constants.dart';
+import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/user_in_home.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/home_events.dart';
@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
       onPressed: (context){
         pushNewScreenWithRouteSettings(
           context,
-          settings: RouteSettings(name: Constants.routeQROptions),
+          settings: RouteSettings(name: AppRoutes.routeQROptions),
           withNavBar: false,
           screen: QROptions(),
           pageTransitionAnimation: PageTransitionAnimation.fade,
@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
       onPressed: (context){
         pushNewScreenWithRouteSettings(
           context,
-          settings: RouteSettings(name: Constants.routeQRGenerator),
+          settings: RouteSettings(name: AppRoutes.routeQRGenerator),
           withNavBar: false,
           screen: QRGenerator(),
           pageTransitionAnimation: PageTransitionAnimation.fade,

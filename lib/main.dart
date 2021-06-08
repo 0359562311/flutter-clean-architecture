@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app_clean_architecture/constants.dart';
+import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
 import 'package:flutter_app_clean_architecture/features/data/repositories/login_repository_impl.dart';
@@ -109,12 +109,12 @@ class _MyAppState extends State<MyApp> {
       ),
       initialRoute: "/login",
       routes: {
-        Constants.routeQROptions:(context) => QROptions(),
-         Constants.routeQRGenerator:(context) => QRGenerator(),
-        Constants.routeMain:(_) => MainScreen(),
-        Constants.routeLogin:(context) => Login(),
+        AppRoutes.routeQROptions:(context) => QROptions(),
+         AppRoutes.routeQRGenerator:(context) => QRGenerator(),
+        AppRoutes.routeMain:(_) => MainScreen(),
+        AppRoutes.routeLogin:(context) => Login(),
         // Constants.routeProfile:(context) => ProfileScreen(),
-        Constants.routeUserInfor:(context) => UserInformation(),
+        AppRoutes.routeUserInfor:(context) => UserInformation(),
     // '/profile':(context) => ProfileScreen(),
       },
     );

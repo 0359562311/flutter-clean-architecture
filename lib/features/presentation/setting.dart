@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/constants.dart';
+import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/widget/user_infomation_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -45,7 +45,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       onTap: (){
                         pushNewScreenWithRouteSettings(
                           context,
-                          settings: RouteSettings(name: Constants.routeUserInfor),
+                          settings: RouteSettings(name: AppRoutes.routeUserInfor),
                           withNavBar: false,
                           screen: UserInformation(),
                           pageTransitionAnimation: PageTransitionAnimation.fade,

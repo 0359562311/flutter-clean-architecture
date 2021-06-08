@@ -1,5 +1,5 @@
 
-abstract class Constants{
+abstract class AppRoutes{
   static const String routeMain = '/main';
   static const String routeLogin = '/login';
   static const String routeProfile = '/profile';

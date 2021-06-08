@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/constants.dart';
+import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/profile.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/bloc/profile_event.dart';
@@ -73,7 +73,7 @@ class _UserInformationState extends State<UserInformation> {
                                         Navigator.popUntil(
                                             dialogueContext,
                                             ModalRoute.withName(
-                                                Constants.routeMain));
+                                                AppRoutes.routeMain));
                                       },
                                       child: Text("Close"))
                                 ],

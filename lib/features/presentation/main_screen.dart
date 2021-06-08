@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/constants.dart';
+import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/widget/user_infomation_screen.dart';
 import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_generator.dart';
 import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_options_page.dart';
@@ -46,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
         routeAndNavigatorSettings: RouteAndNavigatorSettings(
           // initialRoute: '/',
           routes: {
-            Constants.routeUserInfor: (context) => UserInformation(),
+            AppRoutes.routeUserInfor: (context) => UserInformation(),
           },
         ),
         // onPressed: (context) {
