@@ -42,24 +42,21 @@ class _LoginState extends State<Login> {
           child: BlocProvider<LoginBloc>.value(
             value: _bloc,
             child: BlocConsumer<LoginBloc, LoginState>(
-              listener: (context1, state) {
+              listener: (_, state) {
                 if (state is LogInError)
-                  Navigator.push(
-                      context1,
-                      MaterialPageRoute(
-                          builder: (dialogueContext) => AlertDialog(
-                                content: Text(state.message),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(dialogueContext);
-                                      },
-                                      child: Text("Close"))
-                                ],
-                              )));
+                  showDialog(context: context, builder: (context) => AlertDialog(
+                    content: Text(state.message),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Close"))
+                    ],
+                  ));
                 else if (state is LogInSuccess)
                   Navigator.pushNamedAndRemoveUntil(
-                      context1, AppRoutes.routeMain, (route) => false);
+                      context, AppRoutes.routeMain, (route) => false);
               },
               buildWhen: (previous, current) {
                 return !(current is LogInSuccess);
