@@ -1,11 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_app_clean_architecture/core/error/exceptions.dart' ;
 import 'package:flutter_app_clean_architecture/core/error/failures.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
+import 'package:flutter_app_clean_architecture/core/utils.dart';
 import 'package:flutter_app_clean_architecture/features/data/sources/remote_sources/login_remote_sources.dart';
-import 'package:flutter_app_clean_architecture/features/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/token.dart';
 import 'package:flutter_app_clean_architecture/features/domain/repositories/login_repository.dart';
 
@@ -17,27 +15,14 @@ class LoginRepositoryImpl extends LoginRepository{
   LoginRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<Either<Failure, CustomUser>> facebookSignIn() async {
-
-    return left(Failure.wrongCredentials("message"));
-  }
-
-  @override
-  Future<Either<Failure, CustomUser>> googleSignIn() async {
-    return left(Failure.wrongCredentials("message"));
-  }
-
-  @override
-  Future<Either<Failure, Token>> loginWithEmailAndPassword(String email, String password) async {
+  Future<Either<Failure, Token>> loginWithUsernameAndPassword(String email, String password) async {
     if(NetworkInfo.instance.isConnecting){
       try{
         return right(await remoteDataSource.loginWithEmailAndPassword(email, password));
-      } on WrongCredentialsException {
-        return left(Failure.wrongCredentials("Invalid email or wrong password combination."));
-      } on FirebaseAuthException catch (ex){
-        return left(Failure.serverSendsError(ex.message!));
       } on DioError catch (ex){
-        return left(Failure.serverSendsError(ex.message));
+        return left(Failure.serverSendsError(mapErrorCode(ex.response?.data['errorCode'])));
+      } on Exception catch(_){
+        return left(Failure.serverSendsError("Đã có lỗi xảy ra"));
       }
     } else {
       return left(Failure.networkDisconnected("Please turn on network connection."));

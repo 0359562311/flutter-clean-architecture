@@ -20,9 +20,10 @@ class _$ProfileEventTearOff {
     return GetProfileEvent();
   }
 
-  UpdateProfileEvent updateProfile(Profile profile) {
+  UpdateProfileEvent updateProfile(String address, String phoneNumber) {
     return UpdateProfileEvent(
-      profile,
+      address,
+      phoneNumber,
     );
   }
 }
@@ -35,13 +36,13 @@ mixin _$ProfileEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getProfile,
-    required TResult Function(Profile profile) updateProfile,
+    required TResult Function(String address, String phoneNumber) updateProfile,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getProfile,
-    TResult Function(Profile profile)? updateProfile,
+    TResult Function(String address, String phoneNumber)? updateProfile,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -116,7 +117,7 @@ class _$GetProfileEvent implements GetProfileEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getProfile,
-    required TResult Function(Profile profile) updateProfile,
+    required TResult Function(String address, String phoneNumber) updateProfile,
   }) {
     return getProfile();
   }
@@ -125,7 +126,7 @@ class _$GetProfileEvent implements GetProfileEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getProfile,
-    TResult Function(Profile profile)? updateProfile,
+    TResult Function(String address, String phoneNumber)? updateProfile,
     required TResult orElse(),
   }) {
     if (getProfile != null) {
@@ -166,7 +167,7 @@ abstract class $UpdateProfileEventCopyWith<$Res> {
   factory $UpdateProfileEventCopyWith(
           UpdateProfileEvent value, $Res Function(UpdateProfileEvent) then) =
       _$UpdateProfileEventCopyWithImpl<$Res>;
-  $Res call({Profile profile});
+  $Res call({String address, String phoneNumber});
 }
 
 /// @nodoc
@@ -182,40 +183,53 @@ class _$UpdateProfileEventCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? profile = freezed,
+    Object? address = freezed,
+    Object? phoneNumber = freezed,
   }) {
     return _then(UpdateProfileEvent(
-      profile == freezed
-          ? _value.profile
-          : profile // ignore: cast_nullable_to_non_nullable
-              as Profile,
+      address == freezed
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      phoneNumber == freezed
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
 /// @nodoc
 class _$UpdateProfileEvent implements UpdateProfileEvent {
-  _$UpdateProfileEvent(this.profile);
+  _$UpdateProfileEvent(this.address, this.phoneNumber);
 
   @override
-  final Profile profile;
+  final String address;
+  @override
+  final String phoneNumber;
 
   @override
   String toString() {
-    return 'ProfileEvent.updateProfile(profile: $profile)';
+    return 'ProfileEvent.updateProfile(address: $address, phoneNumber: $phoneNumber)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UpdateProfileEvent &&
-            (identical(other.profile, profile) ||
-                const DeepCollectionEquality().equals(other.profile, profile)));
+            (identical(other.address, address) ||
+                const DeepCollectionEquality()
+                    .equals(other.address, address)) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.phoneNumber, phoneNumber)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(profile);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(phoneNumber);
 
   @JsonKey(ignore: true)
   @override
@@ -226,20 +240,20 @@ class _$UpdateProfileEvent implements UpdateProfileEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getProfile,
-    required TResult Function(Profile profile) updateProfile,
+    required TResult Function(String address, String phoneNumber) updateProfile,
   }) {
-    return updateProfile(profile);
+    return updateProfile(address, phoneNumber);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getProfile,
-    TResult Function(Profile profile)? updateProfile,
+    TResult Function(String address, String phoneNumber)? updateProfile,
     required TResult orElse(),
   }) {
     if (updateProfile != null) {
-      return updateProfile(profile);
+      return updateProfile(address, phoneNumber);
     }
     return orElse();
   }
@@ -268,9 +282,11 @@ class _$UpdateProfileEvent implements UpdateProfileEvent {
 }
 
 abstract class UpdateProfileEvent implements ProfileEvent {
-  factory UpdateProfileEvent(Profile profile) = _$UpdateProfileEvent;
+  factory UpdateProfileEvent(String address, String phoneNumber) =
+      _$UpdateProfileEvent;
 
-  Profile get profile => throw _privateConstructorUsedError;
+  String get address => throw _privateConstructorUsedError;
+  String get phoneNumber => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $UpdateProfileEventCopyWith<UpdateProfileEvent> get copyWith =>
       throw _privateConstructorUsedError;

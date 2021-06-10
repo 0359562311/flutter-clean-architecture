@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/features/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
-import 'package:flutter_app_clean_architecture/features/domain/entities/profile.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/bloc/profile_event.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/bloc/profile_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 
 class UserInformation extends StatefulWidget {
   const UserInformation({Key? key}) : super(key: key);
@@ -89,7 +90,8 @@ class _UserInformationState extends State<UserInformation> {
                     height: 50,
                     child: CircularProgressIndicator(),
                   ));
-                Profile profile = (state as ProfileCompleteState).profile;
+                CustomUser user = (state as ProfileCompleteState).user;
+                DateFormat df = DateFormat("dd/MM/yyyy");
                 return Container(
                     color: Colors.white,
                     height: size.height,
@@ -101,25 +103,25 @@ class _UserInformationState extends State<UserInformation> {
                         children: [
                           buildTextFormField(
                             'Họ và Tên',
-                            profile.name ?? "",
+                            user.name,
                             false,
                           ),
                           buildTextFormField(
                             'Ngày sinh',
-                            profile.dob ?? "",
+                            df.format(user.dob),
                             false,
                           ),
                           buildTextFormField(
                             'Giới tính',
-                            profile.gender ?? "",
+                            user.gender,
                             false,
                           ),
                           buildTextFormField(
                               'Số điện thoại',
-                              profile.phoneNumber ?? "",
+                              user.phoneNumber ?? "",
                               edit,
                               phoneNumberController),
-                          buildTextFormField('Địa chỉ', profile.address ?? "",
+                          buildTextFormField('Địa chỉ', user.address ?? "",
                               edit, addressController),
                           SizedBox(
                             height: 50,
@@ -141,14 +143,14 @@ class _UserInformationState extends State<UserInformation> {
                                 } else {
                                   edit = !edit;
                                   print(addressController.text.isEmpty.toString()+"------");
-                                  _bloc.add(ProfileEvent.updateProfile(Profile(
-                                    address: addressController.text.isEmpty?
-                                      profile.address:
+                                  _bloc.add(ProfileEvent.updateProfile(
+                                    addressController.text.isEmpty?
+                                      user.address??"":
                                       addressController.text,
-                                    phoneNumber: phoneNumberController.text.isEmpty?
-                                      profile.phoneNumber:
+                                    phoneNumberController.text.isEmpty?
+                                      user.phoneNumber??"":
                                       phoneNumberController.text,
-                                  )));
+                                  ));
                                 }
                               },
                               child: Text(

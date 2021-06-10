@@ -10,25 +10,19 @@ import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
 import 'package:flutter_app_clean_architecture/features/data/repositories/login_repository_impl.dart';
 import 'package:flutter_app_clean_architecture/features/data/sources/remote_sources/login_remote_sources.dart';
 import 'package:flutter_app_clean_architecture/features/domain/repositories/login_repository.dart';
-import 'package:flutter_app_clean_architecture/features/domain/use_cases/home/get_user_info.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/home_bloc.dart';
-import 'package:flutter_app_clean_architecture/features/data/repositories/profile_repository_impl.dart';
-import 'package:flutter_app_clean_architecture/features/data/sources/remote_sources/profile_remote_source.dart';
-import 'package:flutter_app_clean_architecture/features/domain/repositories/profile_repository.dart';
-import 'package:flutter_app_clean_architecture/features/domain/use_cases/profile/update_user_profile.dart';
+import 'features/domain/use_cases/user/get_user_info.dart';
+import 'file:///F:/programming/AndroidStudio%20Projects/flutter-clean-architecture/lib/features/domain/use_cases/user/update_user_profile.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_generator.dart';
 import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_options_page.dart';
 import 'features/domain/use_cases/authentication/login_with_email_and_password.dart';
-import 'features/domain/use_cases/authentication/login_with_facebook.dart';
-import 'features/domain/use_cases/authentication/login_with_google.dart';
 import 'features/presentation/authentication/bloc/login_bloc.dart';
 import 'features/presentation/authentication/widgets/login.dart';
-import 'features/domain/use_cases/profile/get_user_profile.dart';
 import 'package:get_it/get_it.dart';
-import 'features/data/repositories/home_repository_impl.dart';
-import 'features/data/sources/remote_sources/home_remote_source.dart';
-import 'features/domain/repositories/home_repository.dart';
+import 'features/data/repositories/user_repository_impl.dart';
+import 'features/data/sources/remote_sources/user_remote_source.dart';
+import 'features/domain/repositories/user_repository.dart';
 import 'features/presentation/main_screen.dart';
 import 'features/presentation/profile/widget/user_infomation_screen.dart';
 void main() async {
@@ -52,12 +46,8 @@ Future<void> init() async {
 
   getIt.registerFactory(() => LoginBloc(
       loginWithEmailAndPassword: getIt(),
-      loginWithGoogle: getIt(),
-      loginWithFacebook: getIt())
-  );
-  getIt.registerLazySingleton<LoginWithEmailAndPassword>(() => LoginWithEmailAndPassword(getIt()));
-  getIt.registerLazySingleton<LoginWithGoogle>(() => LoginWithGoogle(getIt()));
-  getIt.registerLazySingleton<LoginWithFacebook>(() => LoginWithFacebook(getIt()));
+  ));
+  getIt.registerLazySingleton<LoginWithUserNameAndPasswordUseCase>(() => LoginWithUserNameAndPasswordUseCase(getIt()));
   getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt<LoginRemoteDataSource>()));
   getIt.registerLazySingleton<LoginRemoteDataSource>(() => LoginAPISource());
 
@@ -66,14 +56,11 @@ Future<void> init() async {
     )
   );
   getIt.registerLazySingleton<GetUserInformation>(()=>GetUserInformation(repository: getIt()));
-  getIt.registerLazySingleton<HomeRepository>(()=>HomeRepositoryImpl(remoteSource: getIt<HomeRemoteSource>()));
-  getIt.registerLazySingleton<HomeRemoteSource>(() => HomeAPISource());
+  getIt.registerLazySingleton<UserRepository>(()=>HomeRepositoryImpl(remoteSource: getIt<UserRemoteSource>()));
+  getIt.registerLazySingleton<UserRemoteSource>(() => UserAPISource());
 
   getIt.registerLazySingleton<ProfileBloc>(() => ProfileBloc(getIt(), getIt()));
-  getIt.registerLazySingleton<GetUserProfile>(() => GetUserProfile(repository: getIt()));
   getIt.registerLazySingleton<UpdateUserProfile>(() => UpdateUserProfile(repository: getIt()));
-  getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepositoryImpl(getIt()));
-  getIt.registerLazySingleton<ProfileAPISource>(() => ProfileAPISource());
 }
 
 class MyApp extends StatefulWidget {
@@ -113,7 +100,6 @@ class _MyAppState extends State<MyApp> {
          AppRoutes.routeQRGenerator:(context) => QRGenerator(),
         AppRoutes.routeMain:(_) => MainScreen(),
         AppRoutes.routeLogin:(context) => Login(),
-        // Constants.routeProfile:(context) => ProfileScreen(),
         AppRoutes.routeUserInfor:(context) => UserInformation(),
     // '/profile':(context) => ProfileScreen(),
       },

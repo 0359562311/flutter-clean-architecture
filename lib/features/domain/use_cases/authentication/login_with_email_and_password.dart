@@ -4,12 +4,12 @@ import 'package:flutter_app_clean_architecture/features/domain/entities/custom_u
 import 'package:flutter_app_clean_architecture/features/domain/entities/token.dart';
 import 'package:flutter_app_clean_architecture/features/domain/repositories/login_repository.dart';
 
-class LoginWithEmailAndPassword{
+class LoginWithUserNameAndPasswordUseCase{
   final LoginRepository repository;
 
-  LoginWithEmailAndPassword(this.repository);
+  LoginWithUserNameAndPasswordUseCase(this.repository);
 
   Future<Either<Failure, Token>> call({required String email, required String password}) {
-    return repository.loginWithEmailAndPassword(email, password);
+    return repository.loginWithUsernameAndPassword(email, password);
   }
 }
