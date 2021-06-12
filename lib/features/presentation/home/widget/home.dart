@@ -22,25 +22,13 @@ class _HomeState extends State<Home> {
   Items _items1 = new Items(
       title: "Điểm danh", img: 'assets/images/fake_slink/qrscan.png',
       onPressed: (context){
-        pushNewScreenWithRouteSettings(
-          context,
-          settings: RouteSettings(name: AppRoutes.routeQROptions),
-          withNavBar: false,
-          screen: QROptions(),
-          pageTransitionAnimation: PageTransitionAnimation.fade,
-        );
+        Navigator.of(context).pushNamed(AppRoutes.routeQROptions);
       }
   );
   Items _items2 = new Items(
       title: "Tạo mã QR", img: 'assets/images/fake_slink/qr.png',
       onPressed: (context){
-        pushNewScreenWithRouteSettings(
-          context,
-          settings: RouteSettings(name: AppRoutes.routeQRGenerator),
-          withNavBar: false,
-          screen: QRGenerator(),
-          pageTransitionAnimation: PageTransitionAnimation.fade,
-        );
+        Navigator.of(context).pushNamed(AppRoutes.routeQRGenerator);
       }
   );
   Items _items3 =

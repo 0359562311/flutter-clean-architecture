@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app_clean_architecture/features/domain/use_cases/user/update_user_profile.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
@@ -13,12 +12,11 @@ import 'package:flutter_app_clean_architecture/features/data/sources/remote_sour
 import 'package:flutter_app_clean_architecture/features/domain/repositories/login_repository.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/home_bloc.dart';
 import 'features/domain/use_cases/user/get_user_info.dart';
-
-// import 'file:///F:/programming/AndroidStudio%20Projects/flutter-clean-architecture/lib/features/domain/use_cases/user/update_user_profile.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_generator.dart';
 import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_options_page.dart';
 import 'features/domain/use_cases/authentication/login_with_email_and_password.dart';
+import 'features/domain/use_cases/user/update_user_profile.dart';
 import 'features/presentation/authentication/bloc/login_bloc.dart';
 import 'features/presentation/authentication/widgets/login.dart';
 import 'package:get_it/get_it.dart';
