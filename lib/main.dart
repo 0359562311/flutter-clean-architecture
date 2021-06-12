@@ -4,6 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/attendance.dart';
+import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/class_detail.dart';
+import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/list_class.dart';
 import 'package:flutter_app_clean_architecture/features/domain/use_cases/user/identify_device_use_case.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
@@ -116,6 +119,9 @@ class _MyAppState extends State<MyApp> {
         AppRoutes.routeMain:(_) => MainScreen(),
         AppRoutes.routeLogin:(context) => Login(),
         AppRoutes.routeUserInfor:(context) => UserInformation(),
+        AppRoutes.routeListClass:(context) => ListClass(),
+        AppRoutes.routeAttendance:(context) => Attendance(),
+        AppRoutes.routeClassDetail:(context) => ClassDetail(),
     // '/profile':(context) => ProfileScreen(),
       },
     );

@@ -35,7 +35,9 @@ class _HomeState extends State<Home> {
   );
   Items _items3 =
       new Items(title: "Thời khóa biểu", img: 'assets/images/fake_slink/schedule2.png',
-          onPressed: (_){}
+          onPressed: (context){
+            Navigator.of(context).pushNamed(AppRoutes.routeListClass);
+          }
       );
 
   late Items _items4;
@@ -82,13 +84,13 @@ class _HomeState extends State<Home> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+
     _bloc.close();
   }
 
   @override
   Widget build(BuildContext context) {
     List<Items> list = [_items1, _items2, _items3, _items4, _items5];
-
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
