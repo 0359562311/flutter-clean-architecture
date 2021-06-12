@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/class_detail.dart';
+import 'package:flutter_app_clean_architecture/global/app_routes.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class ListClass extends StatefulWidget {
   const ListClass({Key? key}) : super(key: key);
@@ -10,7 +13,8 @@ class ListClass extends StatefulWidget {
 class _ListClassState extends State<ListClass> {
 
   final List<Classroom> classroom = List.generate(20,
-          (index) => Classroom( timeStart: '$index', timeEnd: '$index',name: 'Công nghệ phần mềm'));
+          (index) => Classroom( timeStart: '$index', timeEnd: '$index',
+              name: 'Công nghệ phần mềm', date: '$index/$index/2021'));
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,13 @@ class _ListClassState extends State<ListClass> {
               itemBuilder: (context, position){
                 return InkWell(
                   onTap: (){
-
+                    pushNewScreenWithRouteSettings(
+                      context,
+                      settings: RouteSettings(name: AppRoutes.routeClassDetail),
+                      withNavBar: false,
+                      screen: ClassDetail(),
+                      pageTransitionAnimation: PageTransitionAnimation.fade,
+                    );
                   },
                   child: Container(
                     height: 60,
@@ -56,28 +66,25 @@ class _ListClassState extends State<ListClass> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(width: 20,),
+                        SizedBox(width: 10,),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                                classroom[position].timeStart +'AM',
+                                classroom[position].timeStart +'AM - ' + classroom[position].timeEnd + 'AM',
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: 13,
                               ),
                             ),
-                            Text('-',style: TextStyle(
-                              fontSize: 15,
-                            ),),
                             Text(
-                                classroom[position].timeEnd + 'AM',
+                                classroom[position].date,
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: 13,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(width: 30,),
+                        SizedBox(width: 20,),
                         Text(
                           classroom[position].name,
                           style: TextStyle(
@@ -99,6 +106,8 @@ class Classroom{
   late String timeStart;
   late String timeEnd;
   late String name;
+  late String date;
 
-  Classroom({required this.timeStart, required this.timeEnd, required this.name});
+  Classroom({required this.timeStart, required this.timeEnd,
+    required this.name, required this.date});
 }

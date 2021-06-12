@@ -15,21 +15,22 @@ class _LoginState extends State<Login> {
   // final passwordCondition = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
   bool showPassword = false;
   late LoginBloc _bloc;
-  late final TextEditingController accountController;
-  late final TextEditingController passwordController;
+  late final TextEditingController _usernameController;
+  late final TextEditingController _passwordController;
+  final _formKey = GlobalKey<FormState>();
 
   void initState() {
     super.initState();
     _bloc = GetIt.instance<LoginBloc>();
-    accountController = TextEditingController();
-    passwordController = TextEditingController();
+    _usernameController = TextEditingController();
+    _passwordController = TextEditingController();
   }
 
   void dispose() {
     super.dispose();
     _bloc.close();
-    accountController.dispose();
-    passwordController.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -69,127 +70,154 @@ class _LoginState extends State<Login> {
                     width: 50,
                     child: CircularProgressIndicator(),
                   ));
-                return Column(
-                  children: <Widget>[
-                    //Header
-                    Container(
-                      height: size.height * 0.45,
-                      width: size.width,
-                      // color: Colors.blue,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/fake_slink/header.jpg'),
-                              fit: BoxFit.fill)),
-                    ),
-                    //Account
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 20),
-                      child: TextFormField(
-                        controller: accountController,
-                        obscureText: false,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.person_outline,
-                            color: Colors.blue[600],
-                            size: 28,
+                return Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      //Header
+                      Container(
+                        height: size.height * 0.45,
+                        width: size.width,
+                        // color: Colors.blue,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/fake_slink/header.jpg'),
+                                fit: BoxFit.fill)),
+                      ),
+                      //Account
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                        child: TextFormField(
+                          controller: _usernameController,
+                          obscureText: false,
+                          validator: (value) {
+                            if(value == null || value.isEmpty) {
+                              return "Không được bỏ trống.";
+                            }
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.person_outline,
+                              color: Colors.blue[600],
+                              size: 28,
+                            ),
+                            labelText: 'Tài khoản',
+                            contentPadding: EdgeInsets.only(left: 50),
+                              errorBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red)
+                              ),
+                              focusedErrorBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red)
+                              )
                           ),
-                          labelText: 'Tài khoản',
-                          contentPadding: EdgeInsets.only(left: 50),
+                          // style: TextStyle(fontSize: 18),
                         ),
-                        // style: TextStyle(fontSize: 18),
                       ),
-                    ),
-                    //Password
-                    Padding(
-                      padding:
-                      const EdgeInsets.symmetric(vertical: 3, horizontal: 20),
-                      child: TextFormField(
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.lock_outlined,
-                            color: Colors.blue[600],
-                            size: 28,
-                          ),
-                          suffixIcon: showPassword
-                              ? IconButton(
-                            onPressed: () {
-                              setState(() {
-                                showPassword = false;
-                              });
-                            },
-                            icon: Icon(
-                              Icons.visibility_off,
-                              color: Colors.blue,
+                      //Password
+                      Padding(
+                        padding:
+                        const EdgeInsets.symmetric(vertical: 3, horizontal: 20),
+                        child: TextFormField(
+                          controller: _passwordController,
+                          validator: (value){
+                            if(value == null || value.isEmpty){
+                              return "Mật khẩu không được bỏ trống";
+                            }
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.lock_outlined,
+                              color: Colors.blue[600],
+                              size: 28,
                             ),
-                          )
-                              : IconButton(
-                            onPressed: () {
-                              setState(() {
-                                showPassword = true;
-                              });
-                            },
-                            icon: Icon(
-                              Icons.remove_red_eye,
-                              color: Colors.blue,
-                            ),
-                          ),
-                          labelText: 'Mật khẩu',
-                        ),
-                        obscureText: showPassword ? false : true,
-                      ),
-                    ),
-                    //ForgetPassword
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          InkWell(
-                            onTap: () {},
-                            child: Text(
-                              'Quên mật khẩu?',
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontStyle: FontStyle.italic,
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    //LoginButton
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Container(
-                        // margin: EdgeInsets.only(top: 30),
-                        width: size.width * 0.7,
-                        height: 50,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30),
-                          // ignore: deprecated_member_use
-                          child: FlatButton(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 20),
+                            suffixIcon: showPassword
+                                ? IconButton(
                               onPressed: () {
-                                _bloc.add(LogInEvent.logInWithUsernameAndPassWord(
-                                    accountController.text,
-                                    passwordController.text));
+                                setState(() {
+                                  showPassword = false;
+                                });
                               },
-                              color: Colors.blue[400],
-                              child: Text(
-                                'Đăng nhập',
-                                style:
-                                TextStyle(color: Colors.white, fontSize: 18),
-                              )),
+                              icon: Icon(
+                                Icons.visibility_off,
+                                color: Colors.blue,
+                              ),
+                            )
+                                : IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  showPassword = true;
+                                });
+                              },
+                              icon: Icon(
+                                Icons.remove_red_eye,
+                                color: Colors.blue,
+                              ),
+                            ),
+                            labelText: 'Mật khẩu',
+                            errorBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red)
+                            ),
+                            focusedErrorBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red)
+                            )
+                          ),
+                          obscureText: showPassword ? false : true,
                         ),
                       ),
-                    ),
-                  ],
+                      //ForgetPassword
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(
+                      //       vertical: 20, horizontal: 20),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.end,
+                      //     children: <Widget>[
+                      //       InkWell(
+                      //         onTap: () {},
+                      //         child: Text(
+                      //           'Quên mật khẩu?',
+                      //           style: TextStyle(
+                      //               color: Colors.blue,
+                      //               fontStyle: FontStyle.italic,
+                      //               // fontWeight: FontWeight.bold,
+                      //               fontSize: 15),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      //LoginButton
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Container(
+                          // margin: EdgeInsets.only(top: 30),
+                          width: size.width * 0.7,
+                          height: 50,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            // ignore: deprecated_member_use
+                            child: FlatButton(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 20),
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _bloc.add(LogInEvent.logInWithUsernameAndPassWord(
+                                        _usernameController.text,
+                                        _passwordController.text));
+                                  }
+                                },
+                                color: Colors.blue[400],
+                                child: Text(
+                                  'Đăng nhập',
+                                  style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                                )),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),

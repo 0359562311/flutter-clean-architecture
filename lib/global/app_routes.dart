@@ -8,4 +8,6 @@ abstract class AppRoutes{
   static const String routeQRScan = '/qrscan';
   static const String routeQRGenerator = '/qrgenerator';
   static const String routeListClass = '/class';
+  static const String routeClassDetail = '/classdetail';
+  static const String routeAttendance = '/attendance';
 }
