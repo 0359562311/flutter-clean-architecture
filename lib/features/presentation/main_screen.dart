@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/widget/user_infomation_screen.dart';
-import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_generator.dart';
-import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_options_page.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/setting.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -15,9 +13,11 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<Widget> screens = [Home(),Home(), SettingScreen()];
-  PersistentTabController tabController = PersistentTabController();
-  List<PersistentBottomNavBarItem> itemBottom = [
+
+  int _index = 0;
+
+  List<Widget> _screens = [Home(),Home(), SettingScreen()];
+  List<PersistentBottomNavBarItem> _itemBottom = [
     PersistentBottomNavBarItem(
       icon: Icon(Icons.home),
       title: "Trang chủ",
@@ -55,28 +55,79 @@ class _MainScreenState extends State<MainScreen> {
         // }
     ),
   ];
+  final PageController _pageController = PageController(
+    initialPage: 0,
+  );
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: PersistentTabView(context, screens: screens,
-        controller: tabController,
-        items: itemBottom,
-        backgroundColor: Colors.white,
-        decoration: NavBarDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          colorBehindNavBar: Colors.white,
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: PageView(
+        children: _screens,
+        controller: _pageController,
+        scrollDirection: Axis.horizontal,
+        onPageChanged: (value){
+          setState(() {
+            _index = value;
+          });
+        },
+      ),
+      bottomSheet: Container(
+        padding: EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+          color: Colors.white
         ),
-        itemAnimationProperties: ItemAnimationProperties( // Navigation Bar's items animation properties.
-          duration: Duration(milliseconds: 200),
-          curve: Curves.ease,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: List.generate(3, (index) {
+            return GestureDetector(
+              onTap: (){
+                setState(() {
+                  _index = index;
+                  _pageController.animateToPage(_index, duration: Duration(milliseconds: 200), curve: Curves.elasticOut);
+                });
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 8,horizontal: 8),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: (_index == index? _itemBottom[index].activeColorPrimary:Colors.white).withOpacity(0.3)
+                ),
+                child: IntrinsicWidth(
+                  child: Row(
+                    children: [
+                      Icon(_iconData[index],
+                        color: _index == index? _itemBottom[index].activeColorPrimary:Colors.grey,
+                      ),
+                      if(index == _index) Text(_itemBottom[index].title!,
+                        style: TextStyle(
+                          color: _index == index? _itemBottom[index].activeColorPrimary:Colors.grey,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
         ),
-        screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
-        navBarStyle: NavBarStyle.style1,
       ),
     );
   }
+
+  List<IconData> _iconData = [
+    Icons.home,
+    Icons.notifications,
+    Icons.settings
+  ];
 }

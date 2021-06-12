@@ -1,4 +1,3 @@
-import 'package:flutter_app_clean_architecture/features/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/domain/use_cases/user/get_user_info.dart';
 import 'package:flutter_app_clean_architecture/features/domain/use_cases/user/update_user_profile.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/home_bloc.dart';

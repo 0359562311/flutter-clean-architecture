@@ -41,13 +41,7 @@ class _ListClassState extends State<ListClass> {
               itemBuilder: (context, position){
                 return InkWell(
                   onTap: (){
-                    pushNewScreenWithRouteSettings(
-                      context,
-                      settings: RouteSettings(name: AppRoutes.routeClassDetail),
-                      withNavBar: false,
-                      screen: ClassDetail(),
-                      pageTransitionAnimation: PageTransitionAnimation.fade,
-                    );
+                   Navigator.of(context).pushNamed(AppRoutes.routeClassDetail);
                   },
                   child: Container(
                     height: 60,

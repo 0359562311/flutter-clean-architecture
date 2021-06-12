@@ -74,35 +74,9 @@ class _ClassDetailState extends State<ClassDetail> {
               ),
             ),
             SizedBox(height: 40,),
-            SizedBox(
-              height: 50,
-              width: 230,
-              child: ElevatedButton(
-                onPressed: () {
-                  pushNewScreenWithRouteSettings(
-                    context,
-                    settings: RouteSettings(name: AppRoutes.routeAttendance),
-                    withNavBar: false,
-                    screen: Attendance(),
-                    pageTransitionAnimation: PageTransitionAnimation.rotate,
-                  );
-                },
-                child: Text(
-                  'Xem Thống kê',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  shadowColor: Colors.blueAccent,
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30))),
-                ),
-              ),
-            ),
+            buildButton(content:  'Xem Thống kê',route: AppRoutes.routeAttendance,),
+            SizedBox(height: 20,),
+            buildButton(content:  'Tạo mã điểm danh',route: AppRoutes.routeQRGenerator,),
           ],
         ),
       ),
@@ -119,6 +93,42 @@ class _ClassDetailState extends State<ClassDetail> {
           fontWeight: FontWeight.w400
         ),
       ),
+    );
+  }
+}
+
+class buildButton extends StatelessWidget {
+  final String content;
+  final String route;
+  const buildButton({
+    Key? key, required this.content, required this.route,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 45,
+      width: 200,
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(route);
+        },
+        child: Text(
+          content,
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 20
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+          primary: Colors.blue,
+          shadowColor: Colors.blueAccent,
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30))),
+        ),
+      ),
+      //Qr Generate
     );
   }
 }
