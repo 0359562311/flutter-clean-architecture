@@ -93,6 +93,7 @@ class _HomeState extends State<Home> {
                 width: 50,
               ),);
             CustomUser userInHome = (state as HomeComplete).customUser;
+            print(userInHome);
             return CustomScrollView(
               slivers: [
                 SliverPersistentHeader(
@@ -155,25 +156,6 @@ class _HomeState extends State<Home> {
                         ),
                       );
                     }).toList()),
-                SliverToBoxAdapter(
-                  child: Container(
-                    child: Text("Sự kiện sắp tới",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  ),
-                ),
-                SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                            (_, id) => SizedBox(
-                          height: 50,
-                          child: Text('$id'),
-                        ),
-                        childCount: 24)),
               ],
             );
           },
