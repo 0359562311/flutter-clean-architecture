@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 abstract class UserRemoteSource{
   Future<CustomUserModel> getUserInfo();
   Future<CustomUserModel> updateProfile(String address, String phoneNumber);
+  Future<void> identifyDevice(String password);
 }
 
 class UserAPISource extends UserRemoteSource{
@@ -26,5 +27,14 @@ class UserAPISource extends UserRemoteSource{
     var userResponse = await dio.get("/user/me/",);
     var profileResponse = await dio.get("/profile/me/",);
     return CustomUserModel.fromResponse(userResponse, profileResponse);
+  }
+
+  @override
+  Future<void> identifyDevice(String password) async {
+    // TODO: implement identifyDevice
+    var dio = GetIt.instance<Dio>();
+    await dio.post("/user/identify-device",data: {
+      "password": password
+    });
   }
 }
