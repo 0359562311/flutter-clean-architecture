@@ -65,13 +65,31 @@ class _HomeState extends State<Home> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+
     _bloc.close();
+  }
+
+  void showIdentifyDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Định danh thiết bị'),
+          content: Text("Thiết bị của bạn chưa định danh \nĐịnh danh tại đây?"),
+          actions: [
+            TextButton(onPressed: (){
+              Navigator.pop(context);
+            }, child: Text('YES')),
+            TextButton(onPressed: (){
+              Navigator.pop(context);
+            }, child: Text('NO'))
+          ],
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () => showIdentifyDialog(context));
     List<Items> list = [_items1, _items2, _items3, _items4];
-
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
