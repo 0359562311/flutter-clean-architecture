@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_clean_architecture/features/domain/use_cases/user/identify_device_use_case.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
@@ -42,7 +43,20 @@ Future<void> init() async {
     connectTimeout: 5000,
     receiveTimeout: 3000,
   );
-  getIt.registerSingleton(Dio(options));
+  getIt.registerSingleton(Dio(options)..interceptors.add(InterceptorsWrapper(
+    onResponse: (response,handler){
+      print(response.data);
+      print(response.statusCode);
+      print("=============SUCCESS==============");
+      handler.next(response);
+    },
+    onError: (error, handler){
+      print(error.response?.data);
+      print(error.response?.statusCode);
+      print("===============FAIL============");
+      handler.next(error);
+    }
+  )));
 
   getIt.registerFactory(() => LoginBloc(
       loginWithEmailAndPassword: getIt(),
@@ -56,11 +70,12 @@ Future<void> init() async {
     )
   );
   getIt.registerLazySingleton<GetUserInformation>(()=>GetUserInformation(repository: getIt()));
-  getIt.registerLazySingleton<UserRepository>(()=>HomeRepositoryImpl(remoteSource: getIt<UserRemoteSource>()));
+  getIt.registerLazySingleton<UserRepository>(()=>UserRepositoryImpl(remoteSource: getIt<UserRemoteSource>()));
   getIt.registerLazySingleton<UserRemoteSource>(() => UserAPISource());
 
   getIt.registerLazySingleton<ProfileBloc>(() => ProfileBloc(getIt(), getIt()));
   getIt.registerLazySingleton<UpdateUserProfile>(() => UpdateUserProfile(repository: getIt()));
+  getIt.registerLazySingleton<IdentifyDeviceUseCase>(() => IdentifyDeviceUseCase(getIt()));
 }
 
 class MyApp extends StatefulWidget {

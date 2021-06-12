@@ -34,7 +34,7 @@ class CustomUserModel extends CustomUser{
       dob: DateTime.parse(data2['dateOfBirth']??"2000-12-03T00:00:00.000Z"),
       address: data2['address'],
       phoneNumber: data2['phoneNumber'],
-      deviceId: data1?['identifiedDeviceInfo']['deviceId']
+      deviceId: data1?['identifiedDeviceInfo']?['deviceId']
     );
   }
 }

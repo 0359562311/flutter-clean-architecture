@@ -11,6 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
+import 'identify_device.dart';
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -35,7 +37,10 @@ class _HomeState extends State<Home> {
       new Items(title: "Thời khóa biểu", img: 'assets/images/fake_slink/schedule2.png',
           onPressed: (_){}
       );
-  Items _items4 = new Items(
+
+  late Items _items4;
+
+  Items _items5 = new Items(
       title: "Thay đổi thiết bị định danh", img: 'assets/images/fake_slink/phone.png',
     onPressed: (_){}
   );
@@ -47,6 +52,30 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
     _bloc = GetIt.instance<HomeBloc>()..add(HomeEvent.init());
+    _items4 = new Items(
+        title: "Định danh thiết bị", img: 'assets/images/fake_slink/phone.png',
+        onPressed: (context) async {
+          if(GetIt.instance<CustomUser>().deviceId != null){
+            showDialog(context: context, builder: (context) => AlertDialog(
+              content: Text("Tài khoản đã được định danh với 1 thiết bị."),
+              actions: [
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4,vertical: 4),
+                    child: Text("Đóng"),
+                  ),
+                )
+              ],
+            ));
+          } else {
+            await showDialog(context: context, builder: (context) => IdentifyDeviceDialog());
+            _bloc.add(HomeEvent.init());
+          }
+        }
+    );
   }
 
   @override
@@ -58,7 +87,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    List<Items> list = [_items1, _items2, _items3, _items4];
+    List<Items> list = [_items1, _items2, _items3, _items4, _items5];
 
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -83,6 +112,20 @@ class _HomeState extends State<Home> {
                             child: Text("Close"))
                       ],
                     )));
+            else if(state is HomeComplete) {
+              if(state.customUser.deviceId == null) {
+                showDialog(context: context, builder: (context) => AlertDialog(
+                  content: Text("Tài khoản của bạn chưa được định danh"),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("Close"))
+                  ],
+                ));
+              }
+            }
           },
           buildWhen: (context,state) => !(state is HomeErrorState),
           builder: (context,state){

@@ -8,10 +8,10 @@ import 'package:flutter_app_clean_architecture/features/data/sources/remote_sour
 import 'package:flutter_app_clean_architecture/features/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/domain/repositories/user_repository.dart';
 
-class HomeRepositoryImpl extends UserRepository{
+class UserRepositoryImpl extends UserRepository{
   final UserRemoteSource remoteSource;
 
-  HomeRepositoryImpl({required this.remoteSource});
+  UserRepositoryImpl({required this.remoteSource});
 
   @override
   Future<Either<Failure, CustomUserModel>> getUserInformation() async {
@@ -36,6 +36,22 @@ class HomeRepositoryImpl extends UserRepository{
       return left(Failure.networkDisconnected("No internet connection."));
     try {
       var user = await remoteSource.updateProfile(address, phoneNumber);
+      return right(user);
+    } on DioError catch (e){
+      print(e);
+      return left(Failure.serverSendsError(mapErrorCode(e.response?.data['errorCode'])));
+    } on Exception catch (_) {
+      // TODO
+      return left(Failure.serverSendsError("Đã có lỗi xảy ra"));
+    }
+  }
+
+  @override
+  Future<Either<Failure,void>> identifyDevice(String password) async {
+    if(!NetworkInfo.instance.isConnecting)
+      return left(Failure.networkDisconnected("No internet connection."));
+    try {
+      var user = await remoteSource.identifyDevice(password);
       return right(user);
     } on DioError catch (e){
       print(e);
