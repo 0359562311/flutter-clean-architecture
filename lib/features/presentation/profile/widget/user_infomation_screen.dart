@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/custom_user.dart';
-import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/bloc/profile_event.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/bloc/profile_state.dart';
@@ -17,8 +16,8 @@ class UserInformation extends StatefulWidget {
 
 class _UserInformationState extends State<UserInformation> {
   late final ProfileBloc _bloc;
-  final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
   bool edit = false;
   @override
   void initState() {
@@ -28,8 +27,8 @@ class _UserInformationState extends State<UserInformation> {
 
   void dispose() {
     super.dispose();
-    phoneNumberController.dispose();
-    addressController.dispose();
+    _phoneNumberController.dispose();
+    _addressController.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -63,22 +62,25 @@ class _UserInformationState extends State<UserInformation> {
               buildWhen: (_, newState) => !(newState is ProfileErrorState),
               listener: (context, state) {
                 if (state is ProfileErrorState) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (dialogueContext) => AlertDialog(
-                                content: Text(state.message),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.popUntil(
-                                            dialogueContext,
-                                            ModalRoute.withName(
-                                                AppRoutes.routeMain));
-                                      },
-                                      child: Text("Close"))
-                                ],
-                              )));
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            content: Text(state.message),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Close",
+
+                                  )
+                              )
+                            ],
+                          ));
+                }
+                if(state is ProfileCompleteState){
+                  _addressController.clear();
+                  _phoneNumberController.clear();
                 }
               },
               builder: (context, state) {
@@ -120,9 +122,9 @@ class _UserInformationState extends State<UserInformation> {
                               'Số điện thoại',
                               user.phoneNumber ?? "",
                               edit,
-                              phoneNumberController),
+                              _phoneNumberController),
                           buildTextFormField('Địa chỉ', user.address ?? "",
-                              edit, addressController),
+                              edit, _addressController),
                           SizedBox(
                             height: 50,
                           ),
@@ -142,14 +144,16 @@ class _UserInformationState extends State<UserInformation> {
                                   });
                                 } else {
                                   edit = !edit;
-                                  print(addressController.text.isEmpty.toString()+"------");
+                                  print(_addressController.text.isEmpty
+                                          .toString() +
+                                      "------");
                                   _bloc.add(ProfileEvent.updateProfile(
-                                    addressController.text.isEmpty?
-                                      user.address??"":
-                                      addressController.text,
-                                    phoneNumberController.text.isEmpty?
-                                      user.phoneNumber??"":
-                                      phoneNumberController.text,
+                                    _addressController.text.isEmpty
+                                        ? user.address ?? ""
+                                        : _addressController.text,
+                                    _phoneNumberController.text.isEmpty
+                                        ? user.phoneNumber ?? ""
+                                        : _phoneNumberController.text,
                                   ));
                                 }
                               },

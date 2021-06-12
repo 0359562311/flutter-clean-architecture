@@ -32,4 +32,9 @@ class CustomUser{
   @override
   int get hashCode =>
       id.hashCode ^ role.hashCode ^ name.hashCode ^ deviceId.hashCode;
+
+  @override
+  String toString() {
+    return 'CustomUser{id: $id, role: $role, deviceId: $deviceId}';
+  }
 }
