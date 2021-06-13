@@ -26,9 +26,6 @@ class LoginBloc extends Bloc<LogInEvent,LoginState>{
                     option.headers['Authorization'] = 'Bearer ${right.token}';
                     return handler.next(option);
                   },
-                  onError: (error, handle){
-
-                  }
                 ));
                 yield LogInSuccess();
               }

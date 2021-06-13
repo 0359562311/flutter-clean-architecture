@@ -5,4 +5,5 @@ import 'package:flutter_app_clean_architecture/features/domain/entities/custom_u
 abstract class UserRepository{
   Future<Either<Failure,CustomUser>> getUserInformation();
   Future<Either<Failure,CustomUser>> updateProfile(String address, String phoneNumber);
+  Future<Either<Failure,void>> identifyDevice(String password);
 }
