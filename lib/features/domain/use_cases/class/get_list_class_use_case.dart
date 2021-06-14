@@ -8,5 +8,5 @@ class GetListClassUseCase{
 
   GetListClassUseCase(this.repository);
 
-  Future<Either<Failure, Class>> call() => repository.
+  Future<Either<Failure, List<Class>>> call() => repository.getListClass();
 }

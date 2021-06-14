@@ -4,6 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_clean_architecture/features/data/repositories/class_repository_impl.dart';
+import 'package:flutter_app_clean_architecture/features/domain/repositories/class_repository.dart';
+import 'package:flutter_app_clean_architecture/features/domain/use_cases/class/get_list_class_use_case.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/attendance.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/class_detail.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/list_class.dart';
@@ -79,6 +82,10 @@ Future<void> init() async {
   getIt.registerLazySingleton<ProfileBloc>(() => ProfileBloc(getIt(), getIt()));
   getIt.registerLazySingleton<UpdateUserProfile>(() => UpdateUserProfile(repository: getIt()));
   getIt.registerLazySingleton<IdentifyDeviceUseCase>(() => IdentifyDeviceUseCase(getIt()));
+
+  getIt.registerLazySingleton<ClassRepository>(() => ClassRepositoryImpl());
+  getIt.registerLazySingleton<GetListClassUseCase>(() => GetListClassUseCase(getIt()));
+
 }
 
 class MyApp extends StatefulWidget {

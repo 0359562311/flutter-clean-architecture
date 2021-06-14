@@ -17,7 +17,7 @@ class Class {
   final String tenLopHoc;
   final String maMonHoc;
   final String tenMonHoc;
-  final List<LichHoc> lichHoc;
+  final List<Schedule> lichHoc;
 
   factory Class.fromJson(Map<String, dynamic> json) => Class(
     id: json["_id"],
@@ -26,7 +26,7 @@ class Class {
     tenLopHoc: json["tenLopHoc"],
     maMonHoc: json["maMonHoc"],
     tenMonHoc: json["tenMonHoc"],
-    lichHoc: List<LichHoc>.from(json["lichHoc"].map((x) => LichHoc.fromJson(x))),
+    lichHoc: List<Schedule>.from(json["lichHoc"].map((x) => Schedule.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {

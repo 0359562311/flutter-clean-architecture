@@ -33,48 +33,13 @@ class _QRGeneratorState extends State<QRGenerator> {
           ),
           title: Text('QR Code Generator',style: TextStyle(color:Colors.blue),),
         ),
-        body: SingleChildScrollView(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                QrImage(
-                  data: controller.text,
-                  // version: QrVersions.auto,
-                  size: 250,
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                TextField(
-                  focusNode: focusNode,
-                  controller: controller,
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                  decoration: InputDecoration(
-                      hintText: 'Data',
-                      hintStyle: TextStyle(color: Colors.grey),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: Colors.blueAccent)),
-                      suffixIcon: IconButton(
-                        color: Colors.blueAccent,
-                        iconSize: 35,
-                        icon: Icon(Icons.check),
-                        onPressed: () => setState(() {
-                          focusNode.unfocus();
-                        }),
-                      )),
-                ),
-              ],
-            ),
+        body: Center(
+          child: QrImage(
+            data: "/attendance/register/me/in",
+            // version: QrVersions.auto,
+            size: 250,
           ),
+        ),
         ),
     );
   }

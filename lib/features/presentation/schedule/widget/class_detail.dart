@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/features/domain/entities/class.dart';
+import 'package:flutter_app_clean_architecture/features/domain/entities/schedule.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/attendance.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
+import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class ClassDetail extends StatefulWidget {
@@ -13,12 +16,28 @@ class ClassDetail extends StatefulWidget {
 
 class _ClassDetailState extends State<ClassDetail> {
 
-  _Classroom _classroom =_Classroom(idClass: 'INT1340-20202-06',
-      idSubject: 'INT1340', nameSubject: 'Công nghệ phần mềm', room: '205-A3',
-      day: '2', timeStart: '18:00', timeEnd: '19:50');
+  void _showDialog(context, message) {
+    showDialog(context: context, builder: (context) => AlertDialog(
+      content: Text(message),
+      actions: [
+        GestureDetector(
+          onTap: (){
+            Navigator.pop(context);
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4,vertical: 4),
+            child: Text("Đóng"),
+          ),
+        )
+      ],
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
+    Class cl = (ModalRoute.of(context)!.settings.arguments as Map)['class'];
+    DateTime date = (ModalRoute.of(context)!.settings.arguments as Map)['date'];
+    Schedule schedule = (ModalRoute.of(context)!.settings.arguments as Map)['schedule'];
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -42,7 +61,6 @@ class _ClassDetailState extends State<ClassDetail> {
           children: [
             SizedBox(height: 10,),
             Container(
-              height: 290,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -62,21 +80,50 @@ class _ClassDetailState extends State<ClassDetail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 10,),
-                  buildText('Môn học: ' + _classroom.nameSubject,22.0),
-                  buildText('Mã lớp: ' + _classroom.idClass,22.0),
-                  buildText('Mã môn: ' + _classroom.idSubject,22.0),
-                  buildText('Phòng học: ' + _classroom.room,22.0),
-                  buildText('Thứ: ' + _classroom.day,22.0),
-                  buildText('Thời gian bắt đầu: ' + _classroom.timeStart,22.0),
-                  buildText('Thời gian kết thúc: ' + _classroom.timeEnd,22.0),
-
+                  buildText('Môn học: ' + cl.tenMonHoc,22.0),
+                  buildText('Mã lớp: ' + cl.maLopHoc,22.0),
+                  buildText('Mã môn: ' + cl.maMonHoc,22.0),
+                  buildText('Phòng học: ' + schedule.phongHoc,22.0),
+                  buildText('Thứ: ${schedule.thuHoc}',22.0),
+                  buildText('Thời gian bắt đầu: ' + schedule.thoiGianBatDau,22.0),
+                  buildText('Thời gian kết thúc: ' + schedule.thoiGianKetThuc,22.0),
+                  buildText('Ngày: ${DateFormat("dd-MM-yyyy").format(date)}',22.0),
                 ],
               ),
             ),
             SizedBox(height: 40,),
-            buildButton(content:  'Xem Thống kê',route: AppRoutes.routeAttendance,),
+            buildButton(content:  'Xem Thống kê',callback: (){
+              Navigator.of(context).pushNamed(AppRoutes.routeAttendance);
+            },),
             SizedBox(height: 20,),
-            buildButton(content:  'Tạo mã điểm danh',route: AppRoutes.routeQRGenerator,),
+            buildButton(content:  'Tạo mã điểm danh',
+              callback: (){
+              var now = DateTime.now();
+                if(now.
+                  compareTo(
+                      date.add(
+                          Duration(
+                              hours: int.parse(schedule.thoiGianBatDau.substring(0,2)),
+                            minutes: int.parse(schedule.thoiGianBatDau.substring(3))
+                          )
+                      )
+                  ) < 0 ||
+                    now.
+                    compareTo(
+                        date.add(
+                            Duration(
+                                hours: int.parse(schedule.thoiGianKetThuc.substring(0,2)),
+                                minutes: int.parse(schedule.thoiGianKetThuc.substring(3))
+                            )
+                        )
+                    ) > 0
+                ){
+                  _showDialog(context, "Không thể tạo mã điểm danh ngoài giờ học");
+                } else {
+                  Navigator.of(context).pushNamed(AppRoutes.routeQRGenerator);
+                }
+              },
+            ),
           ],
         ),
       ),
@@ -88,6 +135,7 @@ class _ClassDetailState extends State<ClassDetail> {
         padding: EdgeInsets.only(left: 10,top: 10),
       child: Text(
         text,
+        maxLines: 3,
         style: TextStyle(
           fontSize: size,
           fontWeight: FontWeight.w400
@@ -99,9 +147,9 @@ class _ClassDetailState extends State<ClassDetail> {
 
 class buildButton extends StatelessWidget {
   final String content;
-  final String route;
+  final VoidCallback? callback;
   const buildButton({
-    Key? key, required this.content, required this.route,
+    Key? key, required this.content, this.callback,
   }) : super(key: key);
 
   @override
@@ -110,9 +158,7 @@ class buildButton extends StatelessWidget {
       height: 45,
       width: 200,
       child: ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(route);
-        },
+        onPressed: callback,
         child: Text(
           content,
           style: TextStyle(

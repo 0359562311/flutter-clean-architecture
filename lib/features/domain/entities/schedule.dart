@@ -1,5 +1,5 @@
-class LichHoc {
-  LichHoc({
+class Schedule {
+  Schedule({
     required this.tuanHoc,
     required this.phongHoc,
     required this.thuHoc,
@@ -17,7 +17,7 @@ class LichHoc {
   final String thoiGianBatDau;
   final String thoiGianKetThuc;
 
-  factory LichHoc.fromJson(Map<String, dynamic> json) => LichHoc(
+  factory Schedule.fromJson(Map<String, dynamic> json) => Schedule(
     tuanHoc: List<int>.from(json["tuanHoc"].map((x) => x)),
     phongHoc: json["phongHoc"],
     thuHoc: json["thuHoc"],
