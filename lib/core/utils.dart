@@ -16,3 +16,5 @@ String mapErrorCode(String errorCode){
       return "Đã có lỗi xảy ra";
   }
 }
+
+DateTime startDate = DateTime.parse("2021-05-31T17:00:00.000Z");
