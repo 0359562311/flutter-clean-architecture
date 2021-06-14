@@ -14,6 +14,7 @@ class _QRScanState extends State<QRScan> {
   Barcode? barcode;
   QRViewController? controller;
 
+
   @override
   void reassemble() async {
     super.reassemble();
@@ -91,6 +92,7 @@ class _QRScanState extends State<QRScan> {
     );
   }
 
+  //
   // BuildControlButtons() {
   //   return Container(
   //     padding: EdgeInsets.symmetric(horizontal: 15),
