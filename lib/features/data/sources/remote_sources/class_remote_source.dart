@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_app_clean_architecture/features/data/models/class_model.dart';
-import 'package:flutter_app_clean_architecture/features/domain/entities/class.dart';
 import 'package:get_it/get_it.dart';
 
 
@@ -11,5 +10,4 @@ class ClassRemoteSource {
         "available-class/current?maKyHoc=20202");
     return (res.data as List).map((e) => ClassModel.fromJson(e)).toList();
   }
-
 }

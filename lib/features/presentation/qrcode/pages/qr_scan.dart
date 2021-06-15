@@ -1,6 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/features/presentation/qrcode/bloc/qr_scan_bloc.dart';
+import 'package:flutter_app_clean_architecture/features/presentation/qrcode/bloc/qr_scan_event.dart';
+import 'package:flutter_app_clean_architecture/features/presentation/qrcode/bloc/qr_scan_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRScan extends StatefulWidget {
@@ -13,6 +18,14 @@ class _QRScanState extends State<QRScan> {
   final qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? barcode;
   QRViewController? controller;
+  late QRScanBloc _bloc;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _bloc = QRScanBloc(GetIt.instance());
+  }
 
 
   @override
@@ -42,13 +55,35 @@ class _QRScanState extends State<QRScan> {
         ),
       ),
       body:
-          Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              buildQrView(context),
-              Positioned(bottom: 10, child: buildResult()),
-              // Positioned(top: 10, child: BuildControlButtons(),
-            ],
+          BlocConsumer<QRScanBloc,QRScanState>(
+            bloc: _bloc,
+            listener: (context, state){
+              if(state is QRScanErrorState){
+                Navigator.of(context).pop(state.message);
+              } else if (state is QRScanCompleteState) {
+                Navigator.of(context).pop("Điểm danh thành công");
+              }
+            },
+            buildWhen: (pre,next){
+              return !(next is QRScanCompleteState);
+            },
+            builder: (context,state) {
+              if(state is QRScanInitState)
+                return Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    buildQrView(context),
+                    Positioned(bottom: 10, child: buildResult()),
+                  ],
+                );
+              return Center(
+                child: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
           ),
 
     ));
@@ -70,13 +105,10 @@ class _QRScanState extends State<QRScan> {
   }
 
   void onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
-    controller.scannedDataStream.listen((barcode) {
-      setState(() {
-        this.barcode = barcode;
-      });
+    this.controller = controller;
+    this.controller?.scannedDataStream.listen((barcode) {
+      this.barcode = barcode;
+      _bloc.add(QRScanSendResultEvent(barcode.code));
     });
   }
 
@@ -86,7 +118,7 @@ class _QRScanState extends State<QRScan> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: Colors.white),
       child: Text(
-        barcode != null ? 'Result : ${barcode!.code}' : 'Scan a code!',
+        barcode != null ? 'Result : ${barcode!.code}' : 'Bạn phải quét từ ứng dụng mới điểm danh được.',
         maxLines: 3,
       ),
     );
@@ -137,6 +169,7 @@ class _QRScanState extends State<QRScan> {
   @override
   void dispose() {
     controller?.dispose();
+    _bloc.close();
     super.dispose();
   }
 }

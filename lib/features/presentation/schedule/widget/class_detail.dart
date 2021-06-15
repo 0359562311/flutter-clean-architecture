@@ -119,7 +119,12 @@ class _ClassDetailState extends State<ClassDetail> {
                 ){
                   _showDialog(context, "Không thể tạo mã điểm danh ngoài giờ học");
                 } else {
-                  Navigator.of(context).pushNamed(AppRoutes.routeQRGenerator);
+                  Navigator.of(context).pushNamed(AppRoutes.routeQRGenerator, arguments: {
+                    "maLopHoc": cl.maLopHoc,
+                    "maMonHoc": cl.maMonHoc,
+                    "thoiGianBatDau": schedule.thoiGianBatDau,
+                    "thoiGianKetThuc": schedule.thoiGianKetThuc
+                  });
                 }
               },
             ),

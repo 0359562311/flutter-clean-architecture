@@ -1,32 +1,30 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_clean_architecture/features/data/repositories/attendance_repository_impl.dart';
 import 'package:flutter_app_clean_architecture/features/data/repositories/class_repository_impl.dart';
+import 'package:flutter_app_clean_architecture/features/data/sources/remote_sources/attendance_remote_source.dart';
 import 'package:flutter_app_clean_architecture/features/data/sources/remote_sources/class_remote_source.dart';
+import 'package:flutter_app_clean_architecture/features/domain/repositories/attendance_repository.dart';
 import 'package:flutter_app_clean_architecture/features/domain/repositories/class_repository.dart';
+import 'package:flutter_app_clean_architecture/features/domain/use_cases/attendance/request_to_attend_use_case.dart';
 import 'package:flutter_app_clean_architecture/features/domain/use_cases/class/get_list_class_use_case.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/attendance.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/class_detail.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/list_class.dart';
 import 'package:flutter_app_clean_architecture/features/domain/use_cases/user/identify_device_use_case.dart';
-import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_scan.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
 import 'package:flutter_app_clean_architecture/features/data/repositories/login_repository_impl.dart';
 import 'package:flutter_app_clean_architecture/features/data/sources/remote_sources/login_remote_sources.dart';
 import 'package:flutter_app_clean_architecture/features/domain/repositories/login_repository.dart';
-import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/home_bloc.dart';
 import 'features/domain/use_cases/user/get_user_info.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/bloc/profile_bloc.dart';
-import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_generator.dart';
-import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_options_page.dart';
 import 'features/domain/use_cases/authentication/login_with_email_and_password.dart';
 import 'features/domain/use_cases/user/update_user_profile.dart';
-import 'features/presentation/authentication/bloc/login_bloc.dart';
 import 'features/presentation/authentication/widgets/login.dart';
 import 'package:get_it/get_it.dart';
 import 'features/data/repositories/user_repository_impl.dart';
@@ -34,6 +32,8 @@ import 'features/data/sources/remote_sources/user_remote_source.dart';
 import 'features/domain/repositories/user_repository.dart';
 import 'features/presentation/main_screen.dart';
 import 'features/presentation/profile/widget/user_infomation_screen.dart';
+import 'features/presentation/qrcode/pages/qr_generator.dart';
+import 'features/presentation/qrcode/pages/qr_scan.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -44,7 +44,6 @@ void main() async {
 
 Future<void> init() async {
   GetIt getIt = GetIt.instance;
-  // getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   var options = BaseOptions
     (
     baseUrl: 'http://20.188.121.133:3000',
@@ -52,13 +51,23 @@ Future<void> init() async {
     receiveTimeout: 3000,
   );
   getIt.registerSingleton(Dio(options)..interceptors.add(InterceptorsWrapper(
+    onRequest: (option,handler) {
+      print("\n\n\n");
+      print("onrequest ${option.method} ${option.path}");
+      print(option.data);
+      print("=============Request==============");
+      handler.next(option);
+    },
     onResponse: (response,handler){
+      print("\n\n\n");
+      print("onresponse ${response.requestOptions.path}");
       print(response.data);
       print(response.statusCode);
       print("=============SUCCESS==============");
       handler.next(response);
     },
     onError: (error, handler){
+      print("\n\n\n");
       print(error.response?.data);
       print(error.response?.statusCode);
       print("===============FAIL============");
@@ -79,6 +88,10 @@ Future<void> init() async {
   getIt.registerLazySingleton<ClassRepository>(() => ClassRepositoryImpl(getIt()));
   getIt.registerLazySingleton<ClassRemoteSource>(() => ClassRemoteSource());
   getIt.registerLazySingleton<GetListClassUseCase>(() => GetListClassUseCase(getIt()));
+
+  getIt.registerLazySingleton<AttendanceRemoteSource>(() => AttendanceRemoteSource());
+  getIt.registerLazySingleton<AttendanceRepository>(() => AttendanceRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<RequestToAttendUseCase>(() => RequestToAttendUseCase(getIt()));
 
 }
 
@@ -115,8 +128,7 @@ class _MyAppState extends State<MyApp> {
       ),
       initialRoute: "/login",
       routes: {
-        AppRoutes.routeQROptions:(context) => QROptions(),
-         AppRoutes.routeQRGenerator:(context) => QRGenerator(),
+        AppRoutes.routeQRGenerator:(context) => QRGenerator(),
         AppRoutes.routeQRScan: (_) => QRScan(),
         AppRoutes.routeMain:(_) => MainScreen(),
         AppRoutes.routeLogin:(context) => Login(),
@@ -124,7 +136,6 @@ class _MyAppState extends State<MyApp> {
         AppRoutes.routeListClass:(context) => ListClass(),
         AppRoutes.routeAttendance:(context) => Attendance(),
         AppRoutes.routeClassDetail:(context) => ClassDetail(),
-        AppRoutes.routeQRScan:(context) => QRScan(),
     // '/profile':(context) => ProfileScreen(),
       },
     );

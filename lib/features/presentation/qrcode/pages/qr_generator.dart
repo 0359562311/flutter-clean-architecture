@@ -16,6 +16,10 @@ class _QRGeneratorState extends State<QRGenerator> {
 
   @override
   Widget build(BuildContext context) {
+    String maLopHoc = (ModalRoute.of(context)?.settings.arguments as Map)['maLopHoc'];
+    String maMonHoc = (ModalRoute.of(context)?.settings.arguments as Map)['maMonHoc'];
+    String thoiGianBatDau = (ModalRoute.of(context)?.settings.arguments as Map)['thoiGianBatDau'];
+    String thoiGianKetThuc = (ModalRoute.of(context)?.settings.arguments as Map)['thoiGianKetThuc'];
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -35,7 +39,7 @@ class _QRGeneratorState extends State<QRGenerator> {
         ),
         body: Center(
           child: QrImage(
-            data: "/attendance/register/me/in",
+            data: "/attendance/register/me/in/$maLopHoc/$maMonHoc/$thoiGianBatDau/$thoiGianKetThuc",
             // version: QrVersions.auto,
             size: 250,
           ),
