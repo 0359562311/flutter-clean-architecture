@@ -8,8 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  final GetUserInformation getUserInformation;
-  final UpdateUserProfile updateUserProfile;
+  final GetUserInformationUseCase getUserInformation;
+  final UpdateUserProfileUseCase updateUserProfile;
 
   ProfileBloc(this.getUserInformation, this.updateUserProfile)
       : super(ProfileState.loading());

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_scan.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_generator.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class QROptions extends StatefulWidget {
   const QROptions({Key? key}) : super(key: key);
@@ -59,13 +58,7 @@ class _QROptionsState extends State<QROptions> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        pushNewScreenWithRouteSettings(
-                          context,
-                          settings: RouteSettings(name: AppRoutes.routeQRScan),
-                          withNavBar: false,
-                          screen: QRScan(),
-                          pageTransitionAnimation: PageTransitionAnimation.fade,
-                        );
+                        Navigator.pushNamed(context, AppRoutes.routeQRScan);
                       },
                       child: Text(
                         'QR Scanner',
@@ -84,13 +77,7 @@ class _QROptionsState extends State<QROptions> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        pushNewScreenWithRouteSettings(
-                          context,
-                          settings: RouteSettings(name: AppRoutes.routeQRGenerator),
-                          withNavBar: false,
-                          screen: QRGenerator(),
-                          pageTransitionAnimation: PageTransitionAnimation.fade,
-                        );
+                        Navigator.pushNamed(context, AppRoutes.routeQRGenerator);
                       },
                       child: Text(
                         'QR Generator',

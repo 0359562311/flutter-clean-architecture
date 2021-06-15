@@ -17,16 +17,6 @@ class Schedule {
   final String thoiGianBatDau;
   final String thoiGianKetThuc;
 
-  factory Schedule.fromJson(Map<String, dynamic> json) => Schedule(
-    tuanHoc: List<int>.from(json["tuanHoc"].map((x) => x)),
-    phongHoc: json["phongHoc"],
-    thuHoc: json["thuHoc"],
-    tietBatDau: json["tietBatDau"],
-    tietKetThuc: json["tietKetThuc"],
-    thoiGianBatDau: json["thoiGianBatDau"],
-    thoiGianKetThuc: json["thoiGianKetThuc"],
-  );
-
   Map<String, dynamic> toJson() => {
     "tuanHoc": List<dynamic>.from(tuanHoc.map((x) => x)),
     "phongHoc": phongHoc,

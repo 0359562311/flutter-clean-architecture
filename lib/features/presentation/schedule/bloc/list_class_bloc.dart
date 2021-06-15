@@ -38,7 +38,7 @@ class ListClassBloc extends Bloc<ListClassEvent,ListClassState>{
                 timeStart: schedule.thoiGianBatDau,
                 timeEnd: schedule.thoiGianKetThuc,
                 name: cl.tenMonHoc,
-                date: startDate.add(Duration(days: 7*(event.week-1) + schedule.thuHoc-2))
+                date: startDate.add(Duration(days: 7*(event.week-1) + schedule.thuHoc-1))
               )
             );
         });

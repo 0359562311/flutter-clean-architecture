@@ -1,18 +1,15 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_app_clean_architecture/features/data/models/class_model.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/class.dart';
 import 'package:get_it/get_it.dart';
 
-abstract class ClassRemoteSource {
-  Future<List<Class>> getListClass();
-}
 
-class ClassRemoteSourceImpl extends ClassRemoteSource {
-  @override
-  Future<List<Class>> getListClass() async {
+class ClassRemoteSource {
+  Future<List<ClassModel>> getListClass() async {
     var res = await GetIt.instance<Dio>().
       get("/sotay/lop/giang-vien/search/"
         "available-class/current?maKyHoc=20202");
-    return (res.data as List).map((e) => Class.fromJson(e)).toList();
+    return (res.data as List).map((e) => ClassModel.fromJson(e)).toList();
   }
 
 }

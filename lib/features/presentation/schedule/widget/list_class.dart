@@ -3,12 +3,10 @@ import 'package:flutter_app_clean_architecture/features/domain/use_cases/class/g
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/bloc/list_class_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/bloc/list_class_event.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/bloc/list_class_state.dart';
-import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/class_detail.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class ListClass extends StatefulWidget {
   const ListClass({Key? key}) : super(key: key);
@@ -122,7 +120,10 @@ class _ListClassState extends State<ListClass> {
                                  ),
                                  "schedule": _bloc.listClasses.firstWhere(
                                          (element) => element.id == classroom[position].id
-                                 ).lichHoc.firstWhere((lich) => lich.thoiGianBatDau == classroom[position].timeStart)
+                                 ).lichHoc.firstWhere(
+                                         (lich) => lich.thoiGianBatDau == classroom[position].timeStart
+                                             && lich.thoiGianKetThuc == classroom[position].timeEnd
+                                 )
                                });
                               },
                               child: Container(

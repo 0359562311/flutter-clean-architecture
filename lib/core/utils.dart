@@ -17,4 +17,4 @@ String mapErrorCode(String errorCode){
   }
 }
 
-DateTime startDate = DateTime.parse("2021-05-31T17:00:00.000Z");
+DateTime startDate = DateTime.parse("2021-05-31T00:00:00.000Z");

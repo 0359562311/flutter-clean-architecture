@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/core/utils.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/class.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/schedule.dart';
-import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/attendance.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:intl/intl.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class ClassDetail extends StatefulWidget {
   const ClassDetail({Key? key}) : super(key: key);
@@ -98,25 +97,25 @@ class _ClassDetailState extends State<ClassDetail> {
             SizedBox(height: 20,),
             buildButton(content:  'Tạo mã điểm danh',
               callback: (){
-              var now = DateTime.now();
+                var now = DateTime.now().toUtc().add(Duration(hours: 7));
                 if(now.
-                  compareTo(
+                  isBefore(
                       date.add(
                           Duration(
                               hours: int.parse(schedule.thoiGianBatDau.substring(0,2)),
                             minutes: int.parse(schedule.thoiGianBatDau.substring(3))
                           )
                       )
-                  ) < 0 ||
+                  ) ||
                     now.
-                    compareTo(
+                    isAfter(
                         date.add(
                             Duration(
                                 hours: int.parse(schedule.thoiGianKetThuc.substring(0,2)),
                                 minutes: int.parse(schedule.thoiGianKetThuc.substring(3))
                             )
                         )
-                    ) > 0
+                    )
                 ){
                   _showDialog(context, "Không thể tạo mã điểm danh ngoài giờ học");
                 } else {

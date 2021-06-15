@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_clean_architecture/features/data/repositories/class_repository_impl.dart';
+import 'package:flutter_app_clean_architecture/features/data/sources/remote_sources/class_remote_source.dart';
 import 'package:flutter_app_clean_architecture/features/domain/repositories/class_repository.dart';
 import 'package:flutter_app_clean_architecture/features/domain/use_cases/class/get_list_class_use_case.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/attendance.dart';
@@ -42,7 +43,7 @@ void main() async {
 
 Future<void> init() async {
   GetIt getIt = GetIt.instance;
-  getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
+  // getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   var options = BaseOptions
     (
     baseUrl: 'http://20.188.121.133:3000',
@@ -60,7 +61,7 @@ Future<void> init() async {
       print(error.response?.data);
       print(error.response?.statusCode);
       print("===============FAIL============");
-      handler.next(error);
+      handler.reject(error);
     }
   )));
 
@@ -75,15 +76,16 @@ Future<void> init() async {
       getUserInformation: getIt()
     )
   );
-  getIt.registerLazySingleton<GetUserInformation>(()=>GetUserInformation(repository: getIt()));
+  getIt.registerLazySingleton<GetUserInformationUseCase>(()=>GetUserInformationUseCase(repository: getIt()));
   getIt.registerLazySingleton<UserRepository>(()=>UserRepositoryImpl(remoteSource: getIt<UserRemoteSource>()));
   getIt.registerLazySingleton<UserRemoteSource>(() => UserAPISource());
 
   getIt.registerLazySingleton<ProfileBloc>(() => ProfileBloc(getIt(), getIt()));
-  getIt.registerLazySingleton<UpdateUserProfile>(() => UpdateUserProfile(repository: getIt()));
+  getIt.registerLazySingleton<UpdateUserProfileUseCase>(() => UpdateUserProfileUseCase(repository: getIt()));
   getIt.registerLazySingleton<IdentifyDeviceUseCase>(() => IdentifyDeviceUseCase(getIt()));
 
-  getIt.registerLazySingleton<ClassRepository>(() => ClassRepositoryImpl());
+  getIt.registerLazySingleton<ClassRepository>(() => ClassRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<ClassRemoteSource>(() => ClassRemoteSource());
   getIt.registerLazySingleton<GetListClassUseCase>(() => GetListClassUseCase(getIt()));
 
 }

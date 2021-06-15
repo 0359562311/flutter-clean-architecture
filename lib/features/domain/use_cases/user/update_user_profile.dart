@@ -3,10 +3,10 @@ import 'package:flutter_app_clean_architecture/core/error/failures.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/domain/repositories/user_repository.dart';
 
-class UpdateUserProfile {
+class UpdateUserProfileUseCase {
   final UserRepository repository;
 
-  UpdateUserProfile({required this.repository});
+  UpdateUserProfileUseCase({required this.repository});
 
   Future<Either<Failure, CustomUser>> call(String address, String phoneNumber) =>
       repository.updateProfile(address, phoneNumber);

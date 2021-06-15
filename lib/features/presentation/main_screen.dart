@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/global/app_routes.dart';
-import 'package:flutter_app_clean_architecture/features/presentation/profile/widget/user_infomation_screen.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/setting.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import 'home/widget/home.dart';
 
@@ -16,45 +13,7 @@ class _MainScreenState extends State<MainScreen> {
 
   int _index = 0;
 
-  List<Widget> _screens = [Home(),Home(), SettingScreen()];
-  List<PersistentBottomNavBarItem> _itemBottom = [
-    PersistentBottomNavBarItem(
-      icon: Icon(Icons.home),
-      title: "Trang chủ",
-      activeColorPrimary: Colors.blue,
-      inactiveColorPrimary: Colors.grey,
-      inactiveColorSecondary: Colors.purple,
-      // routeAndNavigatorSettings: RouteAndNavigatorSettings(
-      //   routes: {
-      //     Constants.routeQRGenerator: (context) => QRGenerator(),//don't know why these things here.
-      //     Constants.routeQROptions: (context) => QROptions(),
-      //   },
-      // ),
-    ),
-    PersistentBottomNavBarItem(
-      icon: Icon(Icons.notifications),
-      title: ("Thông báo"),
-      activeColorPrimary: Colors.teal,
-      inactiveColorPrimary: Colors.grey,
-    ),
-    PersistentBottomNavBarItem(
-        icon: Icon(Icons.settings),
-        title: ("Cài đặt"),
-        activeColorPrimary: Colors.blueAccent,
-        activeColorSecondary: Colors.red,
-        inactiveColorPrimary: Colors.grey,
-        routeAndNavigatorSettings: RouteAndNavigatorSettings(
-          // initialRoute: '/',
-          routes: {
-            AppRoutes.routeUserInfor: (context) => UserInformation(),
-          },
-        ),
-        // onPressed: (context) {
-          // pushDynamicScreen(context!,
-          //     screen: SampleModalScreen(), withNavBar: true);
-        // }
-    ),
-  ];
+  List<Widget> _screens = [Home(),Placeholder(color: Colors.white,), SettingScreen()];
   final PageController _pageController = PageController(
     initialPage: 0,
   );
@@ -106,10 +65,10 @@ class _MainScreenState extends State<MainScreen> {
                 child: IntrinsicWidth(
                   child: Row(
                     children: [
-                      Icon(_iconData[index],
+                      Icon(_itemBottom[index].iconData,
                         color: _index == index? _itemBottom[index].activeColorPrimary:Colors.grey,
                       ),
-                      if(index == _index) Text(_itemBottom[index].title!,
+                      if(index == _index) Text(_itemBottom[index].title,
                         style: TextStyle(
                           color: _index == index? _itemBottom[index].activeColorPrimary:Colors.grey,
                         ),
@@ -125,9 +84,18 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  List<IconData> _iconData = [
-    Icons.home,
-    Icons.notifications,
-    Icons.settings
+  List<_BottomItem> _itemBottom = [
+    _BottomItem(Colors.blue, "Trang chủ", Icons.home),
+    _BottomItem(Colors.teal, "Thông báo", Icons.notifications),
+    _BottomItem(Colors.red, "Cài đặt", Icons.settings),
   ];
+
+}
+
+class _BottomItem {
+  final Color activeColorPrimary;
+  final String title;
+  final IconData iconData;
+
+  _BottomItem(this.activeColorPrimary, this.title, this.iconData);
 }

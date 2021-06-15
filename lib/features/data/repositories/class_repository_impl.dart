@@ -8,7 +8,10 @@ import 'package:flutter_app_clean_architecture/features/domain/entities/class.da
 import 'package:flutter_app_clean_architecture/features/domain/repositories/class_repository.dart';
 
 class ClassRepositoryImpl extends ClassRepository {
-  final _remoteSource = ClassRemoteSourceImpl();
+  final ClassRemoteSource _remoteSource;
+
+  ClassRepositoryImpl(this._remoteSource);
+
   @override
   Future<Either<Failure, List<Class>>> getListClass() async {
     if(!NetworkInfo.instance.isConnecting)
