@@ -126,6 +126,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         AppRoutes.routeQROptions:(context) => QROptions(),
          AppRoutes.routeQRGenerator:(context) => QRGenerator(),
+        AppRoutes.routeQRScan: (_) => QRScan(),
         AppRoutes.routeMain:(_) => MainScreen(),
         AppRoutes.routeLogin:(context) => Login(),
         AppRoutes.routeUserInfor:(context) => UserInformation(),
