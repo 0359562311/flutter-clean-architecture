@@ -112,7 +112,7 @@ class _HomeState extends State<Home> {
                       ],
                     )));
             else if(state is HomeComplete) {
-              if(state.customUser.deviceId == null) {
+              if(state.customUser.deviceId == null && state.customUser.role == "SinhVien") {
                 showDialog(context: context, builder: (context) => AlertDialog(
                   content: Text("Tài khoản của bạn chưa được định danh"),
                   actions: [
