@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/authentication/bloc/login_bloc.dart';
@@ -21,7 +23,7 @@ class _LoginState extends State<Login> {
 
   void initState() {
     super.initState();
-    _bloc = GetIt.instance<LoginBloc>();
+    _bloc = LoginBloc(loginWithEmailAndPassword: GetIt.instance());
     _usernameController = TextEditingController();
     _passwordController = TextEditingController();
   }
@@ -57,7 +59,7 @@ class _LoginState extends State<Login> {
                   ));
                 else if (state is LogInSuccess)
                   Navigator.pushNamedAndRemoveUntil(
-                      context, AppRoutes.routeMain, (route) => false);
+                      context, AppRoutes.routeMain, (route) => false,);
               },
               buildWhen: (previous, current) {
                 return !(current is LogInSuccess);

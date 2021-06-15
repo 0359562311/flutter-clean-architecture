@@ -65,18 +65,9 @@ Future<void> init() async {
       handler.reject(error);
     }
   )));
-
-  getIt.registerFactory(() => LoginBloc(
-      loginWithEmailAndPassword: getIt(),
-  ));
   getIt.registerLazySingleton<LoginWithUserNameAndPasswordUseCase>(() => LoginWithUserNameAndPasswordUseCase(getIt()));
   getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt<LoginRemoteDataSource>()));
   getIt.registerLazySingleton<LoginRemoteDataSource>(() => LoginAPISource());
-
-  getIt.registerLazySingleton<HomeBloc>(()=>HomeBloc(
-      getUserInformation: getIt()
-    )
-  );
   getIt.registerLazySingleton<GetUserInformationUseCase>(()=>GetUserInformationUseCase(repository: getIt()));
   getIt.registerLazySingleton<UserRepository>(()=>UserRepositoryImpl(remoteSource: getIt<UserRemoteSource>()));
   getIt.registerLazySingleton<UserRemoteSource>(() => UserAPISource());

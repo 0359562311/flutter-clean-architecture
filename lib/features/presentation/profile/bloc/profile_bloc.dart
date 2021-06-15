@@ -22,7 +22,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
          (l) async* {
         yield ProfileState.error(l.message);
       }, (r) async* {
-        GetIt.instance<HomeBloc>().add(HomeEvent.getUserInfor());
         yield ProfileState.complete(r);
       });
     } else if (event is UpdateProfileEvent) {
