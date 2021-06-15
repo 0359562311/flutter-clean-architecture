@@ -62,67 +62,83 @@ class _IdentifyDeviceDialogState extends State<IdentifyDeviceDialog> {
           ));
         }
       },
-      builder:(context,state) => Container(
-        width: MediaQuery.of(context).size.width-50,
-        height: 200,
-        child: Dialog(
+      builder:(context,state) =>  Dialog(
           insetAnimationCurve: Curves.fastOutSlowIn,
           insetAnimationDuration: Duration(milliseconds: 300),
-          shape: Border.symmetric(),
-          child: Column(
-            children: [
-              Text("Thiết bị của bạn chưa bị định danh."),
-              Text("Nhập mật khẩu để định danh bằng thiết bị này"),
-              Form(
-                key: _formKey,
-                child: TextFormField(
-                  obscureText: true,
-                  controller: _passwordController,
-                  validator: (value){
-                    if(value == null || value.isEmpty) {
-                      return "Không được để trống.";
-                    }
-                  },
-                  decoration: InputDecoration(
-                    hintText: "Mật khẩu",
-                    errorStyle: TextStyle(color: Colors.red),
-                    prefixIcon: Icon(Icons.lock)
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+          child: Container(
+            height: 200,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15,),
+                  child: Text("Định danh thiết bị",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                  child: Text("Nhập mật khẩu để định danh bằng thiết bị này", style: TextStyle(fontSize: 13),),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      obscureText: true,
+                      controller: _passwordController,
+                      validator: (value){
+                        if(value == null || value.isEmpty) {
+                          return "Không được để trống.";
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Mật khẩu",
+                        errorStyle: TextStyle(color: Colors.red),
+                        prefixIcon: Icon(Icons.lock, color: Colors.blue,)
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: (){
-                      if(!(state is IdentifyDeviceLoadingState) && _formKey.currentState!.validate()){
-                        _bloc.add(IdentifyDeviceConfirmEvent(_passwordController.text));
-                      }
-                    },
-                    child: Text(
-                      "Định danh",
-                      style: TextStyle(
-                        color: state is IdentifyDeviceLoadingState?Colors.grey:Colors.blue
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          if(!(state is IdentifyDeviceLoadingState) && _formKey.currentState!.validate()){
+                            _bloc.add(IdentifyDeviceConfirmEvent(_passwordController.text));
+                          }
+                        },
+                        child: Text(
+                          "Định danh",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: state is IdentifyDeviceLoadingState?Colors.grey:Colors.blue,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      "Hủy",
-                      style: TextStyle(
-                          color: Colors.blue
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Hủy",
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.blue,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
-      ),
     );
   }
 }
