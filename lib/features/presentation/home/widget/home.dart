@@ -45,11 +45,11 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _bloc = GetIt.instance<HomeBloc>()..add(HomeEvent.init());
-    _items3 = new Items(
+    _bloc = HomeBloc(getUserInformation: GetIt.instance())..add(HomeEvent.init());
+    _items4 = new Items(
         title: "Định danh thiết bị", img: 'assets/images/fake_slink/phone.png',
         onPressed: (context) async {
-          if(GetIt.instance<CustomUser>().deviceId == null){
+          if(GetIt.instance<CustomUser>().deviceId != null && GetIt.instance<CustomUser>().role == "SinhVien"){
             showDialog(context: context, builder: (context) => AlertDialog(
               content: Text("Tài khoản đã được định danh với 1 thiết bị."),
               actions: [
@@ -76,7 +76,6 @@ class _HomeState extends State<Home> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-
     _bloc.close();
   }
 

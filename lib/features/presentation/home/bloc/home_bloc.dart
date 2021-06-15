@@ -28,6 +28,7 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
     if(GetIt.instance.isRegistered<CustomUser>())
       GetIt.instance.unregister<CustomUser>();
     GetIt.instance.registerSingleton<CustomUser>(r);
+    print("home bloc $r");
     yield HomeState.getInforCompletely(r);
   }
 }
