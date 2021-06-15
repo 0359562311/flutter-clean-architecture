@@ -124,6 +124,7 @@ class _MyAppState extends State<MyApp> {
         AppRoutes.routeListClass:(context) => ListClass(),
         AppRoutes.routeAttendance:(context) => Attendance(),
         AppRoutes.routeClassDetail:(context) => ClassDetail(),
+        AppRoutes.routeQRScan:(context) => QRScan(),
     // '/profile':(context) => ProfileScreen(),
       },
     );

@@ -24,22 +24,17 @@ class _HomeState extends State<Home> {
         Navigator.of(context).pushNamed(AppRoutes.routeQROptions);
       }
   );
-  Items _items2 = new Items(
-      title: "Tạo mã QR", img: 'assets/images/fake_slink/qr.png',
-      onPressed: (context){
-        Navigator.of(context).pushNamed(AppRoutes.routeQRGenerator);
-      }
-  );
-  Items _items3 =
+
+  Items _items2 =
       new Items(title: "Thời khóa biểu", img: 'assets/images/fake_slink/schedule2.png',
           onPressed: (context){
             Navigator.of(context).pushNamed(AppRoutes.routeListClass);
           }
       );
 
-  late Items _items4;
+  late Items _items3;
 
-  Items _items5 = new Items(
+  Items _items4 = new Items(
       title: "Thay đổi thiết bị định danh", img: 'assets/images/fake_slink/phone.png',
     onPressed: (_){}
   );
@@ -86,7 +81,11 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    List<Items> list = [_items1, _items2, _items3, _items4, _items5];
+    //1 diem danh 2 thoi khoa bieu 3 dinh danh thiet bi 4 Thay doi dinh danh
+    List<Items> listSinhVien = [_items1, _items2, _items3, _items4];
+    List<Items> listGiangVien = [ _items2, _items4];
+    List<Items> listAdmin = [ _items2, _items4];
+
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
@@ -134,74 +133,96 @@ class _HomeState extends State<Home> {
                 width: 50,
               ),);
             CustomUser userInHome = (state as HomeComplete).customUser;
-            print("$userInHome" + "user in home");
-            return CustomScrollView(
-              slivers: [
-                SliverPersistentHeader(
-                  delegate: SliverHeaderChildDelegateImpl(userInHome),
-                  pinned: true,
-                ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-                    child: Text(
-                      "Chức năng:",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                SliverGrid.count(
-                    crossAxisCount: 1,
-                    childAspectRatio: 5,
-                    children: list.map((data) {
-                      return GestureDetector(
-                        onTap: (){
-                          data.onPressed(context);
-                        },
-                        child: Container(
-                            // padding: EdgeInsets.only(left: 10,right: 10),
-                            height: 1,
-                            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Container(
-                                    height: 45,
-                                    width: 45,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(data.img),
-                                            fit: BoxFit.contain)),
-                                  )
-                                ),
-                                SizedBox(width: 10,),
-                                Text(
-                                  data.title,
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.w600
-                                  ),
-                                )
-                              ],
-                            )
-                        ),
-                      );
-                    }).toList()),
-              ],
-            );
+            print(userInHome);
+            if(userInHome.role.compareTo('SinhVien') == 0){
+              return buildFunction(userInHome: userInHome, list: listSinhVien,);
+            }
+            else if( userInHome.role.compareTo('GiangVien') == 0){
+              return buildFunction(userInHome: userInHome, list: listGiangVien,);
+            }
+            else return buildFunction(userInHome: userInHome, list: listAdmin,);
           },
         ),
       ),
+    );
+  }
+}
+
+class buildFunction extends StatelessWidget {
+  const buildFunction({
+    Key? key,
+    required this.userInHome,
+    required this.list,
+
+  }) : super(key: key);
+
+  final CustomUser userInHome;
+  final List<Items> list;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        SliverPersistentHeader(
+          delegate: SliverHeaderChildDelegateImpl(userInHome),
+          pinned: true,
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding:
+            const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+            child: Text(
+              "Chức năng:",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+        SliverGrid.count(
+            crossAxisCount: 1,
+            childAspectRatio: 4,
+            children: list.map((data) {
+              return GestureDetector(
+                onTap: (){
+                  data.onPressed(context);
+                },
+                child: Container(
+                  // padding: EdgeInsets.only(left: 10,right: 10),
+                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Container(
+                              height: 45,
+                              width: 45,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(data.img),
+                                      fit: BoxFit.contain)),
+                            )
+                        ),
+                        SizedBox(width: 10,),
+                        Text(
+                          data.title,
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.w600
+                          ),
+                        )
+                      ],
+                    )
+                ),
+              );
+            }).toList()),
+      ],
     );
   }
 }

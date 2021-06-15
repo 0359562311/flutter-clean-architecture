@@ -26,7 +26,9 @@ class _QROptionsState extends State<QROptions> {
               color: Colors.white,
               size: 23,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           title: Text(
             'QR Options',
