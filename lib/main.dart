@@ -12,6 +12,7 @@ import 'package:flutter_app_clean_architecture/features/presentation/schedule/wi
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/class_detail.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/list_class.dart';
 import 'package:flutter_app_clean_architecture/features/domain/use_cases/user/identify_device_use_case.dart';
+import 'package:flutter_app_clean_architecture/features/qrcode/presentation/pages/qr_scan.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
 import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
@@ -131,6 +132,7 @@ class _MyAppState extends State<MyApp> {
         AppRoutes.routeListClass:(context) => ListClass(),
         AppRoutes.routeAttendance:(context) => Attendance(),
         AppRoutes.routeClassDetail:(context) => ClassDetail(),
+        AppRoutes.routeQRScan:(context) => QRScan(),
     // '/profile':(context) => ProfileScreen(),
       },
     );

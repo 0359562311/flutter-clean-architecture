@@ -136,70 +136,202 @@ class _HomeState extends State<Home> {
               ),);
             CustomUser userInHome = (state as HomeComplete).customUser;
             print(userInHome);
-            return CustomScrollView(
-              slivers: [
-                SliverPersistentHeader(
-                  delegate: SliverHeaderChildDelegateImpl(userInHome),
-                  pinned: true,
-                ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-                    child: Text(
-                      "Chức năng:",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+            if(userInHome.role == 'SinhVien'){
+              return CustomScrollView(
+                slivers: [
+                  SliverPersistentHeader(
+                    delegate: SliverHeaderChildDelegateImpl(userInHome),
+                    pinned: true,
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                      child: Text(
+                        "Chức năng:",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                ),
-                SliverGrid.count(
-                    crossAxisCount: 1,
-                    childAspectRatio: 5,
-                    children: list.map((data) {
-                      return GestureDetector(
-                        onTap: (){
-                          data.onPressed(context);
-                        },
-                        child: Container(
+                  SliverGrid.count(
+                      crossAxisCount: 1,
+                      childAspectRatio: 5,
+                      children: list.map((data) {
+                        return GestureDetector(
+                          onTap: (){
+                            data.onPressed(context);
+                          },
+                          child: Container(
                             // padding: EdgeInsets.only(left: 10,right: 10),
-                            height: 1,
-                            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Container(
-                                    height: 45,
-                                    width: 45,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(data.img),
-                                            fit: BoxFit.contain)),
-                                  )
-                                ),
-                                SizedBox(width: 10,),
-                                Text(
-                                  data.title,
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.w600
+                              height: 1,
+                              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Container(
+                                        height: 45,
+                                        width: 45,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(data.img),
+                                                fit: BoxFit.contain)),
+                                      )
                                   ),
-                                )
-                              ],
-                            )
-                        ),
-                      );
-                    }).toList()),
-              ],
-            );
+                                  SizedBox(width: 10,),
+                                  Text(
+                                    data.title,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.w600
+                                    ),
+                                  )
+                                ],
+                              )
+                          ),
+                        );
+                      }).toList()),
+                ],
+              );
+            }
+            else if( userInHome.role == 'GiangVien'){
+              return CustomScrollView(
+                slivers: [
+                  SliverPersistentHeader(
+                    delegate: SliverHeaderChildDelegateImpl(userInHome),
+                    pinned: true,
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                      child: Text(
+                        "Chức năng:",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  SliverGrid.count(
+                      crossAxisCount: 1,
+                      childAspectRatio: 5,
+                      children: list.map((data) {
+                        return GestureDetector(
+                          onTap: (){
+                            data.onPressed(context);
+                          },
+                          child: Container(
+                            // padding: EdgeInsets.only(left: 10,right: 10),
+                              height: 1,
+                              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Container(
+                                        height: 45,
+                                        width: 45,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(data.img),
+                                                fit: BoxFit.contain)),
+                                      )
+                                  ),
+                                  SizedBox(width: 10,),
+                                  Text(
+                                    data.title,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.w600
+                                    ),
+                                  )
+                                ],
+                              )
+                          ),
+                        );
+                      }).toList()),
+                ],
+              );
+            }
+            else return CustomScrollView(
+                slivers: [
+                  SliverPersistentHeader(
+                    delegate: SliverHeaderChildDelegateImpl(userInHome),
+                    pinned: true,
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                      child: Text(
+                        "Chức năng:",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  SliverGrid.count(
+                      crossAxisCount: 1,
+                      childAspectRatio: 5,
+                      children: list.map((data) {
+                        return GestureDetector(
+                          onTap: (){
+                            data.onPressed(context);
+                          },
+                          child: Container(
+                            // padding: EdgeInsets.only(left: 10,right: 10),
+                              height: 1,
+                              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Container(
+                                        height: 45,
+                                        width: 45,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(data.img),
+                                                fit: BoxFit.contain)),
+                                      )
+                                  ),
+                                  SizedBox(width: 10,),
+                                  Text(
+                                    data.title,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.w600
+                                    ),
+                                  )
+                                ],
+                              )
+                          ),
+                        );
+                      }).toList()),
+                ],
+              );
           },
         ),
       ),
