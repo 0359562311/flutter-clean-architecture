@@ -12,6 +12,8 @@ String mapErrorCode(String errorCode){
       return "Thiết bị đã được đăng ký cho một người dùng khác";
     case "BAD_REQUEST_WRONG_PASSWORD":
       return "Mật khẩu không chính xác";
+    case "BAD_REQUEST_INVALID_TYPE":
+      return "Đã thực hiện điểm danh";
     default:
       return "Đã có lỗi xảy ra";
   }

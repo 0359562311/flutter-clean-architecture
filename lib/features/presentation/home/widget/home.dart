@@ -49,7 +49,6 @@ class _HomeState extends State<Home> {
           }
           else {
             var res = await Navigator.of(context).pushNamed(AppRoutes.routeQRScan);
-            await Future.delayed(Duration(milliseconds: 100));
             if(res != null) {
               print(res);
               _showDialog(context, res);
@@ -59,7 +58,7 @@ class _HomeState extends State<Home> {
     );
     _items4 = new Items(
         title: "Định danh thiết bị", img: 'assets/images/fake_slink/phone.png',
-        onPressed: (context) async {
+        onPressed: (_) async {
           if(GetIt.instance<CustomUser>().deviceId != null && GetIt.instance<CustomUser>().role == "SinhVien"){
             _showDialog(context, "Tài khoản đã được định danh");
           }else {

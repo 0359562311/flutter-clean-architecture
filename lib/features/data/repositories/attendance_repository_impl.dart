@@ -13,13 +13,13 @@ class AttendanceRepositoryImpl extends AttendanceRepository{
   AttendanceRepositoryImpl(this._remoteSource);
 
   @override
-  Future<Either<Failure, void>> attendIn(String maLopHoc, String maMonHoc,
+  Future<Either<Failure, String>> attendIn(String maLopHoc, String maMonHoc,
       String thoiGianBatDau, String thoiGianKetThuc) async {
     if(!NetworkInfo.instance.isConnecting)
       return left(Failure.networkDisconnected("No internet connection."));
     try {
-      await _remoteSource.attendIn(maLopHoc, maMonHoc, thoiGianBatDau, thoiGianKetThuc);
-      return right(null);
+      var res = await _remoteSource.attendIn(maLopHoc, maMonHoc, thoiGianBatDau, thoiGianKetThuc);
+      return right(res);
     } on DioError catch (e){
       print(e);
       return left(Failure.serverSendsError(mapErrorCode(e.response?.data['errorCode'])));

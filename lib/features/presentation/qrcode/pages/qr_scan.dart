@@ -57,7 +57,7 @@ class _QRScanState extends State<QRScan> {
       body:
           BlocConsumer<QRScanBloc,QRScanState>(
             bloc: _bloc,
-            listener: (context, state){
+            listener: (_, state){
               if(state is QRScanErrorState){
                 Navigator.of(context).pop(state.message);
               } else if (state is QRScanCompleteState) {
@@ -65,9 +65,9 @@ class _QRScanState extends State<QRScan> {
               }
             },
             buildWhen: (pre,next){
-              return !(next is QRScanCompleteState);
+              return (next is QRScanInitState || next is QRScanLoadingState);
             },
-            builder: (context,state) {
+            builder: (_,state) {
               if(state is QRScanInitState)
                 return Stack(
                   alignment: Alignment.topCenter,
@@ -118,7 +118,7 @@ class _QRScanState extends State<QRScan> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: Colors.white),
       child: Text(
-        barcode != null ? 'Result : ${barcode!.code}' : 'Bạn phải quét từ ứng dụng mới điểm danh được.',
+        barcode != null ? 'Result : ${barcode!.code}' : 'Bạn phải quét từ ứng dụng để thực hiện điểm danh được.',
         maxLines: 3,
       ),
     );
@@ -168,8 +168,8 @@ class _QRScanState extends State<QRScan> {
 
   @override
   void dispose() {
-    controller?.dispose();
     _bloc.close();
+    controller?.dispose();
     super.dispose();
   }
 }

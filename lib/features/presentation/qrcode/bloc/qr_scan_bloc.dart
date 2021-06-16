@@ -22,8 +22,19 @@ class QRScanBloc extends Bloc<QRScanEvent,QRScanState> {
     }
   }
 
-  Stream<QRScanState> expectStream(void r) async* {
-    yield QRScanCompleteState();
+  Stream<QRScanState> expectStream(String r) async* {
+    String status = "";
+    switch(r.toLowerCase()){
+      case "intime":
+        status = "Đúng giờ";
+        break;
+      case "early":
+        status = "Sớm";
+        break;
+      default:
+        status = "Muộn";
+    }
+    yield QRScanCompleteState(status);
   }
 
   Stream<QRScanState> errorStream(Failure l) async* {

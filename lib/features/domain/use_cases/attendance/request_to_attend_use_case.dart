@@ -7,7 +7,7 @@ class RequestToAttendUseCase {
 
   RequestToAttendUseCase(this.repository);
 
-  Future<Either<Failure,void>> call(String maLopHoc, String maMonHoc,
+  Future<Either<Failure,String>> call(String maLopHoc, String maMonHoc,
       String thoiGianBatDau, String thoiGianKetThuc)
   => repository.attendIn(maLopHoc,maMonHoc, thoiGianBatDau, thoiGianKetThuc);
 }
