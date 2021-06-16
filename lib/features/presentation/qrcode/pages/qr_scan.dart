@@ -72,20 +72,10 @@ class _QRScanState extends State<QRScan> {
                       ),
                     ),
                   );
-                } else
-                  return Text('');
+                } else return Text('');
               },
             ),
           ),
-          // Container(
-          //   margin: EdgeInsets.all(8),
-          //   child: ElevatedButton(
-          //     onPressed: () async {
-          //       await controller?.resumeCamera();
-          //     },
-          //     child: Text('resume', style: TextStyle(fontSize: 20)),
-          //   ),
-          // )
 
           // Positioned(bottom: 10, child: buildResult()),
           // Positioned(top: 10, child: BuildControlButtons(),
@@ -121,19 +111,19 @@ class _QRScanState extends State<QRScan> {
     });
   }
 
-  buildResult() {
-    return Container(
-      padding: EdgeInsets.all(24),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), color: Colors.white),
-      child: Text(
-        barcode != null
-            ? 'Result : ${barcode!.code}'
-            : 'Đã điểm danh thành công',
-        maxLines: 3,
-      ),
-    );
-  }
+  // buildResult() {
+  //   return Container(
+  //     padding: EdgeInsets.all(24),
+  //     decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.circular(10), color: Colors.white),
+  //     child: Text(
+  //       barcode != null
+  //           ? 'Result : ${barcode!.code}'
+  //           : 'Đã điểm danh thành công',
+  //       maxLines: 3,
+  //     ),
+  //   );
+  // }
 
   //
   // BuildControlButtons() {

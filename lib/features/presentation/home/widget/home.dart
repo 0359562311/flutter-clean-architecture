@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/home_bloc.dart';
@@ -18,12 +19,7 @@ class Home extends StatefulWidget {
 double screenWidth = 0;
 
 class _HomeState extends State<Home> {
-  Items _items1 = new Items(
-      title: "Điểm danh", img: 'assets/images/fake_slink/qrscan.png',
-      onPressed: (context){
-        Navigator.of(context).pushNamed(AppRoutes.routeQRScan);
-      }
-  );
+  late Items _items1;
 
   Items _items2 =
       new Items(title: "Thời khóa biểu", img: 'assets/images/fake_slink/schedule2.png',
@@ -45,30 +41,54 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
     _bloc = HomeBloc(getUserInformation: GetIt.instance())..add(HomeEvent.init());
+    _items1 = new Items(
+        title: "Điểm danh", img: 'assets/images/fake_slink/qrscan.png',
+        onPressed: (context) async {
+          if(GetIt.instance<CustomUser>().deviceId != PlatformInfo.deviceId){
+            _showDialog(context, "Tài khoản được định danh với thiết bị khác.");
+          }
+          else {
+            var res = await Navigator.of(context).pushNamed(AppRoutes.routeQRScan);
+            await Future.delayed(Duration(milliseconds: 100));
+            if(res != null) {
+              print(res);
+              _showDialog(context, res);
+            }
+          }
+        }
+    );
     _items4 = new Items(
         title: "Định danh thiết bị", img: 'assets/images/fake_slink/phone.png',
         onPressed: (context) async {
           if(GetIt.instance<CustomUser>().deviceId != null && GetIt.instance<CustomUser>().role == "SinhVien"){
-            showDialog(context: context, builder: (context) => AlertDialog(
-              content: Text("Tài khoản đã được định danh với 1 thiết bị."),
-              actions: [
-                GestureDetector(
-                  onTap: (){
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4,vertical: 4),
-                    child: Text("Đóng"),
-                  ),
-                )
-              ],
-            ));
-          } else {
+            _showDialog(context, "Tài khoản đã được định danh");
+          }else {
             await showDialog(context: context, builder: (context) => IdentifyDeviceDialog());
             _bloc.add(HomeEvent.init());
           }
         }
     );
+  }
+  
+  void _showDialog(context, message) {
+    showDialog(context: context, builder: (context) => AlertDialog(
+      content: Text(message),
+      actions: [
+        GestureDetector(
+          onTap: (){
+            Navigator.pop(context);
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4,vertical: 4),
+            child: Text("Đóng",
+              style: TextStyle(
+                color: Colors.red
+              ),
+            ),
+          ),
+        )
+      ],
+    ));
   }
 
   @override
