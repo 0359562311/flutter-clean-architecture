@@ -29,7 +29,9 @@ class _HomeState extends State<Home> {
       );
 
 
-  Items _items4 = new Items(
+  late Items _items4;
+
+  Items _items5 = new Items(
       title: "Thay đổi thiết bị định danh", img: 'assets/images/fake_slink/phone.png',
     onPressed: (_){}
   );
@@ -95,10 +97,10 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    //1 diem danh 2 thoi khoa bieu 3 dinh danh thiet bi 4 Thay doi dinh danh
+    //1 diem danh 2 thoi khoa bieu 4 dinh danh thiet bi 5 Thay doi dinh danh
     List<Items> listSinhVien = [_items1, _items2, _items4];
-    List<Items> listGiangVien = [ _items2, _items4];
-    List<Items> listAdmin = [ _items2, _items4];
+    List<Items> listGiangVien = [ _items2, _items5];
+    List<Items> listAdmin = [_items5];
 
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(

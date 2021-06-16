@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/core/utils.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/class.dart';
+import 'package:flutter_app_clean_architecture/features/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/schedule.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
+import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 
 class ClassDetail extends StatefulWidget {
@@ -38,7 +40,7 @@ class _ClassDetailState extends State<ClassDetail> {
     DateTime date = (ModalRoute.of(context)!.settings.arguments as Map)['date'];
     Schedule schedule = (ModalRoute.of(context)!.settings.arguments as Map)['schedule'];
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Chi tiết lớp học'),
         leading: IconButton(
@@ -99,7 +101,7 @@ class _ClassDetailState extends State<ClassDetail> {
               });
             },),
             SizedBox(height: 20,),
-            buildButton(content:  'Tạo mã điểm danh',
+            if(GetIt.instance<CustomUser>().role == "GiangVien") buildButton(content:  'Tạo mã điểm danh',
               callback: (){
                 var now = DateTime.now().toUtc().add(Duration(hours: 7));
                 if(now.

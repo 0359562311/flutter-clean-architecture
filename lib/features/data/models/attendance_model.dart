@@ -6,7 +6,7 @@ class AttendanceModel extends Attendance {
   factory AttendanceModel.fromJson(Map<String,dynamic> json) {
     return AttendanceModel(
       json['maSv'],
-      json['registerAt'] == null ? null : DateTime.parse(json['registerAt'])
+      json['registerAt'] == null ? null : DateTime.parse(json['registerAt']).add(Duration(hours: 7))
     );
   }
 }

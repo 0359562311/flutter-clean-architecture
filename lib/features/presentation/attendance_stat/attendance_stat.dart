@@ -160,7 +160,7 @@ class _AttendanceStatState extends State<AttendanceStat> {
   }
 
   String _getAttendanceItem(List<Attendance> list, int position, bool isNull) {
-    var temp = isNull?"":"${DateFormat("hh:mm").format(list[position].registerAt!)}\n";
+    var temp = isNull?"":"${DateFormat("HH:mm").format(list[position].registerAt!)}\n";
     return "${list[position].maSV}\n" + temp;
   }
 }
