@@ -8,14 +8,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 
-class ListClass extends StatefulWidget {
-  const ListClass({Key? key}) : super(key: key);
+class ListSchedule extends StatefulWidget {
+  const ListSchedule({Key? key}) : super(key: key);
 
   @override
-  _ListClassState createState() => _ListClassState();
+  _ListScheduleState createState() => _ListScheduleState();
 }
 
-class _ListClassState extends State<ListClass> {
+class _ListScheduleState extends State<ListSchedule> {
   final List<String> week= List.generate(20, (index) => 'Tuần $index');
   late String dropdownvalue = 'Tuần 1';
 

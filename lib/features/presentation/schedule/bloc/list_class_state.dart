@@ -1,5 +1,5 @@
 import 'package:flutter_app_clean_architecture/features/domain/entities/class.dart';
-import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/list_class.dart';
+import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/list_schedule.dart';
 
 abstract class ListClassState {
   const ListClassState();

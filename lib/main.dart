@@ -9,11 +9,12 @@ import 'package:flutter_app_clean_architecture/features/data/sources/remote_sour
 import 'package:flutter_app_clean_architecture/features/data/sources/remote_sources/class_remote_source.dart';
 import 'package:flutter_app_clean_architecture/features/domain/repositories/attendance_repository.dart';
 import 'package:flutter_app_clean_architecture/features/domain/repositories/class_repository.dart';
+import 'package:flutter_app_clean_architecture/features/domain/use_cases/attendance/get_attendance_stat_use_case.dart';
 import 'package:flutter_app_clean_architecture/features/domain/use_cases/attendance/request_to_attend_use_case.dart';
 import 'package:flutter_app_clean_architecture/features/domain/use_cases/class/get_list_class_use_case.dart';
-import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/attendance.dart';
-import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/class_detail.dart';
-import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/list_class.dart';
+import 'package:flutter_app_clean_architecture/features/presentation/attendance_stat/attendance_stat.dart';
+import 'package:flutter_app_clean_architecture/features/presentation/class_detail.dart';
+import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/list_schedule.dart';
 import 'package:flutter_app_clean_architecture/features/domain/use_cases/user/identify_device_use_case.dart';
 import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
@@ -92,6 +93,7 @@ Future<void> init() async {
   getIt.registerLazySingleton<AttendanceRemoteSource>(() => AttendanceRemoteSource());
   getIt.registerLazySingleton<AttendanceRepository>(() => AttendanceRepositoryImpl(getIt()));
   getIt.registerLazySingleton<RequestToAttendUseCase>(() => RequestToAttendUseCase(getIt()));
+  getIt.registerLazySingleton<GetAttendanceStatUseCase>(() => GetAttendanceStatUseCase(getIt()));
 
 }
 
@@ -133,8 +135,8 @@ class _MyAppState extends State<MyApp> {
         AppRoutes.routeMain:(_) => MainScreen(),
         AppRoutes.routeLogin:(context) => Login(),
         AppRoutes.routeUserInfor:(context) => UserInformation(),
-        AppRoutes.routeListClass:(context) => ListClass(),
-        AppRoutes.routeAttendance:(context) => Attendance(),
+        AppRoutes.routeListClass:(context) => ListSchedule(),
+        AppRoutes.routeAttendance:(context) => AttendanceStat(),
         AppRoutes.routeClassDetail:(context) => ClassDetail(),
     // '/profile':(context) => ProfileScreen(),
       },

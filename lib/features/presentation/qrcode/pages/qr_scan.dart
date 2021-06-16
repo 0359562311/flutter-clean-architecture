@@ -81,7 +81,7 @@ class _QRScanState extends State<QRScan> {
           if (state is QRScanErrorState) {
             _showDialog(context, state.message);
           } else if (state is QRScanCompleteState) {
-            _showDialog(context, "Điểm danh thành công: ${state.status}");
+            _showDialog(context, "Điểm danh thành công.");
           }
         },
         buildWhen: (pre, next) {

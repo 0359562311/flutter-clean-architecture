@@ -5,7 +5,7 @@ import 'package:flutter_app_clean_architecture/features/domain/entities/schedule
 import 'package:flutter_app_clean_architecture/features/domain/use_cases/class/get_list_class_use_case.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/bloc/list_class_event.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/bloc/list_class_state.dart';
-import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/list_class.dart';
+import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/list_schedule.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListClassBloc extends Bloc<ListClassEvent,ListClassState>{

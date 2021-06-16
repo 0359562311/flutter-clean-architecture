@@ -92,7 +92,11 @@ class _ClassDetailState extends State<ClassDetail> {
             ),
             SizedBox(height: 40,),
             buildButton(content:  'Xem Thống kê',callback: (){
-              Navigator.of(context).pushNamed(AppRoutes.routeAttendance);
+              Navigator.of(context).pushNamed(AppRoutes.routeAttendance,arguments: {
+                "class": cl,
+                "schedule": schedule,
+                "date": date
+              });
             },),
             SizedBox(height: 20,),
             buildButton(content:  'Tạo mã điểm danh',

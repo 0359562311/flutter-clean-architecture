@@ -1,4 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_app_clean_architecture/features/data/models/attendance_model.dart';
+import 'package:flutter_app_clean_architecture/features/domain/entities/schedule.dart';
+import 'package:flutter_app_clean_architecture/features/domain/entities/class.dart';
 import 'package:get_it/get_it.dart';
 
 class AttendanceRemoteSource {
@@ -11,5 +14,17 @@ class AttendanceRemoteSource {
       "studyTo": thoiGianKetThuc
     });
     return res.data['data']['inResult'];
+  }
+
+  Future<List<AttendanceModel>> getAttendanceStat(Class cl, Schedule schedule, DateTime date) async {
+    var res = await GetIt.instance<Dio>().get("/attendance/dashboard",queryParameters: {
+      "maLopHoc": cl.maLopHoc,
+      "studyFrom": schedule.thoiGianBatDau,
+      "studyTo": schedule.thoiGianKetThuc,
+      "date": date.day,
+      "month": date.month-1,
+      "year": date.year
+    });
+    return (res.data['data'] as List).map((json) => AttendanceModel.fromJson(json)).toList();
   }
 }
