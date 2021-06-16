@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/qrcode/bloc/qr_scan_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/qrcode/bloc/qr_scan_event.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/qrcode/bloc/qr_scan_state.dart';
+import 'package:flutter_app_clean_architecture/global/app_routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -27,7 +28,6 @@ class _QRScanState extends State<QRScan> {
     _bloc = QRScanBloc(GetIt.instance());
   }
 
-
   @override
   void reassemble() async {
     super.reassemble();
@@ -35,6 +35,27 @@ class _QRScanState extends State<QRScan> {
       await controller!.pauseCamera();
     }
     controller!.resumeCamera();
+  }
+
+  Future _showDialog(context, message) {
+    return showDialog(context: context, builder: (context) => AlertDialog(
+      content: Text(message),
+      actions: [
+        GestureDetector(
+          onTap: (){
+            Navigator.popUntil(context, ModalRoute.withName(AppRoutes.routeMain));
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4,vertical: 4),
+            child: Text("Đóng",
+              style: TextStyle(
+                  color: Colors.red
+              ),
+            ),
+          ),
+        )
+      ],
+    ));
   }
 
   @override
@@ -54,38 +75,36 @@ class _QRScanState extends State<QRScan> {
           },
         ),
       ),
-      body:
-          BlocConsumer<QRScanBloc,QRScanState>(
-            bloc: _bloc,
-            listener: (_, state){
-              if(state is QRScanErrorState){
-                Navigator.of(context).pop(state.message);
-              } else if (state is QRScanCompleteState) {
-                Navigator.of(context).pop("Điểm danh thành công");
-              }
-            },
-            buildWhen: (pre,next){
-              return (next is QRScanInitState || next is QRScanLoadingState);
-            },
-            builder: (_,state) {
-              if(state is QRScanInitState)
-                return Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    buildQrView(context),
-                    Positioned(bottom: 10, child: buildResult()),
-                  ],
-                );
-              return Center(
-                child: SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            },
-          ),
-
+      body: BlocConsumer<QRScanBloc, QRScanState>(
+        bloc: _bloc,
+        listener: (_, state)  {
+          if (state is QRScanErrorState) {
+            _showDialog(context, state.message);
+          } else if (state is QRScanCompleteState) {
+            _showDialog(context, "Điểm danh thành công: ${state.status}");
+          }
+        },
+        buildWhen: (pre, next) {
+          return (next is QRScanInitState || next is QRScanLoadingState);
+        },
+        builder: (_, state) {
+          if (state is QRScanInitState)
+            return Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                buildQrView(context),
+                Positioned(bottom: 10, child: buildResult()),
+              ],
+            );
+          return Center(
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: CircularProgressIndicator(),
+            ),
+          );
+        },
+      ),
     ));
   }
 
@@ -108,6 +127,10 @@ class _QRScanState extends State<QRScan> {
     this.controller = controller;
     this.controller?.scannedDataStream.listen((barcode) {
       this.barcode = barcode;
+      if (this.barcode != null)
+        this.controller?.pauseCamera();
+      else
+        this.controller?.resumeCamera();
       _bloc.add(QRScanSendResultEvent(barcode.code));
     });
   }
@@ -118,53 +141,13 @@ class _QRScanState extends State<QRScan> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: Colors.white),
       child: Text(
-        barcode != null ? 'Result : ${barcode!.code}' : 'Bạn phải quét từ ứng dụng để thực hiện điểm danh được.',
+        barcode != null
+            ? 'Result : ${barcode!.code}'
+            : 'Bạn phải quét từ ứng dụng để thực hiện điểm danh được.',
         maxLines: 3,
       ),
     );
   }
-
-  //
-  // BuildControlButtons() {
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(horizontal: 15),
-  //     decoration: BoxDecoration(
-  //         borderRadius: BorderRadius.circular(15), color: Colors.white60),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       crossAxisAlignment: CrossAxisAlignment.center,
-  //       children: [
-  //         IconButton(
-  //             onPressed: () async {
-  //               await controller?.toggleFlash();
-  //               setState(() {});
-  //             },
-  //             icon: FutureBuilder<bool?>(
-  //                 future: controller!.getFlashStatus(),
-  //                 builder: (context, snapshot) {
-  //                   if (snapshot.data != null)
-  //                     return Icon(
-  //                         snapshot.data! ? Icons.flash_on : Icons.flash_off);
-  //                   else
-  //                     return Container();
-  //                 })),
-  //         IconButton(
-  //             onPressed: () async {
-  //               await controller?.flipCamera();
-  //               setState(() {});
-  //             },
-  //             icon: FutureBuilder(
-  //                 future: controller!.getCameraInfo(),
-  //                 builder: (context, snapshot) {
-  //                   if (snapshot.data != null)
-  //                     return Icon(Icons.switch_camera);
-  //                   else
-  //                     return Container();
-  //                 }))
-  //       ],
-  //     ),
-  //   );
-  // }
 
   @override
   void dispose() {

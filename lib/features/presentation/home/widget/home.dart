@@ -48,11 +48,7 @@ class _HomeState extends State<Home> {
             _showDialog(context, "Tài khoản được định danh với thiết bị khác.");
           }
           else {
-            var res = await Navigator.of(context).pushNamed(AppRoutes.routeQRScan);
-            if(res != null) {
-              print(res);
-              _showDialog(context, res);
-            }
+            Navigator.of(context).pushNamed(AppRoutes.routeQRScan);
           }
         }
     );
