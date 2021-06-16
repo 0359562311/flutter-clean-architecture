@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
   Items _items1 = new Items(
       title: "Điểm danh", img: 'assets/images/fake_slink/qrscan.png',
       onPressed: (context){
-        Navigator.of(context).pushNamed(AppRoutes.routeQROptions);
+        Navigator.of(context).pushNamed(AppRoutes.routeQRScan);
       }
   );
 

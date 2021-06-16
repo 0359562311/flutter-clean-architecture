@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRScan extends StatefulWidget {
   const QRScan({Key? key}) : super(key: key);
+
   @override
   _QRScanState createState() => _QRScanState();
 }
@@ -13,7 +15,6 @@ class _QRScanState extends State<QRScan> {
   final qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? barcode;
   QRViewController? controller;
-
 
   @override
   void reassemble() async {
@@ -41,16 +42,55 @@ class _QRScanState extends State<QRScan> {
           },
         ),
       ),
-      body:
-          Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              buildQrView(context),
-              Positioned(bottom: 10, child: buildResult()),
-              // Positioned(top: 10, child: BuildControlButtons(),
-            ],
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          buildQrView(context),
+          Container(
+            child: FutureBuilder(
+              future: barcode != null
+                  ? controller?.pauseCamera()
+                  : controller?.resumeCamera(),
+              builder: (context, snapshot) {
+                if (barcode != null) {
+                  return Dialog(
+                    child: Container(
+                      margin: EdgeInsets.all(20),
+                      height: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50)
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('Điểm danh thành công!!!', style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
+                          TextButton(onPressed: (){
+                            Navigator.pop(context);
+                          }, child: Text('Trở về trang chủ',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),)
+                        ],
+                      ),
+                    ),
+                  );
+                } else
+                  return Text('');
+              },
+            ),
           ),
+          // Container(
+          //   margin: EdgeInsets.all(8),
+          //   child: ElevatedButton(
+          //     onPressed: () async {
+          //       await controller?.resumeCamera();
+          //     },
+          //     child: Text('resume', style: TextStyle(fontSize: 20)),
+          //   ),
+          // )
 
+          // Positioned(bottom: 10, child: buildResult()),
+          // Positioned(top: 10, child: BuildControlButtons(),
+        ],
+      ),
     ));
   }
 
@@ -59,7 +99,7 @@ class _QRScanState extends State<QRScan> {
       key: qrKey,
       onQRViewCreated: onQRViewCreated,
       overlay: QrScannerOverlayShape(
-        overlayColor: Colors.blue.shade100,
+        overlayColor: Colors.blue.shade50,
         borderColor: Colors.blue,
         borderLength: 30,
         borderRadius: 10,
@@ -76,6 +116,7 @@ class _QRScanState extends State<QRScan> {
     controller.scannedDataStream.listen((barcode) {
       setState(() {
         this.barcode = barcode;
+        // if(barcode != null) await controller?.pauseCamera();
       });
     });
   }
@@ -86,7 +127,9 @@ class _QRScanState extends State<QRScan> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: Colors.white),
       child: Text(
-        barcode != null ? 'Result : ${barcode!.code}' : 'Scan a code!',
+        barcode != null
+            ? 'Result : ${barcode!.code}'
+            : 'Đã điểm danh thành công',
         maxLines: 3,
       ),
     );
