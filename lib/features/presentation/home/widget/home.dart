@@ -151,12 +151,12 @@ class _HomeState extends State<Home> {
             CustomUser userInHome = (state as HomeComplete).customUser;
             print(userInHome);
             if(userInHome.role.compareTo('SinhVien') == 0){
-              return buildFunction(userInHome: userInHome, list: listSinhVien,);
+              return HomeOption(userInHome: userInHome, list: listSinhVien,);
             }
             else if( userInHome.role.compareTo('GiangVien') == 0){
-              return buildFunction(userInHome: userInHome, list: listGiangVien,);
+              return HomeOption(userInHome: userInHome, list: listGiangVien,);
             }
-            else return buildFunction(userInHome: userInHome, list: listAdmin,);
+            else return HomeOption(userInHome: userInHome, list: listAdmin,);
           },
         ),
       ),
@@ -164,8 +164,8 @@ class _HomeState extends State<Home> {
   }
 }
 
-class buildFunction extends StatelessWidget {
-  const buildFunction({
+class HomeOption extends StatelessWidget {
+  const HomeOption({
     Key? key,
     required this.userInHome,
     required this.list,
