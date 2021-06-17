@@ -80,7 +80,6 @@ class _ClassDetailState extends State<ClassDetail> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 10,),
                   buildText('Môn học: ' + cl.tenMonHoc,22.0),
                   buildText('Mã lớp: ' + cl.maLopHoc,22.0),
                   buildText('Mã môn: ' + cl.maMonHoc,22.0),
