@@ -26,7 +26,7 @@ import 'features/domain/use_cases/user/get_user_info.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/profile/bloc/profile_bloc.dart';
 import 'features/domain/use_cases/authentication/login_with_email_and_password.dart';
 import 'features/domain/use_cases/user/update_user_profile.dart';
-import 'features/presentation/authentication/widgets/login.dart';
+import 'features/presentation/authentication/widgets/login_page.dart';
 import 'package:get_it/get_it.dart';
 import 'features/data/repositories/user_repository_impl.dart';
 import 'features/data/sources/remote_sources/user_remote_source.dart';
@@ -47,9 +47,9 @@ Future<void> init() async {
   GetIt getIt = GetIt.instance;
   var options = BaseOptions
     (
-    baseUrl: 'http://20.188.121.133:3000',
-    connectTimeout: 5000,
-    receiveTimeout: 3000,
+    baseUrl: 'http://203.162.10.108:8900',
+    connectTimeout: 15000,
+    receiveTimeout: 10000,
   );
   getIt.registerSingleton(Dio(options)..interceptors.add(InterceptorsWrapper(
     onRequest: (option,handler) {

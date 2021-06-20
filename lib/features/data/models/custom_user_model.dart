@@ -29,7 +29,7 @@ class CustomUserModel extends CustomUser{
     return CustomUserModel(
       id: data1['id'],
       role: data1['systemRoles'].first,
-      name: data2['firstname'] + data2['lastname'],
+      name: data2['firstname'] + ' '  +data2['lastname'],
       gender: data2['gender'] == "Male"?"Nam":"Nữ",
       dob: DateTime.parse(data2['dateOfBirth']??"2000-12-03T00:00:00.000Z"),
       address: data2['address'],
