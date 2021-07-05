@@ -67,7 +67,14 @@ class AuthenticationInterceptor extends InterceptorsWrapper {
         GetIt.instance<Session>().access = value.data['access'];
         var queryParams = options.queryParameters;
         var data = options.data;
-        dio.request(options.path,queryParameters: queryParams, data: data);
+        try {
+          Dio().request(options.path,queryParameters: queryParams, data: data).then((value){
+            handler.resolve(value);
+          });
+        } on DioError catch (e) {
+          // TODO
+          handler.reject(e);
+        }
       }).onError((error, stackTrace){
         print("Refresh token expired");
         dio.clear();
