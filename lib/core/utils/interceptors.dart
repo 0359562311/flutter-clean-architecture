@@ -70,6 +70,8 @@ class AuthenticationInterceptor extends InterceptorsWrapper {
         try {
           Dio().request(options.path,queryParameters: queryParams, data: data).then((value){
             handler.resolve(value);
+          }).catchError((error){
+            handler.reject(error);
           });
         } on DioError catch (e) {
           // TODO
