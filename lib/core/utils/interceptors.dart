@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_app_clean_architecture/features/domain/entities/session.dart';
+import 'package:flutter_app_clean_architecture/app/domain/entities/session.dart';
 import 'package:get_it/get_it.dart';
 
 class LogInterceptor extends InterceptorsWrapper {
@@ -38,25 +38,33 @@ class LogInterceptor extends InterceptorsWrapper {
 class AuthenticationInterceptor extends InterceptorsWrapper {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    print("AuthenticationInterceptor request");
     // TODO: implement onRequest
     if(GetIt.instance.isRegistered<Session>()) {
       print('insert authorization header');
       options.headers['Authorization'] = "Bearer ${GetIt.instance<Session>().access}";
     }
+    handler.next(options);
   }
+}
 
+class RefreshTokenInteceptor extends InterceptorsWrapper {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     // TODO: implement onError
-    if(err.response?.requestOptions.path.startsWith("/auth") ?? false) {
+    print("AuthenticationInterceptor error $err");
+    // TODO: implement onError
+    if(err.response?.requestOptions.path.startsWith("/auth") ?? true) {
       print("reject error");
       handler.reject(err);
-    } else {
+    }
+    else if(err.response?.statusCode == 401
+        && err.response?.data['errorCode'] == 'WRONG_AUTHENTICATION_CREDENTIALS_OR_SESSIONEXPIRED') {
       var dio = GetIt.instance<Dio>();
       dio.interceptors.requestLock.lock();
       dio.interceptors.responseLock.lock();
       RequestOptions options = err.requestOptions;
-      return await Dio().post("/auth/jwt/refresh/", data: {
+      await Dio().post(options.baseUrl + "/auth/jwt/refresh/", data: {
         "refresh": GetIt.instance<Session>().refresh
       },options: Options(headers: {
         'Authorization': "Bearer ${GetIt.instance<Session>().access}"
@@ -83,5 +91,6 @@ class AuthenticationInterceptor extends InterceptorsWrapper {
         GetIt.instance<StreamController<bool>>().add(false);
       });
     }
+    else handler.reject(err);
   }
 }
