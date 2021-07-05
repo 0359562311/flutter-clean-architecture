@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
+import 'package:flutter_app_clean_architecture/core/utils/device_info.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/custom_user.dart';
-import 'package:flutter_app_clean_architecture/global/app_routes.dart';
+import 'package:flutter_app_clean_architecture/global_constants/app_routes.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/home_events.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/home_state.dart';

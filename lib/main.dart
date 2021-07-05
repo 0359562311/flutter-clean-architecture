@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_clean_architecture/core/utils/interceptors.dart' as interceptors;
 import 'package:flutter_app_clean_architecture/features/data/repositories/attendance_repository_impl.dart';
 import 'package:flutter_app_clean_architecture/features/data/repositories/class_repository_impl.dart';
 import 'package:flutter_app_clean_architecture/features/data/sources/remote_sources/attendance_remote_source.dart';
@@ -16,9 +19,8 @@ import 'package:flutter_app_clean_architecture/features/presentation/attendance_
 import 'package:flutter_app_clean_architecture/features/presentation/class_detail.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/widget/list_schedule.dart';
 import 'package:flutter_app_clean_architecture/features/domain/use_cases/user/identify_device_use_case.dart';
-import 'package:flutter_app_clean_architecture/global/app_routes.dart';
-import 'package:flutter_app_clean_architecture/core/platform/device_info.dart';
-import 'package:flutter_app_clean_architecture/core/platform/network_info.dart';
+import 'package:flutter_app_clean_architecture/core/utils/device_info.dart';
+import 'package:flutter_app_clean_architecture/core/utils/network_info.dart';
 import 'package:flutter_app_clean_architecture/features/data/repositories/login_repository_impl.dart';
 import 'package:flutter_app_clean_architecture/features/data/sources/remote_sources/login_remote_sources.dart';
 import 'package:flutter_app_clean_architecture/features/domain/repositories/login_repository.dart';
@@ -35,6 +37,7 @@ import 'features/presentation/main_screen.dart';
 import 'features/presentation/profile/widget/user_infomation_screen.dart';
 import 'features/presentation/qrcode/pages/qr_generator.dart';
 import 'features/presentation/qrcode/pages/qr_scan.dart';
+import 'global_constants/app_routes.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -47,34 +50,15 @@ Future<void> init() async {
   GetIt getIt = GetIt.instance;
   var options = BaseOptions
     (
-    baseUrl: 'http://20.188.121.133:3000',
+    baseUrl: 'http://69247d465a5e.ngrok.io',
     connectTimeout: 5000,
     receiveTimeout: 3000,
   );
-  getIt.registerSingleton(Dio(options)..interceptors.add(InterceptorsWrapper(
-    onRequest: (option,handler) {
-      print("\n\n\n");
-      print("onrequest ${option.method} ${option.path}");
-      print(option.data);
-      print("=============Request==============");
-      handler.next(option);
-    },
-    onResponse: (response,handler){
-      print("\n\n\n");
-      print("onresponse ${response.requestOptions.path}");
-      print(response.data);
-      print(response.statusCode);
-      print("=============SUCCESS==============");
-      handler.next(response);
-    },
-    onError: (error, handler){
-      print("\n\n\n");
-      print(error.response?.data);
-      print(error.response?.statusCode);
-      print("===============FAIL============");
-      handler.reject(error);
-    }
-  )));
+  getIt.registerSingleton<StreamController<bool>>(StreamController<bool>());
+  getIt.registerSingleton(Dio(options)..interceptors.addAll([
+    LogInterceptor(requestBody: true, requestHeader: false, responseBody: true),
+    interceptors.AuthenticationInterceptor(),
+  ]));
   getIt.registerLazySingleton<LoginWithUserNameAndPasswordUseCase>(() => LoginWithUserNameAndPasswordUseCase(getIt()));
   getIt.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(getIt<LoginRemoteDataSource>()));
   getIt.registerLazySingleton<LoginRemoteDataSource>(() => LoginAPISource());
@@ -110,6 +94,35 @@ class _MyAppState extends State<MyApp> {
     subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       // Got a new connectivity status!
       NetworkInfo.instance.isConnecting = result != ConnectivityResult.none;
+    });
+    GetIt.instance<StreamController<bool>>().stream.listen((event) {
+      if(!event) {
+        showDialog(context: context, builder: (context) => AlertDialog(
+          title: Text("Login session expired"),
+          content: Text("You need to log in to continue to use our app."),
+          actions: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.routeLogin, (route) => false);
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 8
+                ),
+                color: Colors.red,
+                child: Text(
+                  "Login",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14
+                  ),
+                ),
+              ),
+            )
+          ],
+        ));
+      }
     });
   }
 

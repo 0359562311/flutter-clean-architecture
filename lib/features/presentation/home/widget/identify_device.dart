@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/identify_device_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/identify_device_event.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/home/bloc/identify_device_state.dart';
-import 'package:flutter_app_clean_architecture/global/app_routes.dart';
+import 'package:flutter_app_clean_architecture/global_constants/app_routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class IdentifyDeviceDialog extends StatefulWidget {

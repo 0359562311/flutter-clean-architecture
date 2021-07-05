@@ -3,7 +3,7 @@ import 'package:flutter_app_clean_architecture/features/domain/use_cases/class/g
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/bloc/list_class_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/bloc/list_class_event.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/schedule/bloc/list_class_state.dart';
-import 'package:flutter_app_clean_architecture/global/app_routes.dart';
+import 'package:flutter_app_clean_architecture/global_constants/app_routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';

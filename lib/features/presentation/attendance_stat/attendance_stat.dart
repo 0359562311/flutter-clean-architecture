@@ -5,7 +5,7 @@ import 'package:flutter_app_clean_architecture/features/domain/entities/schedule
 import 'package:flutter_app_clean_architecture/features/presentation/attendance_stat/bloc/attendance_stat_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/attendance_stat/bloc/attendance_stat_event.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/attendance_stat/bloc/attendance_stat_state.dart';
-import 'package:flutter_app_clean_architecture/global/app_routes.dart';
+import 'package:flutter_app_clean_architecture/global_constants/app_routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';

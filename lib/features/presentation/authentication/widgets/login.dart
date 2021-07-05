@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/global/app_routes.dart';
+import 'package:flutter_app_clean_architecture/global_constants/app_routes.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/authentication/bloc/login_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/authentication/bloc/login_event.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/authentication/bloc/login_state.dart';
@@ -58,8 +58,9 @@ class _LoginState extends State<Login> {
                     ],
                   ));
                 else if (state is LogInSuccess)
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, AppRoutes.routeMain, (route) => false,);
+                  print("Navigate to main");
+                  // Navigator.pushNamedAndRemoveUntil(
+                  //     context, AppRoutes.routeMain, (route) => false,);
               },
               buildWhen: (previous, current) {
                 return !(current is LogInSuccess);

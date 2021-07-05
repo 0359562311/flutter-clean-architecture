@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/qrcode/bloc/qr_scan_bloc.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/qrcode/bloc/qr_scan_event.dart';
 import 'package:flutter_app_clean_architecture/features/presentation/qrcode/bloc/qr_scan_state.dart';
-import 'package:flutter_app_clean_architecture/global/app_routes.dart';
+import 'package:flutter_app_clean_architecture/global_constants/app_routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';

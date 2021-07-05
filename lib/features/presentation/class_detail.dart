@@ -4,7 +4,7 @@ import 'package:flutter_app_clean_architecture/core/utils.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/class.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/custom_user.dart';
 import 'package:flutter_app_clean_architecture/features/domain/entities/schedule.dart';
-import 'package:flutter_app_clean_architecture/global/app_routes.dart';
+import 'package:flutter_app_clean_architecture/global_constants/app_routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 

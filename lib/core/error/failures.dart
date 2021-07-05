@@ -1,9 +1,21 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:dio/dio.dart';
 
-part 'failures.freezed.dart';
-
-@freezed
-abstract class Failure with _$Failure {
-  factory Failure.networkDisconnected(String message) = NetWorkDisconnected;
-  factory Failure.serverSendsError(String message) = ServerSendsError;
+class Failure {
+  final String message;
+  Failure._(this.message);
+  factory Failure.networkDisconnected() {
+    return Failure._("No internet connection.");
+  }
+  factory Failure.serverSendsError(DioError dioError) {
+    String message;
+    switch(dioError.response?.data['errorCode']) {
+      case "INVALID_INPUT":
+        message = "";
+        break;
+      default:
+        message = "Unknown error";
+    }
+    return Failure._(message);
+  }
+  factory Failure.unknownError() => Failure._("Unknown error");
 }
