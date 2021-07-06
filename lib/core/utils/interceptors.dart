@@ -46,20 +46,18 @@ class AuthenticationInterceptor extends InterceptorsWrapper {
     }
     handler.next(options);
   }
-}
 
-class RefreshTokenInteceptor extends InterceptorsWrapper {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     // TODO: implement onError
     print("AuthenticationInterceptor error $err");
     // TODO: implement onError
     if(err.response?.requestOptions.path.startsWith("/auth") ?? true) {
-      print("reject error");
-      handler.reject(err);
+      handler.next(err);
     }
     else if(err.response?.statusCode == 401
-        && err.response?.data['errorCode'] == 'WRONG_AUTHENTICATION_CREDENTIALS_OR_SESSIONEXPIRED') {
+    // && err.response?.data['errorCode'] == 'WRONG_AUTHENTICATION_CREDENTIALS_OR_SESSIONEXPIRED'
+    ) {
       var dio = GetIt.instance<Dio>();
       dio.interceptors.requestLock.lock();
       dio.interceptors.responseLock.lock();
@@ -68,17 +66,23 @@ class RefreshTokenInteceptor extends InterceptorsWrapper {
         "refresh": GetIt.instance<Session>().refresh
       },options: Options(headers: {
         'Authorization': "Bearer ${GetIt.instance<Session>().access}"
-      })).then((value){
-        print("Access token expired.");
+      })).then((value) async {
         dio.interceptors.requestLock.unlock();
-        dio.interceptors.responseLock.unlock();
+        // dio.interceptors.responseLock.unlock();
         GetIt.instance<Session>().access = value.data['access'];
         var queryParams = options.queryParameters;
         var data = options.data;
         try {
-          Dio().request(options.path,queryParameters: queryParams, data: data).then((value){
+          await Dio().request(options.baseUrl+options.path,queryParameters: queryParams, data: data, options: Options(
+              headers: {
+                'Authorization': "Bearer ${GetIt.instance<Session>().access}"
+              },
+              method: options.method
+          )).then((value){
+            print("refresh access token successful");
+            print(value);
             handler.resolve(value);
-          }).catchError((error){
+          }).catchError((error) {
             handler.reject(error);
           });
         } on DioError catch (e) {

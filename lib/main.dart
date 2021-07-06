@@ -52,17 +52,17 @@ void main() async {
 Future<void> init() async {
   GetIt getIt = GetIt.instance;
   var options = BaseOptions(
-    baseUrl: 'http://192.168.1.86:8000',
+    baseUrl: 'http://10.5.5.222:8000',
     connectTimeout: 15000,
     receiveTimeout: 15000,
+    responseType: ResponseType.json
   );
   getIt.registerSingleton<StreamController<bool>>(StreamController<bool>());
   getIt.registerSingleton(Dio(options)
     ..interceptors.addAll([
       interceptors.AuthenticationInterceptor(),
-      interceptors.RefreshTokenInteceptor(),
       LogInterceptor(
-          requestBody: true, requestHeader: false, responseBody: true),
+          requestBody: true, requestHeader: false, responseBody: true, request: false, responseHeader: false),
     ]));
   getIt.registerLazySingleton<LoginWithUserNameAndPasswordUseCase>(
       () => LoginWithUserNameAndPasswordUseCase(getIt()));
