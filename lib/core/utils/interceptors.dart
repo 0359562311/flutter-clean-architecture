@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_app_clean_architecture/app/data/models/session_model.dart';
 import 'package:flutter_app_clean_architecture/app/domain/entities/session.dart';
 import 'package:get_it/get_it.dart';
 
 class LogInterceptor extends InterceptorsWrapper {
-
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     print("\n\n\n");
@@ -40,9 +40,10 @@ class AuthenticationInterceptor extends InterceptorsWrapper {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     print("AuthenticationInterceptor request");
     // TODO: implement onRequest
-    if(GetIt.instance.isRegistered<Session>()) {
+    if (GetIt.instance.isRegistered<Session>()) {
       print('insert authorization header');
-      options.headers['Authorization'] = "Bearer ${GetIt.instance<Session>().access}";
+      options.headers['Authorization'] =
+          "Bearer ${GetIt.instance<Session>().access}";
     }
     handler.next(options);
   }
@@ -52,49 +53,48 @@ class AuthenticationInterceptor extends InterceptorsWrapper {
     // TODO: implement onError
     print("AuthenticationInterceptor error $err");
     // TODO: implement onError
-    if(err.response?.requestOptions.path.startsWith("/auth") ?? true) {
+    if (err.response?.requestOptions.path.startsWith("/auth") ?? true) {
       handler.next(err);
-    }
-    else if(err.response?.statusCode == 401
-    // && err.response?.data['errorCode'] == 'WRONG_AUTHENTICATION_CREDENTIALS_OR_SESSIONEXPIRED'
-    ) {
+    } else if (err.response?.statusCode == 401
+        // && err.response?.data['errorCode'] == 'WRONG_AUTHENTICATION_CREDENTIALS_OR_SESSIONEXPIRED'
+        ) {
       var dio = GetIt.instance<Dio>();
       dio.interceptors.requestLock.lock();
-      dio.interceptors.responseLock.lock();
       RequestOptions options = err.requestOptions;
-      await Dio().post(options.baseUrl + "/auth/jwt/refresh/", data: {
-        "refresh": GetIt.instance<Session>().refresh
-      },options: Options(headers: {
-        'Authorization': "Bearer ${GetIt.instance<Session>().access}"
-      })).then((value) async {
+      await Dio()
+          .post(options.baseUrl + "/auth/jwt/refresh/",
+              data: {"refresh": GetIt.instance<Session>().refresh},
+              options: Options(headers: {
+                'Authorization': "Bearer ${GetIt.instance<Session>().access}"
+              }))
+          .then((value) async {
         dio.interceptors.requestLock.unlock();
-        // dio.interceptors.responseLock.unlock();
-        GetIt.instance<Session>().access = value.data['access'];
+        if(GetIt.instance.isRegistered<Session>())
+          GetIt.instance.unregister<Session>();
+        GetIt.instance.registerSingleton<Session>(SessionModel.fromResponse(value));
         var queryParams = options.queryParameters;
         var data = options.data;
-        try {
-          await Dio().request(options.baseUrl+options.path,queryParameters: queryParams, data: data, options: Options(
-              headers: {
-                'Authorization': "Bearer ${GetIt.instance<Session>().access}"
-              },
-              method: options.method
-          )).then((value){
-            print("refresh access token successful");
-            print(value);
-            handler.resolve(value);
-          }).catchError((error) {
-            handler.reject(error);
-          });
-        } on DioError catch (e) {
-          // TODO
-          handler.reject(e);
-        }
-      }).onError((error, stackTrace){
+        await Dio()
+            .request(options.baseUrl + options.path,
+                queryParameters: queryParams,
+                data: data,
+                options: Options(headers: {
+                  'Authorization': "Bearer ${GetIt.instance<Session>().access}"
+                }, method: options.method))
+            .then((value) {
+          print("refresh access token successful");
+          print(value);
+          handler.resolve(value);
+        }).catchError((error) {
+          handler.reject(error);
+        });
+      }).catchError((error) {
         print("Refresh token expired");
         dio.clear();
-        GetIt.instance<StreamController<bool>>().add(false);
+        handler.next(error);
+        // GetIt.instance<StreamController<bool>>().add(false);
       });
-    }
-    else handler.reject(err);
+    } else
+      handler.reject(err);
   }
 }
