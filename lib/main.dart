@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_clean_architecture/app/domain/entities/session.dart';
 import 'package:flutter_app_clean_architecture/core/utils/interceptors.dart'
     as interceptors;
 import 'package:flutter_app_clean_architecture/app/data/repositories/attendance_repository_impl.dart';
@@ -25,7 +26,7 @@ import 'package:flutter_app_clean_architecture/core/utils/network_info.dart';
 import 'package:flutter_app_clean_architecture/app/data/repositories/login_repository_impl.dart';
 import 'package:flutter_app_clean_architecture/app/data/sources/remote_sources/login_remote_sources.dart';
 import 'package:flutter_app_clean_architecture/app/domain/repositories/login_repository.dart';
-import 'app/domain/entities/custom_user.dart';
+import 'package:flutter_app_clean_architecture/core/utils/share_preferences.dart';
 import 'app/domain/use_cases/user/get_user_info.dart';
 import 'package:flutter_app_clean_architecture/app/presentation/profile/bloc/profile_bloc.dart';
 import 'app/domain/use_cases/authentication/login_with_email_and_password.dart';
@@ -45,14 +46,23 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await init();
-  await PlatformInfo.init();
   runApp(MyApp());
 }
 
 Future<void> init() async {
   GetIt getIt = GetIt.instance;
+  await SharePreferencesUtils.init();
+  if(SharePreferencesUtils.getString("refresh") != null) {
+    getIt.registerSingleton(
+        Session(
+            access: SharePreferencesUtils.getString("access")??"",
+            refresh: SharePreferencesUtils.getString("refresh")??""
+        )
+    );
+  }
+  await PlatformInfo.init();
   var options = BaseOptions(
-    baseUrl: 'http://192.168.88.91:8000',
+    baseUrl: 'http://192.168.1.86:8000',
     connectTimeout: 15000,
     receiveTimeout: 15000,
     responseType: ResponseType.json
@@ -62,7 +72,9 @@ Future<void> init() async {
     ..interceptors.addAll([
       interceptors.AuthenticationInterceptor(),
       LogInterceptor(
-          requestBody: true, requestHeader: false, responseBody: true, request: false, responseHeader: false),
+          requestBody: true, requestHeader: false, responseBody: true,
+          request: false, responseHeader: false,error: true
+      ),
     ]));
   getIt.registerLazySingleton<LoginWithUserNameAndPasswordUseCase>(
       () => LoginWithUserNameAndPasswordUseCase(getIt()));
@@ -104,7 +116,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var subscription;
+  late final subscription;
   void initState() {
     super.initState();
     subscription = Connectivity()
@@ -158,7 +170,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: "/login",
+      initialRoute: GetIt.instance.isRegistered<Session>() ? AppRoutes.routeMain : AppRoutes.routeLogin,
       routes: {
         AppRoutes.routeQRGenerator: (context) => QRGenerator(),
         AppRoutes.routeQRScan: (_) => QRScan(),
