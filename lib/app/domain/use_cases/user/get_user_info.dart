@@ -8,7 +8,7 @@ class GetUserInformationUseCase{
 
   GetUserInformationUseCase({required this.repository});
 
-  Future<Either<Failure,CustomUser>> call(){
+  Future<CustomUser> call(){
     return repository.getUserInformation();
   }
 }

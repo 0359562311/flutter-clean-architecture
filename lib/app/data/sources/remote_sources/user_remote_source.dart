@@ -12,21 +12,20 @@ class UserAPISource extends UserRemoteSource{
   @override
   Future<CustomUserModel> getUserInfo() async {
     var dio = GetIt.instance<Dio>();
-    var userResponse = await dio.get("/user/me/",);
-    var profileResponse = await dio.get("/profile/me/",);
-    return CustomUserModel.fromResponse(userResponse, profileResponse);
+    var getMeResponse = await dio.get("/user/me/");
+    var deviceDataResponse = await dio.get("/device-data",);
+    return CustomUserModel.fromResponse(getMeResponse, deviceDataResponse);
   }
 
   @override
   Future<CustomUserModel> updateProfile(String address, String phoneNumber) async {
     var dio = GetIt.instance<Dio>();
-    await dio.put("/profile/me/",data:{
+    var responseMe= await dio.put("/user/me/",data:{
       "address": address,
       "phoneNumber": phoneNumber
     });
-    var userResponse = await dio.get("/user/me/",);
-    var profileResponse = await dio.get("/profile/me/",);
-    return CustomUserModel.fromResponse(userResponse, profileResponse);
+    var deviceDataResponse = await dio.get("/device-data");
+    return CustomUserModel.fromResponse(responseMe, deviceDataResponse);
   }
 
   @override

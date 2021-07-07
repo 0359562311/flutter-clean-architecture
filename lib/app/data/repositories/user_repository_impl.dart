@@ -14,36 +14,13 @@ class UserRepositoryImpl extends UserRepository{
   UserRepositoryImpl({required this.remoteSource});
 
   @override
-  Future<Either<Failure, CustomUserModel>> getUserInformation() async {
-    // TODO: implement getUserInfor
-    if(!NetworkInfo.instance.isConnecting)
-      return left(Failure.networkDisconnected());
-    try {
-      var user = await remoteSource.getUserInfo();
-      return right(user);
-    } on DioError catch (e){
-      print(e);
-      return left(Failure.serverSendsError(e));
-    } on Exception catch (_) {
-      // TODO
-      return left(Failure.unknownError());
-    }
+  Future<CustomUser> getUserInformation() {
+    return remoteSource.getUserInfo();
   }
 
   @override
-  Future<Either<Failure, CustomUser>> updateProfile(String address, String phoneNumber) async {
-    if(!NetworkInfo.instance.isConnecting)
-      return left(Failure.networkDisconnected());
-    try {
-      var user = await remoteSource.updateProfile(address, phoneNumber);
-      return right(user);
-    } on DioError catch (e){
-      print(e);
-      return left(Failure.serverSendsError(e));
-    } on Exception catch (_) {
-      // TODO
-      return left(Failure.unknownError());
-    }
+  Future<CustomUser> updateProfile(String address, String phoneNumber) {
+    return remoteSource.updateProfile(address, phoneNumber);
   }
 
   @override

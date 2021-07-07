@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
     _items1 = new Items(
         title: "Điểm danh", img: 'assets/images/fake_slink/qrscan.png',
         onPressed: (context) async {
-          if(GetIt.instance<CustomUser>().deviceId != PlatformInfo.deviceId){
+          if(GetIt.instance<CustomUser>().deviceData?.deviceId != PlatformInfo.deviceId){
             _showDialog(context, "Tài khoản được định danh với thiết bị khác.");
           }
           else {
@@ -57,7 +57,7 @@ class _HomeState extends State<Home> {
     _items4 = new Items(
         title: "Định danh thiết bị", img: 'assets/images/fake_slink/phone.png',
         onPressed: (_) async {
-          if(GetIt.instance<CustomUser>().deviceId != null && GetIt.instance<CustomUser>().role == "SinhVien"){
+          if(GetIt.instance<CustomUser>().deviceData?.deviceId != null && GetIt.instance<CustomUser>().role == "Student"){
             _showDialog(context, "Tài khoản đã được định danh");
           }else {
             await showDialog(context: context, builder: (context) => IdentifyDeviceDialog());
@@ -126,7 +126,7 @@ class _HomeState extends State<Home> {
                       ],
                     )));
             else if(state is HomeComplete) {
-              if(state.customUser.deviceId == null && state.customUser.role == "SinhVien") {
+              if(state.customUser.deviceData?.deviceId == null && state.customUser.role == "Student") {
                 showDialog(context: context, builder: (context) => AlertDialog(
                   content: Text("Tài khoản của bạn chưa được định danh"),
                   actions: [
@@ -150,10 +150,10 @@ class _HomeState extends State<Home> {
               ),);
             CustomUser userInHome = (state as HomeComplete).customUser;
             print(userInHome);
-            if(userInHome.role.compareTo('SinhVien') == 0){
+            if(userInHome.role.compareTo('Student') == 0){
               return HomeOption(userInHome: userInHome, list: listSinhVien,);
             }
-            else if( userInHome.role.compareTo('GiangVien') == 0){
+            else if( userInHome.role.compareTo('Lecturer') == 0){
               return HomeOption(userInHome: userInHome, list: listGiangVien,);
             }
             else return HomeOption(userInHome: userInHome, list: listAdmin,);

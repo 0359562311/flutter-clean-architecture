@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/app/test_refresh.dart';
 import 'package:flutter_app_clean_architecture/global_constants/app_routes.dart';
 import 'package:flutter_app_clean_architecture/app/presentation/authentication/bloc/login_bloc.dart';
 import 'package:flutter_app_clean_architecture/app/presentation/authentication/bloc/login_event.dart';
@@ -59,9 +56,8 @@ class _LoginState extends State<Login> {
                     ],
                   ));
                 else if (state is LogInSuccess)
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => TestRefresh()));
-                  // Navigator.pushNamedAndRemoveUntil(
-                  //     context, AppRoutes.routeMain, (route) => false,);
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, AppRoutes.routeMain, (route) => false,);
               },
               buildWhen: (previous, current) {
                 return !(current is LogInSuccess);

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_app_clean_architecture/app/domain/use_cases/user/get_user_info.dart';
 import 'package:flutter_app_clean_architecture/app/domain/use_cases/user/update_user_profile.dart';
 import 'package:flutter_app_clean_architecture/app/presentation/home/bloc/home_bloc.dart';
@@ -17,20 +18,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
     yield ProfileState.loading();
-    if (event is GetProfileEvent) {
-      yield* (await getUserInformation()).fold(
-         (l) async* {
-        yield ProfileState.error(l.message);
-      }, (r) async* {
-        yield ProfileState.complete(r);
-      });
-    } else if (event is UpdateProfileEvent) {
-      yield* (await updateUserProfile(event.address, event.phoneNumber)).fold(
-         (l) async* {
-        yield ProfileState.error(l.message);
-      }, (r) async* {
-        yield ProfileState.complete(r);
-      });
+    try {
+      if (event is GetProfileEvent) {
+        var user = await getUserInformation.call();
+        yield ProfileState.complete(user);
+      } else if (event is UpdateProfileEvent) {
+        var user = (await updateUserProfile(event.address, event.phoneNumber));
+        yield ProfileState.complete(user);
+      }
+    } on DioError catch (e) {
+      // TODO
+      yield ProfileState.error(e.message);
     }
   }
 }

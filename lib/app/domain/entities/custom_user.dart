@@ -1,8 +1,10 @@
+import 'package:flutter_app_clean_architecture/app/domain/entities/device_data.dart';
+
 class CustomUser{
-  String id;
+  int id;
   String role;
   String name;
-  String? deviceId;
+  DeviceData? deviceData;
   DateTime dob;
   String gender;
   String? phoneNumber;
@@ -13,7 +15,7 @@ class CustomUser{
       {required this.id,
       required this.role,
         required this.name,
-        required this.deviceId,
+        required this.deviceData,
         required this.dob,
         required this.gender,
       this.phoneNumber,
@@ -26,15 +28,10 @@ class CustomUser{
           runtimeType == other.runtimeType &&
           id == other.id &&
           role == other.role &&
-          name == other.name &&
-          deviceId == other.deviceId;
+          name == other.name;
 
   @override
   int get hashCode =>
-      id.hashCode ^ role.hashCode ^ name.hashCode ^ deviceId.hashCode;
+      id.hashCode ^ role.hashCode ^ name.hashCode ^ deviceData.hashCode;
 
-  @override
-  String toString() {
-    return 'CustomUser{id: $id, role: $role, deviceId: $deviceId}';
-  }
 }

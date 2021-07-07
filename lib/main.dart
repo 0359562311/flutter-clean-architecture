@@ -52,7 +52,7 @@ void main() async {
 Future<void> init() async {
   GetIt getIt = GetIt.instance;
   var options = BaseOptions(
-    baseUrl: 'http://192.168.1.86:8000',
+    baseUrl: 'http://192.168.88.91:8000',
     connectTimeout: 15000,
     receiveTimeout: 15000,
     responseType: ResponseType.json
