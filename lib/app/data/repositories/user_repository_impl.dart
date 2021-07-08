@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_app_clean_architecture/app/domain/entities/device_data.dart';
 import 'package:flutter_app_clean_architecture/core/error/failures.dart';
 import 'package:flutter_app_clean_architecture/core/utils/network_info.dart';
 import 'package:flutter_app_clean_architecture/core/utils.dart';
@@ -37,6 +38,11 @@ class UserRepositoryImpl extends UserRepository{
       // TODO
       return left(Failure.unknownError());
     }
+  }
+
+  @override
+  Future<DeviceData> createDeviceData(String deviceId, String deviceName) {
+    return remoteSource.createDeviceData(deviceId, deviceName);
   }
 
 }

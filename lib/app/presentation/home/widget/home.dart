@@ -9,6 +9,7 @@ import 'package:flutter_app_clean_architecture/app/presentation/home/bloc/home_s
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import 'create_device.dart';
 import 'identify_device.dart';
 
 class Home extends StatefulWidget {
@@ -35,7 +36,7 @@ class _HomeState extends State<Home> {
       title: "Thay đổi thiết bị định danh", img: 'assets/images/fake_slink/phone.png',
     onPressed: (_){}
   );
-
+  late Items _items6;
   late HomeBloc _bloc;
 
   @override
@@ -57,16 +58,25 @@ class _HomeState extends State<Home> {
     _items4 = new Items(
         title: "Định danh thiết bị", img: 'assets/images/fake_slink/phone.png',
         onPressed: (_) async {
-          if(GetIt.instance<CustomUser>().deviceData?.deviceId != null && GetIt.instance<CustomUser>().role == "Student"){
-            _showDialog(context, "Tài khoản đã được định danh");
-          }else {
-            await showDialog(context: context, builder: (context) => IdentifyDeviceDialog());
+            await showDialog(context: context, builder: (context) => CreateDeviceDialog());
             _bloc.add(HomeEvent.init());
-          }
         }
     );
+    _items6 = new Items(
+        title: 'Định danh',
+      img: 'assets/images/fake_slink/phone.png',
+      onPressed: (_) async{
+        if(GetIt.instance<CustomUser>().deviceData?.deviceId != null && GetIt.instance<CustomUser>().role == "Student"){
+          _showDialog(context, "Tài khoản đã được định danh");
+        }else {
+          await showDialog(context: context, builder: (context) => IdentifyDeviceDialog());
+          _bloc.add(HomeEvent.init());
+        }
+      }
+    );
   }
-  
+
+
   void _showDialog(context, message) {
     showDialog(context: context, builder: (context) => AlertDialog(
       content: Text(message),
@@ -98,7 +108,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     //1 diem danh 2 thoi khoa bieu 4 dinh danh thiet bi 5 Thay doi dinh danh
-    List<Items> listSinhVien = [_items1, _items2, _items4];
+    List<Items> listSinhVien = [_items1, _items2, _items4, _items6];
     List<Items> listGiangVien = [ _items2, _items5];
     List<Items> listAdmin = [_items5];
 

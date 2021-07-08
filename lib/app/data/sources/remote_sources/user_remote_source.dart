@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_app_clean_architecture/app/data/models/custom_user_model.dart';
+import 'package:flutter_app_clean_architecture/app/data/models/device_data_model.dart';
+import 'package:flutter_app_clean_architecture/app/domain/entities/device_data.dart';
 import 'package:get_it/get_it.dart';
 
 abstract class UserRemoteSource{
   Future<CustomUserModel> getUserInfo();
   Future<CustomUserModel> updateProfile(String address, String phoneNumber);
   Future<void> identifyDevice(String password);
+  Future<DeviceData> createDeviceData(String deviceId, String deviceName);
 }
 
 class UserAPISource extends UserRemoteSource{
@@ -35,5 +38,16 @@ class UserAPISource extends UserRemoteSource{
     await dio.post("/user/identify-device",data: {
       "password": password
     });
+  }
+
+  @override
+  Future<DeviceData> createDeviceData(String deviceId,String deviceName) async{
+    var dio = GetIt.instance<Dio>();
+    await dio.post("/device-data/",data: {
+      "deviceId": deviceId,
+      "deviceName": deviceName
+    });
+    var deviceDataRespnose = await dio.get("/device-data");
+    return DeviceDataModel.fromJson(deviceDataRespnose.data['data']);
   }
 }
