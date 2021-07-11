@@ -84,7 +84,6 @@ class _UserInformationState extends State<UserInformation> {
                 }
               },
               builder: (context, state) {
-                print(state);
                 if (state is ProfileLoadingState)
                   return Center(
                       child: SizedBox(
@@ -144,9 +143,6 @@ class _UserInformationState extends State<UserInformation> {
                                   });
                                 } else {
                                   edit = !edit;
-                                  print(_addressController.text.isEmpty
-                                          .toString() +
-                                      "------");
                                   _bloc.add(ProfileEvent.updateProfile(
                                     _addressController.text.isEmpty
                                         ? user.address ?? ""

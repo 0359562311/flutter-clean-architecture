@@ -8,6 +8,7 @@ import 'package:flutter_app_clean_architecture/app/presentation/home/bloc/home_e
 import 'package:flutter_app_clean_architecture/app/presentation/home/bloc/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:get_it/get_it.dart';
 
 import 'identify_device.dart';
 
@@ -125,8 +126,8 @@ class _HomeState extends State<Home> {
                             child: Text("Close"))
                       ],
                     )));
-            else if(state is HomeComplete) {
-              if(state.customUser.deviceData?.deviceId == null && state.customUser.role == "Student") {
+            else if(state is HomeSuccessfulState) {
+              if(GetIt.instance<CustomUser>().deviceData?.deviceId == null && GetIt.instance<CustomUser>().role == "Student") {
                 showDialog(context: context, builder: (context) => AlertDialog(
                   content: Text("Tài khoản của bạn chưa được định danh"),
                   actions: [
@@ -142,14 +143,13 @@ class _HomeState extends State<Home> {
           },
           buildWhen: (context,state) => !(state is HomeErrorState),
           builder: (context,state){
-            if(state is HomeLoading)
+            if(state is HomeLoadingState)
               return Center(child: SizedBox(
                   child: CircularProgressIndicator(),
                 height: 50,
                 width: 50,
               ),);
-            CustomUser userInHome = (state as HomeComplete).customUser;
-            print(userInHome);
+            CustomUser userInHome = (state as HomeSuccessfulState).customUser;
             if(userInHome.role.compareTo('Student') == 0){
               return HomeOption(userInHome: userInHome, list: listSinhVien,);
             }

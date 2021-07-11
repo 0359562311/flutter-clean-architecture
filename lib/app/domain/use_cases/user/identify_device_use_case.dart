@@ -7,5 +7,5 @@ class IdentifyDeviceUseCase {
 
   IdentifyDeviceUseCase(this._repository);
 
-  Future<Either<Failure,void>> call(String password) => _repository.identifyDevice(password);
+  Future<void> call(String password) => _repository.identifyDevice(password);
 }

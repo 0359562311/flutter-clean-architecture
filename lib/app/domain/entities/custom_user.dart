@@ -10,7 +10,6 @@ class CustomUser{
   String? phoneNumber;
   String? address;
 
-
   CustomUser(
       {required this.id,
       required this.role,
@@ -33,5 +32,11 @@ class CustomUser{
   @override
   int get hashCode =>
       id.hashCode ^ role.hashCode ^ name.hashCode ^ deviceData.hashCode;
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return this.role;
+  }
 
 }

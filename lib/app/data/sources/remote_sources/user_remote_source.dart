@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_app_clean_architecture/app/data/models/custom_user_model.dart';
+import 'package:flutter_app_clean_architecture/core/utils/device_info.dart';
 import 'package:get_it/get_it.dart';
 
 abstract class UserRemoteSource{
@@ -30,10 +31,11 @@ class UserAPISource extends UserRemoteSource{
 
   @override
   Future<void> identifyDevice(String password) async {
-    // TODO: implement identifyDevice
     var dio = GetIt.instance<Dio>();
-    await dio.post("/user/identify-device",data: {
-      "password": password
+    await dio.post("/device-data/",data: {
+      "password": password,
+      "deviceId": PlatformInfo.deviceId,
+      "deviceName": PlatformInfo.deviceName
     });
   }
 }

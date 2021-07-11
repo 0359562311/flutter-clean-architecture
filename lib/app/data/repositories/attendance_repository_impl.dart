@@ -23,7 +23,6 @@ class AttendanceRepositoryImpl extends AttendanceRepository{
       var res = await _remoteSource.attendIn(maLopHoc, maMonHoc, thoiGianBatDau, thoiGianKetThuc);
       return right(res);
     } on DioError catch (e){
-      print(e);
       return left(Failure.serverSendsError(e));
     } on Exception catch (_) {
       // TODO

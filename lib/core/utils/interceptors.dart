@@ -5,43 +5,11 @@ import 'package:flutter_app_clean_architecture/app/data/models/session_model.dar
 import 'package:flutter_app_clean_architecture/app/domain/entities/session.dart';
 import 'package:get_it/get_it.dart';
 
-class LogInterceptor extends InterceptorsWrapper {
-  @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    print("\n\n\n");
-    print("onrequest ${options.method} ${options.path}");
-    print(options.data);
-    print("=============Request==============");
-    handler.next(options);
-  }
-
-  @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
-    print("\n\n\n");
-    print(err.response?.data);
-    print(err.response?.statusCode);
-    print("===============FAIL============");
-    handler.next(err);
-  }
-
-  @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    print("\n\n\n");
-    print("onresponse ${response.requestOptions.path}");
-    print(response.data);
-    print(response.statusCode);
-    print("=============SUCCESS==============");
-    handler.next(response);
-  }
-}
-
 class AuthenticationInterceptor extends InterceptorsWrapper {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    print("AuthenticationInterceptor request");
     // TODO: implement onRequest
     if (GetIt.instance.isRegistered<Session>()) {
-      print('insert authorization header');
       options.headers['Authorization'] =
           "Bearer ${GetIt.instance<Session>().access}";
     }
@@ -51,7 +19,6 @@ class AuthenticationInterceptor extends InterceptorsWrapper {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     // TODO: implement onError
-    print("AuthenticationInterceptor error $err");
     // TODO: implement onError
     if (err.response?.requestOptions.path.startsWith("/auth") ?? true) {
       handler.next(err);
@@ -82,8 +49,7 @@ class AuthenticationInterceptor extends InterceptorsWrapper {
                   'Authorization': "Bearer ${GetIt.instance<Session>().access}"
                 }, method: options.method))
             .then((value) {
-          print("refresh access token successful");
-          print(value);
+          print("value from interceptor $value");
           handler.resolve(value);
         }).catchError((error) {
           handler.reject(error);

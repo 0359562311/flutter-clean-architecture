@@ -7,23 +7,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class HomeBloc extends Bloc<HomeEvent,HomeState>{
-  HomeBloc({required this.getUserInformation}) : super(HomeState.loading());
+  HomeBloc({required this.getUserInformation}) : super(HomeLoadingState());
   GetUserInformationUseCase getUserInformation;
   @override
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if(event is HomeInitEvent){
-      yield HomeState.loading();
+      yield HomeLoadingState();
     }
     try {
-      CustomUser user = await getUserInformation.call();
+      CustomUser user = await getUserInformation();
       if(GetIt.instance.isRegistered<CustomUser>())
         GetIt.instance.unregister<CustomUser>();
       GetIt.instance.registerSingleton<CustomUser>(user);
-      yield HomeState.getInforCompletely(user);
+      print(user);
+      yield HomeSuccessfulState(user);
     } on DioError catch (e) {
-      yield HomeState.error(e.message);
+      yield HomeErrorState(e.response?.data['errorCode']);
     } on Exception catch (e) {
-      yield HomeState.error(e.toString());
+      yield HomeErrorState(e.toString());
     }
   }
 }

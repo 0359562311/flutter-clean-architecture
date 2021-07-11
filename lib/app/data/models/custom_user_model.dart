@@ -36,7 +36,7 @@ class CustomUserModel extends CustomUser{
       dob: DateTime.parse(getMe['dob']??"2000-12-03T00:00:00.000Z"),
       address: getMe['address'],
       phoneNumber: getMe['phoneNumber'],
-      deviceData: responseDeviceData.data['data'].length == 0 ? null : DeviceDataModel.fromJson(responseDeviceData.data)
+      deviceData: responseDeviceData.data['data'].length == 0 ? null : DeviceDataModel.fromJson(getDeviceData)
     );
   }
 }

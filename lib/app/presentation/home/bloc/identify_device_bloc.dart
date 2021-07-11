@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_app_clean_architecture/core/error/failures.dart';
 import 'package:flutter_app_clean_architecture/app/domain/use_cases/user/identify_device_use_case.dart';
 import 'package:flutter_app_clean_architecture/app/presentation/home/bloc/identify_device_event.dart';
@@ -14,24 +15,12 @@ class IdentifyDeviceBloc extends Bloc<IdentifyDeviceEvent, IdentifyDeviceState>{
   Stream<IdentifyDeviceState> mapEventToState(IdentifyDeviceEvent event) async* {
     // TODO: implement mapEventToState
     if(event is IdentifyDeviceConfirmEvent){
-      yield IdentifyDeviceState.loading();
-      yield* (await _useCase.call(event.password)).fold(
-          (r) async* {
-            yield* _error(r);
-          },
-          (l) async* {
-            yield* _success();
-          }
-      );
+      try {
+        await _useCase.call(event.password);
+        yield IdentifyDeviceState.successful();
+      } on DioError catch (e) {
+        yield IdentifyDeviceState.error(e.response?.data['detail']);
+      }
     }
   }
-
-  Stream<IdentifyDeviceState> _error(Failure failure) async* {
-    yield IdentifyDeviceState.error(failure.message);
-  }
-
-  Stream<IdentifyDeviceState> _success() async* {
-    yield IdentifyDeviceState.successful();
-  }
-
 }

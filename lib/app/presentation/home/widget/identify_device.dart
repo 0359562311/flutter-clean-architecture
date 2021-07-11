@@ -52,7 +52,7 @@ class _IdentifyDeviceDialogState extends State<IdentifyDeviceDialog> {
             actions: [
               GestureDetector(
                 onTap: (){
-                  Navigator.popUntil(context, (route) => route.settings.name == AppRoutes.routeMain);
+                  Navigator.pop(context);
                 },
                 child: Text("Đóng",
                   style: TextStyle(color: Colors.red),
