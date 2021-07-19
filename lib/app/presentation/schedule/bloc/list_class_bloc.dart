@@ -1,4 +1,4 @@
-import 'package:flutter_app_clean_architecture/core/error/failures.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_app_clean_architecture/core/utils.dart';
 import 'package:flutter_app_clean_architecture/app/domain/entities/class.dart';
 import 'package:flutter_app_clean_architecture/app/domain/entities/schedule.dart';
@@ -18,27 +18,32 @@ class ListClassBloc extends Bloc<ListClassEvent,ListClassState>{
   @override
   Stream<ListClassState> mapEventToState(ListClassEvent event) async* {
     if(event is ListClassFetchAllEvent){
-      var either = await _useCase.call();
-      yield* either.fold(errorStream, expectedStream);
+      try {
+        _listClasses = await _useCase.call();
+        add(ListClassFilterEvent(1));
+      } on DioError catch (e) {
+        yield ListClassErrorState(e.response?.data['detail']??"Unknown error");
+      }
     } else if (event is ListClassFilterEvent) {
       var temp = _listClasses.where(
-              (c) => c.lichHoc.where(
-                      (Schedule lichhoc) => lichhoc.tuanHoc.contains(
+              (c) => c.schedules.where(
+                      (Schedule schedule) => schedule.weeks.contains(
                               event.week
                       )
               ).isNotEmpty
       );
       List<Classroom> res = [];
       temp.forEach((cl) {
-        cl.lichHoc.forEach((schedule) {
-          if(schedule.tuanHoc.contains(event.week))
+        cl.schedules.forEach((schedule) {
+          if(schedule.weeks.contains(event.week))
             res.add(
               Classroom(
-                id: cl.id,
-                timeStart: schedule.thoiGianBatDau,
-                timeEnd: schedule.thoiGianKetThuc,
-                name: cl.tenMonHoc,
-                date: startDate.add(Duration(days: 7*(event.week-1) + schedule.thuHoc-1))
+                inClass: cl,
+                timeStart: schedule.startAt,
+                timeEnd: schedule.endAt,
+                name: cl.subject.subjectName,
+                date: startDate.add(Duration(days: 7*(event.week-1) + schedule.dayOfWeek)),
+                schedule: schedule
               )
             );
         });
@@ -51,15 +56,5 @@ class ListClassBloc extends Bloc<ListClassEvent,ListClassState>{
       });
       yield ListClassCompleteState(res);
     }
-  }
-
-  Stream<ListClassState> errorStream(Failure failure) async* {
-    yield ListClassErrorState(failure.message);
-  }
-
-
-  Stream<ListClassState> expectedStream(List<Class> r) async* {
-    _listClasses = r;
-    add(ListClassFilterEvent(1));
   }
 }

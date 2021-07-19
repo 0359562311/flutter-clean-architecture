@@ -57,8 +57,7 @@ class AuthenticationInterceptor extends InterceptorsWrapper {
       }).catchError((error) {
         print("Refresh token expired");
         dio.clear();
-        handler.next(error);
-        // GetIt.instance<StreamController<bool>>().add(false);
+        GetIt.instance<StreamController<bool>>().add(false);
       });
     } else
       handler.reject(err);

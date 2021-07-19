@@ -25,9 +25,9 @@ class CustomUserModel extends CustomUser{
     address: address,
   );
 
-  factory CustomUserModel.fromResponse(Response responseMe, Response responseDeviceData){
+  factory CustomUserModel.fromResponse(Response responseMe, Response? responseDeviceData){
     var getMe = responseMe.data['data'];
-    var getDeviceData = responseDeviceData.data['data'];
+    var getDeviceData = responseDeviceData?.data['data'];
     return CustomUserModel(
       id: getMe['id'],
       role: getMe['role'],
@@ -36,7 +36,12 @@ class CustomUserModel extends CustomUser{
       dob: DateTime.parse(getMe['dob']??"2000-12-03T00:00:00.000Z"),
       address: getMe['address'],
       phoneNumber: getMe['phoneNumber'],
-      deviceData: responseDeviceData.data['data'].length == 0 ? null : DeviceDataModel.fromJson(getDeviceData)
+      deviceData: getDeviceData==null || getDeviceData?.length == 0 ? null : DeviceDataModel.fromJson(getDeviceData)
     );
+  }
+  
+  factory CustomUserModel.fromJsonListSchedule(Map<String,dynamic> json) {
+    return CustomUserModel(id: json['id'], role: json['role'],
+        name: json['name'], dob: DateTime.parse(json['dob']), gender: json['gender']);
   }
 }

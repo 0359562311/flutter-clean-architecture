@@ -1,8 +1,4 @@
-import 'package:dartz/dartz.dart';
-import 'package:flutter_app_clean_architecture/core/error/failures.dart';
 import 'package:flutter_app_clean_architecture/app/domain/entities/attendance.dart';
-import 'package:flutter_app_clean_architecture/app/domain/entities/class.dart';
-import 'package:flutter_app_clean_architecture/app/domain/entities/schedule.dart';
 import 'package:flutter_app_clean_architecture/app/domain/repositories/attendance_repository.dart';
 
 class GetAttendanceStatUseCase {
@@ -10,6 +6,6 @@ class GetAttendanceStatUseCase {
 
   GetAttendanceStatUseCase(this.repository);
 
-  Future<Either<Failure,List<Attendance>>> call(Class cl, Schedule schedule, DateTime date) 
-    => repository.getAttendanceStat(cl, schedule, date);
+  Future<List<Attendance>> call(int scheduleId, int week)
+    => repository.getAttendanceStat(scheduleId,week);
 }

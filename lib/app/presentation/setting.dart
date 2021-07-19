@@ -1,6 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/core/utils/share_preferences.dart';
 import 'package:flutter_app_clean_architecture/global_constants/app_routes.dart';
+import 'package:get_it/get_it.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -13,48 +16,46 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          width: size.width,
-          decoration: BoxDecoration(
-            // color: Color(0xFFEFEFEF),
-              image: DecorationImage(
-                  image: AssetImage('assets/images/fake_slink/back_ground.jpg'),
-                  fit: BoxFit.fill)
+    return Scaffold(
+      body: Container(
+        width: size.width,
+        decoration: BoxDecoration(
+          // color: Color(0xFFEFEFEF),
+            image: DecorationImage(
+                image: AssetImage('assets/images/fake_slink/back_ground.jpg'),
+                fit: BoxFit.fill)
+                ),
+        child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 60,),
+                //avatar
+                SizedBox(
+                  height: 115,
+                  width: 115,
+                  child: CircleAvatar(
+                    foregroundImage: AssetImage('assets/images/fake_slink/icon_user.png',),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.blue,
                   ),
-          child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 60,),
-                  //avatar
-                  SizedBox(
-                    height: 115,
-                    width: 115,
-                    child: CircleAvatar(
-                      foregroundImage: AssetImage('assets/images/fake_slink/icon_user.png',),
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.blue,
-                    ),
-                  ),
-                  //account
-                  SizedBox(height: 60,),
-                  InkWell(
-                      onTap: (){
-                        Navigator.of(context).pushNamed(AppRoutes.routeUserInfor);
-                      },
-                      child: ProfileMenu(
-                          size: size, text: 'Tài khoản', 
-                          icon: Icon(Icons.person_outline,size: 30,color: Colors.blue,))
-                  ),
-                  // Profile_Menu(size: size, text: 'Thông báo', icon: Icon(Icons.notifications_outlined,size: 30,color:  Colors.blue,)),
-                  ProfileMenu(size: size, text: 'Trợ giúp', icon: Icon(Icons.contact_support_outlined,size: 30,color: Colors.blue,)),
-                  ProfileMenu(size: size, text: 'Đăng xuất', icon: Icon(Icons.exit_to_app_outlined,size: 30,color:  Colors.blue,),
-                    onTap: _logout,
-                  ),
-                ],
+                ),
+                //account
+                SizedBox(height: 60,),
+                InkWell(
+                    onTap: (){
+                      Navigator.of(context).pushNamed(AppRoutes.routeUserInfor);
+                    },
+                    child: ProfileMenu(
+                        size: size, text: 'Tài khoản',
+                        icon: Icon(Icons.person_outline,size: 30,color: Colors.blue,))
+                ),
+                // Profile_Menu(size: size, text: 'Thông báo', icon: Icon(Icons.notifications_outlined,size: 30,color:  Colors.blue,)),
+                ProfileMenu(size: size, text: 'Trợ giúp', icon: Icon(Icons.contact_support_outlined,size: 30,color: Colors.blue,)),
+                ProfileMenu(size: size, text: 'Đăng xuất', icon: Icon(Icons.exit_to_app_outlined,size: 30,color:  Colors.blue,),
+                  onTap: _logout,
+                ),
+              ],
 
-          ),
         ),
       ),
     );
@@ -77,6 +78,8 @@ class _SettingScreenState extends State<SettingScreen> {
             ),
           ),
           onTap: (){
+            SharePreferencesUtils.clearSession();
+            GetIt.instance<Dio>().interceptors.removeLast();
             Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.routeLogin, (route) => false);
           },
         ),

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_app_clean_architecture/core/error/failures.dart';
 import 'package:flutter_app_clean_architecture/app/domain/entities/attendance.dart';
 import 'package:flutter_app_clean_architecture/app/domain/use_cases/attendance/get_attendance_stat_use_case.dart';
@@ -13,16 +14,12 @@ class AttendanceStatBloc extends Bloc<AttendanceStatEvent,AttendanceStatState>{
   @override
   Stream<AttendanceStatState> mapEventToState(AttendanceStatEvent event) async* {
     if(event is AttendanceStatInitEvent) {
-      yield* (await _useCase(event.cl, event.schedule, event.date)).fold(errorStream, expectStream);
+      try {
+        final res = await _useCase(event.scheduleId, event.week);
+        yield AttendanceCompleteState(res);
+      } on DioError catch (e) {
+        yield AttendanceErrorState(e.response?.data['detail']??"Unknown error");
+      }
     }
-  }
-
-
-  Stream<AttendanceStatState> expectStream(List<Attendance> r) async* {
-    yield AttendanceCompleteState(r);
-  }
-
-  Stream<AttendanceStatState> errorStream(Failure l) async* {
-    yield AttendanceErrorState(l.message);
   }
 }

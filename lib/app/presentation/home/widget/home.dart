@@ -8,7 +8,6 @@ import 'package:flutter_app_clean_architecture/app/presentation/home/bloc/home_e
 import 'package:flutter_app_clean_architecture/app/presentation/home/bloc/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:get_it/get_it.dart';
 
 import 'identify_device.dart';
 
@@ -47,7 +46,7 @@ class _HomeState extends State<Home> {
     _items1 = new Items(
         title: "Điểm danh", img: 'assets/images/fake_slink/qrscan.png',
         onPressed: (context) async {
-          if(GetIt.instance<CustomUser>().deviceData?.deviceId != PlatformInfo.deviceId){
+          if(PlatformInfo.deviceId.isNotEmpty && GetIt.instance<CustomUser>().deviceData?.deviceId != PlatformInfo.deviceId){
             _showDialog(context, "Tài khoản được định danh với thiết bị khác.");
           }
           else {

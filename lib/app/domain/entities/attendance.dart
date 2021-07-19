@@ -1,6 +1,6 @@
 class Attendance {
-  final String maSV;
-  final DateTime? registerAt;
+  final String email;
+  final DateTime? attendanceAt;
 
-  Attendance(this.maSV, this.registerAt);
+  Attendance(this.email, this.attendanceAt);
 }

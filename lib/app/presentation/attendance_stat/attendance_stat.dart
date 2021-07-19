@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/app/domain/entities/attendance.dart';
-import 'package:flutter_app_clean_architecture/app/domain/entities/class.dart';
-import 'package:flutter_app_clean_architecture/app/domain/entities/schedule.dart';
 import 'package:flutter_app_clean_architecture/app/presentation/attendance_stat/bloc/attendance_stat_bloc.dart';
 import 'package:flutter_app_clean_architecture/app/presentation/attendance_stat/bloc/attendance_stat_event.dart';
 import 'package:flutter_app_clean_architecture/app/presentation/attendance_stat/bloc/attendance_stat_state.dart';
@@ -25,7 +23,6 @@ class _AttendanceStatState extends State<AttendanceStat> {
     void initState() {
       // TODO: implement initState
       super.initState();
-    
       _bloc = AttendanceStatBloc(GetIt.instance());
     }
   
@@ -38,10 +35,9 @@ class _AttendanceStatState extends State<AttendanceStat> {
 
   @override
   Widget build(BuildContext context) {
-    Class cl = (ModalRoute.of(context)?.settings.arguments as Map)['class'];
-    Schedule schedule = (ModalRoute.of(context)?.settings.arguments as Map)['schedule'];
-    DateTime dateTime = (ModalRoute.of(context)?.settings.arguments as Map)['date'];
-    _bloc.add(AttendanceStatInitEvent(cl, schedule, dateTime));
+    int scheduleId = (ModalRoute.of(context)?.settings.arguments as Map)['scheduleId'];
+    int week = (ModalRoute.of(context)?.settings.arguments as Map)['week'];
+    _bloc.add(AttendanceStatInitEvent(scheduleId, week));
     return Scaffold(
       appBar: AppBar(
         title: Text('Thống kê điểm danh'),
@@ -87,9 +83,9 @@ class _AttendanceStatState extends State<AttendanceStat> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(height: 10,),
-                  buildListAttendance('Đã điểm danh', state.attendances.where((element) => element.registerAt != null).toList(),false),
+                  buildListAttendance('Đã điểm danh', state.attendances.where((element) => element.attendanceAt != null).toList(),false),
                   SizedBox(height: 20,),
-                  buildListAttendance('Chưa điểm danh', state.attendances.where((element) => element.registerAt == null).toList(),true),
+                  buildListAttendance('Chưa điểm danh', state.attendances.where((element) => element.attendanceAt == null).toList(),true),
                 ],
               );
             }
@@ -160,7 +156,7 @@ class _AttendanceStatState extends State<AttendanceStat> {
   }
 
   String _getAttendanceItem(List<Attendance> list, int position, bool isNull) {
-    var temp = isNull?"":"${DateFormat("HH:mm").format(list[position].registerAt!)}\n";
-    return "${list[position].maSV}\n" + temp;
+    var temp = isNull?"":"${DateFormat("HH:mm").format(list[position].attendanceAt!)}\n";
+    return "${list[position].email}\n" + temp;
   }
 }

@@ -1,5 +1,3 @@
-import 'package:dartz/dartz.dart';
-import 'package:flutter_app_clean_architecture/core/error/failures.dart';
 import 'package:flutter_app_clean_architecture/app/domain/repositories/user_repository.dart';
 
 class IdentifyDeviceUseCase {
@@ -7,5 +5,5 @@ class IdentifyDeviceUseCase {
 
   IdentifyDeviceUseCase(this._repository);
 
-  Future<void> call(String password) => _repository.identifyDevice(password);
+  Future<void> call(String password, String deviceId, String deviceName) => _repository.identifyDevice(password,deviceId,deviceName);
 }

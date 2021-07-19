@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/app/presentation/profile/widget/user_infomation_screen.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QRGenerator extends StatefulWidget {
@@ -16,10 +15,8 @@ class _QRGeneratorState extends State<QRGenerator> {
 
   @override
   Widget build(BuildContext context) {
-    String maLopHoc = (ModalRoute.of(context)?.settings.arguments as Map)['maLopHoc'];
-    String maMonHoc = (ModalRoute.of(context)?.settings.arguments as Map)['maMonHoc'];
-    String thoiGianBatDau = (ModalRoute.of(context)?.settings.arguments as Map)['thoiGianBatDau'];
-    String thoiGianKetThuc = (ModalRoute.of(context)?.settings.arguments as Map)['thoiGianKetThuc'];
+    int scheduleId = (ModalRoute.of(context)?.settings.arguments as Map)['scheduleId'];
+    int week = (ModalRoute.of(context)?.settings.arguments as Map)['week'];
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -39,7 +36,7 @@ class _QRGeneratorState extends State<QRGenerator> {
         ),
         body: Center(
           child: QrImage(
-            data: "/attendance/register/me/in/$maLopHoc/$maMonHoc/$thoiGianBatDau/$thoiGianKetThuc",
+            data: "/curriculum/schedule/attendance/$scheduleId/$week",
             // version: QrVersions.auto,
             size: 250,
           ),

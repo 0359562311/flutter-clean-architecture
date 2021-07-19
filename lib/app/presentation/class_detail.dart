@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_clean_architecture/core/utils.dart';
-import 'package:flutter_app_clean_architecture/app/domain/entities/class.dart';
 import 'package:flutter_app_clean_architecture/app/domain/entities/custom_user.dart';
-import 'package:flutter_app_clean_architecture/app/domain/entities/schedule.dart';
+import 'package:flutter_app_clean_architecture/app/presentation/schedule/widget/list_schedule.dart';
 import 'package:flutter_app_clean_architecture/global_constants/app_routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +14,11 @@ class ClassDetail extends StatefulWidget {
 }
 
 class _ClassDetailState extends State<ClassDetail> {
+  late Classroom _classroom;
+
+  void initState(){
+    super.initState();
+  }
 
   void _showDialog(context, message) {
     showDialog(context: context, builder: (context) => AlertDialog(
@@ -36,9 +39,7 @@ class _ClassDetailState extends State<ClassDetail> {
 
   @override
   Widget build(BuildContext context) {
-    Class cl = (ModalRoute.of(context)!.settings.arguments as Map)['class'];
-    DateTime date = (ModalRoute.of(context)!.settings.arguments as Map)['date'];
-    Schedule schedule = (ModalRoute.of(context)!.settings.arguments as Map)['schedule'];
+    _classroom = (ModalRoute.of(context)!.settings.arguments as Map)['classroom'];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -80,44 +81,43 @@ class _ClassDetailState extends State<ClassDetail> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildText('Môn học: ' + cl.tenMonHoc,22.0),
-                  buildText('Mã lớp: ' + cl.maLopHoc,22.0),
-                  buildText('Mã môn: ' + cl.maMonHoc,22.0),
-                  buildText('Phòng học: ' + schedule.phongHoc,22.0),
-                  buildText('Thứ: ${schedule.thuHoc}',22.0),
-                  buildText('Thời gian bắt đầu: ' + schedule.thoiGianBatDau,22.0),
-                  buildText('Thời gian kết thúc: ' + schedule.thoiGianKetThuc,22.0),
-                  buildText('Ngày: ${DateFormat("dd-MM-yyyy").format(date)}',22.0),
+                  buildText('Môn học: ' + _classroom.inClass.subject.subjectName,22.0),
+                  buildText('Mã lớp: ' + _classroom.inClass.classId,22.0),
+                  buildText('Mã môn: ' + _classroom.inClass.subject.subjectId,22.0),
+                  buildText('Phòng học: ' + _classroom.schedule.classroom,22.0),
+                  buildText('Thứ: ${_classroom.schedule.dayOfWeek}',22.0),
+                  buildText('Thời gian bắt đầu: ' + _classroom.schedule.startAt,22.0),
+                  buildText('Thời gian kết thúc: ' + _classroom.schedule.endAt,22.0),
+                  buildText('Ngày: ${DateFormat("dd-MM-yyyy").format(_classroom.date)}',22.0),
                 ],
               ),
             ),
             SizedBox(height: 40,),
-            buildButton(content:  'Xem Thống kê',callback: (){
+            BuildButton(content:  'Xem Thống kê',callback: (){
               Navigator.of(context).pushNamed(AppRoutes.routeAttendance,arguments: {
-                "class": cl,
-                "schedule": schedule,
-                "date": date
+                "scheduleId": _classroom.schedule.id,
+                "week": (ModalRoute.of(context)!.settings.arguments as Map)['week']
               });
             },),
             SizedBox(height: 20,),
-            if(GetIt.instance<CustomUser>().role == "GiangVien") buildButton(content:  'Tạo mã điểm danh',
+            if(GetIt.instance<CustomUser>().role == "GiangVien") BuildButton(content:  'Tạo mã điểm danh',
               callback: (){
                 var now = DateTime.now().toUtc().add(Duration(hours: 7));
                 if(now.
                   isBefore(
-                      date.add(
+                      _classroom.date.add(
                           Duration(
-                              hours: int.parse(schedule.thoiGianBatDau.substring(0,2)),
-                            minutes: int.parse(schedule.thoiGianBatDau.substring(3))
+                              hours: int.parse(_classroom.schedule.startAt.substring(0,2)),
+                            minutes: int.parse(_classroom.schedule.startAt.substring(3))
                           )
                       )
                   ) ||
                     now.
                     isAfter(
-                        date.add(
+                        _classroom.date.add(
                             Duration(
-                                hours: int.parse(schedule.thoiGianKetThuc.substring(0,2)),
-                                minutes: int.parse(schedule.thoiGianKetThuc.substring(3))
+                                hours: int.parse(_classroom.schedule.endAt.substring(0,2)),
+                                minutes: int.parse(_classroom.schedule.endAt.substring(3))
                             )
                         )
                     )
@@ -125,10 +125,8 @@ class _ClassDetailState extends State<ClassDetail> {
                   _showDialog(context, "Không thể tạo mã điểm danh ngoài giờ học");
                 } else {
                   Navigator.of(context).pushNamed(AppRoutes.routeQRGenerator, arguments: {
-                    "maLopHoc": cl.maLopHoc,
-                    "maMonHoc": cl.maMonHoc,
-                    "thoiGianBatDau": schedule.thoiGianBatDau,
-                    "thoiGianKetThuc": schedule.thoiGianKetThuc
+                    "scheduleId": _classroom.schedule.id,
+                    "week": (ModalRoute.of(context)!.settings.arguments as Map)['week']
                   });
                 }
               },
@@ -154,10 +152,10 @@ class _ClassDetailState extends State<ClassDetail> {
   }
 }
 
-class buildButton extends StatelessWidget {
+class BuildButton extends StatelessWidget {
   final String content;
   final VoidCallback? callback;
-  const buildButton({
+  const BuildButton({
     Key? key, required this.content, this.callback,
   }) : super(key: key);
 
@@ -186,17 +184,4 @@ class buildButton extends StatelessWidget {
       //Qr Generate
     );
   }
-}
-
-class _Classroom{
-  late String idClass;
-  late String idSubject;
-  late String nameSubject;
-  late String room;
-  late String day;
-  late String timeStart;
-  late String timeEnd;
-
-  _Classroom({required this.idClass, required this.idSubject, required this.nameSubject,
-    required this.room, required this.day, required this.timeStart, required this.timeEnd});
 }

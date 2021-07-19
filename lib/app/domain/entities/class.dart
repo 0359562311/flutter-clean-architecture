@@ -1,35 +1,19 @@
-import 'schedule.dart';
+import 'package:flutter_app_clean_architecture/app/domain/entities/schedule.dart';
+
+import 'subject.dart';
 
 class Class {
   Class({
-    required this.id,
-    required this.maKyHoc,
-    required this.maLopHoc,
-    required this.tenLopHoc,
-    required this.maMonHoc,
-    required this.tenMonHoc,
-    required this.lichHoc,
+    required this.classId,
+    required this.schedules,
+    required this.subject,
+    required this.className,
+    required this.semester,
   });
 
-  final String id;
-  final String maKyHoc;
-  final String maLopHoc;
-  final String tenLopHoc;
-  final String maMonHoc;
-  final String tenMonHoc;
-  final List<Schedule> lichHoc;
-
-  Map<String, dynamic> toJson() => {
-    "_id": id,
-    "maKyHoc": maKyHoc,
-    "maLopHoc": maLopHoc,
-    "tenLopHoc": tenLopHoc,
-    "maMonHoc": maMonHoc,
-    "tenMonHoc": tenMonHoc,
-    "lichHoc": List<dynamic>.from(lichHoc.map((x) => x.toJson())),
-  };
-
-
+  String classId;
+  List<Schedule> schedules;
+  Subject subject;
+  String className;
+  String semester;
 }
-
-

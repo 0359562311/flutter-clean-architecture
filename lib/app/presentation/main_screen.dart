@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_clean_architecture/app/presentation/setting.dart';
+import 'package:flutter_app_clean_architecture/global_constants/app_routes.dart';
+import 'package:get_it/get_it.dart';
 
 import 'home/widget/home.dart';
 
@@ -17,6 +21,38 @@ class _MainScreenState extends State<MainScreen> {
   final PageController _pageController = PageController(
     initialPage: 0,
   );
+
+  void initState(){
+    super.initState();
+    GetIt.instance<StreamController<bool>>().stream.listen((event) {
+      if (!event) {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text("Login session expired"),
+              content:
+              Text("You need to log in to continue to use our app."),
+              actions: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        AppRoutes.routeLogin, (route) => false);
+                  },
+                  child: Container(
+                    padding:
+                    EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    color: Colors.red,
+                    child: Text(
+                      "Login",
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                  ),
+                )
+              ],
+            ));
+      }
+    });
+  }
 
   @override
   void dispose() {

@@ -6,16 +6,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_clean_architecture/app/domain/entities/session.dart';
+import 'package:flutter_app_clean_architecture/app/domain/repositories/schedule_repository.dart';
 import 'package:flutter_app_clean_architecture/core/utils/interceptors.dart'
     as interceptors;
 import 'package:flutter_app_clean_architecture/app/data/repositories/attendance_repository_impl.dart';
-import 'package:flutter_app_clean_architecture/app/data/repositories/class_repository_impl.dart';
+import 'package:flutter_app_clean_architecture/app/data/repositories/schedule_repository_impl.dart';
 import 'package:flutter_app_clean_architecture/app/data/sources/remote_sources/attendance_remote_source.dart';
 import 'package:flutter_app_clean_architecture/app/data/sources/remote_sources/class_remote_source.dart';
 import 'package:flutter_app_clean_architecture/app/domain/repositories/attendance_repository.dart';
-import 'package:flutter_app_clean_architecture/app/domain/repositories/class_repository.dart';
 import 'package:flutter_app_clean_architecture/app/domain/use_cases/attendance/get_attendance_stat_use_case.dart';
-import 'package:flutter_app_clean_architecture/app/domain/use_cases/attendance/request_to_attend_use_case.dart';
+import 'package:flutter_app_clean_architecture/app/domain/use_cases/attendance/create_attendance_use_case.dart';
 import 'package:flutter_app_clean_architecture/app/domain/use_cases/class/get_list_class_use_case.dart';
 import 'package:flutter_app_clean_architecture/app/presentation/attendance_stat/attendance_stat.dart';
 import 'package:flutter_app_clean_architecture/app/presentation/class_detail.dart';
@@ -40,6 +40,7 @@ import 'app/presentation/main_screen.dart';
 import 'app/presentation/profile/widget/user_infomation_screen.dart';
 import 'app/presentation/qrcode/pages/qr_generator.dart';
 import 'app/presentation/qrcode/pages/qr_scan.dart';
+import 'core/utils/interceptors.dart';
 import 'global_constants/app_routes.dart';
 
 void main() async {
@@ -55,8 +56,8 @@ Future<void> init() async {
   if(SharePreferencesUtils.getString("refresh") != null) {
     getIt.registerSingleton(
         Session(
-            access: SharePreferencesUtils.getString("access")??"",
-            refresh: SharePreferencesUtils.getString("refresh")??""
+            access: SharePreferencesUtils.getString("access")!,
+            refresh: SharePreferencesUtils.getString("refresh")!
         )
     );
   }
@@ -69,13 +70,13 @@ Future<void> init() async {
   );
   getIt.registerSingleton<StreamController<bool>>(StreamController<bool>());
   getIt.registerSingleton(Dio(options)
-    ..interceptors.addAll([
-      interceptors.AuthenticationInterceptor(),
+    ..interceptors.addAll(
+      [AuthenticationInterceptor(),
       LogInterceptor(
           requestBody: true, requestHeader: false, responseBody: true,
           request: false, responseHeader: false,error: true
-      ),
-    ]));
+      ),]
+    ));
   getIt.registerLazySingleton<LoginWithUserNameAndPasswordUseCase>(
       () => LoginWithUserNameAndPasswordUseCase(getIt()));
   getIt.registerLazySingleton<LoginRepository>(
@@ -93,8 +94,8 @@ Future<void> init() async {
   getIt.registerLazySingleton<IdentifyDeviceUseCase>(
       () => IdentifyDeviceUseCase(getIt()));
 
-  getIt.registerLazySingleton<ClassRepository>(
-      () => ClassRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<ScheduleRepository>(
+      () => ScheduleRepositoryImpl(getIt()));
   getIt.registerLazySingleton<ClassRemoteSource>(() => ClassRemoteSource());
   getIt.registerLazySingleton<GetListClassUseCase>(
       () => GetListClassUseCase(getIt()));
@@ -103,8 +104,8 @@ Future<void> init() async {
       () => AttendanceRemoteSource());
   getIt.registerLazySingleton<AttendanceRepository>(
       () => AttendanceRepositoryImpl(getIt()));
-  getIt.registerLazySingleton<RequestToAttendUseCase>(
-      () => RequestToAttendUseCase(getIt()));
+  getIt.registerLazySingleton<CreateAttendanceUseCase>(
+      () => CreateAttendanceUseCase(getIt()));
   getIt.registerLazySingleton<GetAttendanceStatUseCase>(
       () => GetAttendanceStatUseCase(getIt()));
 }
@@ -124,34 +125,6 @@ class _MyAppState extends State<MyApp> {
         .listen((ConnectivityResult result) {
       // Got a new connectivity status!
       NetworkInfo.instance.isConnecting = result != ConnectivityResult.none;
-    });
-    GetIt.instance<StreamController<bool>>().stream.listen((event) {
-      if (!event) {
-        showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: Text("Login session expired"),
-                  content:
-                      Text("You need to log in to continue to use our app."),
-                  actions: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            AppRoutes.routeLogin, (route) => false);
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                        color: Colors.red,
-                        child: Text(
-                          "Login",
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                        ),
-                      ),
-                    )
-                  ],
-                ));
-      }
     });
   }
 

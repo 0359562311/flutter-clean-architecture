@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_clean_architecture/app/domain/entities/class.dart';
+import 'package:flutter_app_clean_architecture/app/domain/entities/schedule.dart';
 import 'package:flutter_app_clean_architecture/app/domain/use_cases/class/get_list_class_use_case.dart';
 import 'package:flutter_app_clean_architecture/app/presentation/schedule/bloc/list_class_bloc.dart';
 import 'package:flutter_app_clean_architecture/app/presentation/schedule/bloc/list_class_event.dart';
@@ -16,8 +18,8 @@ class ListSchedule extends StatefulWidget {
 }
 
 class _ListScheduleState extends State<ListSchedule> {
-  final List<String> week= List.generate(20, (index) => 'Tuần $index');
-  late String dropdownvalue = 'Tuần 1';
+  final List<int> week= List.generate(20, (index) => index+1);
+  late int dropdownvalue = 1;
 
   final ListClassBloc _bloc =
   ListClassBloc(GetIt.instance<GetListClassUseCase>())..add(ListClassFetchAllEvent());
@@ -96,12 +98,11 @@ class _ListScheduleState extends State<ListSchedule> {
                          color: Colors.black,
                        ),
                        items: week.map((week) => DropdownMenuItem(
-                         child: Text(week, style: TextStyle(color: Colors.black,fontSize: 20),),
+                         child: Text("Tuần $week", style: TextStyle(color: Colors.black,fontSize: 20),),
                          value: week,)).toList(),
-                       onChanged: (String? newValue){
+                       onChanged: (int? newValue){
                          dropdownvalue = newValue!;
-                         print(newValue.substring(5));
-                         _bloc.add(ListClassFilterEvent(int.parse(newValue.substring(5))));
+                         _bloc.add(ListClassFilterEvent(dropdownvalue));
                        },
                      ),
                    ),
@@ -114,16 +115,8 @@ class _ListScheduleState extends State<ListSchedule> {
                             return InkWell(
                               onTap: (){
                                Navigator.of(context).pushNamed(AppRoutes.routeClassDetail,arguments: {
-                                 "date": classroom[position].date,
-                                 "class": _bloc.listClasses.firstWhere(
-                                         (element) => element.id == classroom[position].id
-                                 ),
-                                 "schedule": _bloc.listClasses.firstWhere(
-                                         (element) => element.id == classroom[position].id
-                                 ).lichHoc.firstWhere(
-                                         (lich) => lich.thoiGianBatDau == classroom[position].timeStart
-                                             && lich.thoiGianKetThuc == classroom[position].timeEnd
-                                 )
+                                 "classroom": classroom[position],
+                                 "week": dropdownvalue
                                });
                               },
                               child: Container(
@@ -187,12 +180,13 @@ class _ListScheduleState extends State<ListSchedule> {
 }
 
 class Classroom{
-  late String id;
+  Class inClass;
   late String timeStart;
   late String timeEnd;
   late String name;
   late DateTime date;
+  Schedule schedule;
 
-  Classroom({required this.id,required this.timeStart, required this.timeEnd,
-    required this.name, required this.date});
+  Classroom({required this.inClass,required this.timeStart, required this.timeEnd,
+    required this.name, required this.date, required this.schedule});
 }

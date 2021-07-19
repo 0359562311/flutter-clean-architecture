@@ -18,7 +18,7 @@ class UserRepositoryImpl extends UserRepository{
   }
 
   @override
-  Future<void> identifyDevice(String password) {
-    return remoteSource.identifyDevice(password);
+  Future<void> identifyDevice(String password, String deviceId, String deviceName) {
+    return remoteSource.identifyDevice(password, deviceId, deviceName);
   }
 }

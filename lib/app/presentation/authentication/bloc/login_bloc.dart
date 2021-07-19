@@ -16,22 +16,15 @@ class LoginBloc extends Bloc<LogInEvent,LoginState>{
     yield* event.map(
         logInWithUsernameAndPassWord: (param) async* {
           yield(LoginState.loadingState());
-          var res = await loginWithEmailAndPassword(email: param.email,password: param.password);
-          yield* res.fold(
-              (left) async*{
-                yield(LogInError(left.message));
-              },
-              (right) async*{
-                GetIt.instance.registerLazySingleton<Session>(() => right);
-                GetIt.instance<Dio>().interceptors.add(InterceptorsWrapper(
-                  onRequest: (option, handler){
-                    option.headers['Authorization'] = 'Bearer ${right.access}';
-                    return handler.next(option);
-                  },
-                ));
-                yield LogInSuccess();
-              }
-          );
+          try {
+            var res = await loginWithEmailAndPassword(email: param.email,password: param.password);
+            if(GetIt.instance.isRegistered<Session>())
+              GetIt.instance.unregister<Session>();
+            GetIt.instance.registerSingleton<Session>(res);
+            yield LogInSuccess();
+          } on DioError catch (e) {
+            yield(LogInError(e.response?.data['detail']??"Unknown error"));
+          }
         },
       )
     ;

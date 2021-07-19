@@ -1,29 +1,21 @@
+import 'package:flutter_app_clean_architecture/app/domain/entities/custom_user.dart';
+
 class Schedule {
   Schedule({
-    required this.tuanHoc,
-    required this.phongHoc,
-    required this.thuHoc,
-    required this.tietBatDau,
-    required this.tietKetThuc,
-    required this.thoiGianBatDau,
-    required this.thoiGianKetThuc,
+    required this.id,
+    required this.lecturer,
+    required this.weeks,
+    required this.classroom,
+    required this.startAt,
+    required this.endAt,
+    required this.dayOfWeek,
   });
 
-  final List<int> tuanHoc;
-  final String phongHoc;
-  final int thuHoc;
-  final int tietBatDau;
-  final int tietKetThuc;
-  final String thoiGianBatDau;
-  final String thoiGianKetThuc;
-
-  Map<String, dynamic> toJson() => {
-    "tuanHoc": List<dynamic>.from(tuanHoc.map((x) => x)),
-    "phongHoc": phongHoc,
-    "thuHoc": thuHoc,
-    "tietBatDau": tietBatDau,
-    "tietKetThuc": tietKetThuc,
-    "thoiGianBatDau": thoiGianBatDau,
-    "thoiGianKetThuc": thoiGianKetThuc,
-  };
+  int id;
+  CustomUser lecturer;
+  List<int> weeks;
+  String classroom;
+  String startAt;
+  String endAt;
+  int dayOfWeek;
 }
